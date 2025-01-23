@@ -10,7 +10,8 @@
 		"lint:fix": "next lint --fix",
 		"format": "prettier . --check",
 		"format:fix": "prettier . --write --loglevel=silent",
-		"prepare": "husky"
+		"prepare": "husky",
+		"test": "echo \"Warning: no test specified\""
 	},
 	"dependencies": {
 		"next": "15.1.6",
