@@ -9,8 +9,16 @@ export default {
 	theme: {
 		extend: {
 			colors: {
-				background: 'var(--background)',
-				foreground: 'var(--foreground)',
+				'arbor-black': 'var(--arbor-black)',
+				'arbor-white': 'var(--arbor-white)',
+				'arbor-gray': 'var(--arbor-gray)',
+				'arbor-gray-light': 'var(--arbor-gray-light)',
+				'arbor-red': 'var(--arbor-red)',
+				'arbor-red-hover': 'var(--arbor-red-hover)',
+				'arbor-pink': 'var(--arbor-pink)',
+				'arbor-pink-hover': 'var(--arbor-pink-hover)',
+				'arbor-purple': 'var(--arbor-purple)',
+				'arbor-purple-hover': 'var(--arbor-purple-hover)',
 			},
 		},
 	},

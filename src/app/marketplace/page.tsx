@@ -1,7 +1,5 @@
+import { Page } from '../components/Page'
+
 export default function ArboretumPage() {
-	return (
-		<div>
-			<h1>Welcome to the Arboretum</h1>
-		</div>
-	)
+	return <Page title="Welcome to the Arboretum">stuff</Page>
 }
