@@ -1,70 +1,207 @@
-import Image from 'next/image'
+import Head from 'next/head'
+import Link from 'next/link'
+import { TbArrowBigDownLines, TbMusic } from 'react-icons/tb'
 
-export default function Home() {
+import { ButtonPrimary } from './components/Buttons'
+import { Faq } from './components/Faq'
+
+// import RecentProjectActivity from '../components/RecentProjectActivity'
+
+const RecentProjectActivity = () => <></>
+
+export default function HomePage() {
+	const ArtistBlocks: React.FC = () => (
+		<>
+			<div className="m-2 flex items-center justify-center border-2 border-[--arbor-black] bg-[--arbor-pink] p-4 font-bold">
+				Alice&apos;s Drums
+			</div>
+			<div className="m-2 flex items-center justify-center border-2 border-[--arbor-black] bg-[--arbor-peach] p-4 font-bold">
+				Bob&apos;s Bass
+			</div>
+			<div className="m-2 flex items-center justify-center border-2 border-[--arbor-black] bg-[--arbor-light-purple] p-4 font-bold">
+				Charlie&apos;s Melody
+			</div>
+			<div className="m-2 flex items-center justify-center border-2 border-[--arbor-black] bg-[--arbor-purple] p-4 font-bold">
+				Dave&apos;s Chords
+			</div>
+		</>
+	)
 	return (
-		<div className="grid min-h-screen grid-rows-[20px_1fr_20px] place-items-center gap-16 p-8 pb-20 font-[family-name:var(--font-geist-sans)] sm:p-20">
-			<main className="row-start-2 flex flex-col items-center gap-8 sm:items-start">
-				<Image className="dark:invert" src="/next.svg" alt="Next.js logo" width={180} height={38} priority />
-				<ol className="list-inside list-decimal text-center font-[family-name:var(--font-geist-mono)] text-sm sm:text-left">
-					<li className="mb-2">
-						Get started by editing{' '}
-						<code className="rounded bg-black/[.05] px-1 py-0.5 font-semibold dark:bg-white/[.06]">
-							src/app/page.tsx
-						</code>
-						.
-					</li>
-					<li>Save and see your changes instantly.</li>
-				</ol>
-
-				<div className="flex flex-col items-center gap-4 sm:flex-row">
-					<a
-						className="bg-foreground text-background flex h-10 items-center justify-center gap-2 rounded-full border border-solid border-transparent px-4 text-sm transition-colors hover:bg-[#383838] sm:h-12 sm:px-5 sm:text-base dark:hover:bg-[#ccc]"
-						href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-						target="_blank"
-						rel="noopener noreferrer"
-					>
-						<Image className="dark:invert" src="/vercel.svg" alt="Vercel logomark" width={20} height={20} />
-						Deploy now
-					</a>
-					<a
-						className="flex h-10 items-center justify-center rounded-full border border-solid border-black/[.08] px-4 text-sm transition-colors hover:border-transparent hover:bg-[#f2f2f2] sm:h-12 sm:min-w-44 sm:px-5 sm:text-base dark:border-white/[.145] dark:hover:bg-[#1a1a1a]"
-						href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-						target="_blank"
-						rel="noopener noreferrer"
-					>
-						Read our docs
-					</a>
+		<>
+			<Head>
+				<title>Arbor | A Generative Music NFT Platform</title>
+			</Head>
+			<section
+				className="bg-cover bg-center bg-no-repeat px-10 py-24 text-[--arbor-white]"
+				style={{ backgroundColor: 'var(--arbor-black)', backgroundImage: 'url("/banner_bg.png")' }}
+			>
+				<div className="container mx-auto max-w-screen-xl">
+					<h2 className="mb-5 text-3xl font-medium md:text-5xl">
+						Create Together,
+						<br />
+						Earn Together.
+					</h2>
+					<ul>
+						<li className="mb-1 flex items-center">
+							<TbMusic />
+							<p className="ml-2 text-xl">Co-create songs with anyone</p>
+						</li>
+						<li className="mb-1 flex items-center">
+							<TbMusic />
+							<p className="ml-2 text-xl">Use the DAW you already love</p>
+						</li>
+						<li className="mb-1 flex items-center">
+							<TbMusic />
+							<p className="ml-2 text-xl">Collectors buy songs as NFTs</p>
+						</li>
+						<li className="mb-1 flex items-center">
+							<TbMusic />
+							<p className="ml-2 text-xl">
+								The artists earn <span className="underline">all</span> proceeds.
+							</p>
+						</li>
+					</ul>
 				</div>
-			</main>
-			<footer className="row-start-3 flex flex-wrap items-center justify-center gap-6">
-				<a
-					className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-					href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-					target="_blank"
-					rel="noopener noreferrer"
-				>
-					<Image aria-hidden src="/file.svg" alt="File icon" width={16} height={16} />
-					Learn
-				</a>
-				<a
-					className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-					href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-					target="_blank"
-					rel="noopener noreferrer"
-				>
-					<Image aria-hidden src="/window.svg" alt="Window icon" width={16} height={16} />
-					Examples
-				</a>
-				<a
-					className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-					href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-					target="_blank"
-					rel="noopener noreferrer"
-				>
-					<Image aria-hidden src="/globe.svg" alt="Globe icon" width={16} height={16} />
-					Go to nextjs.org →
-				</a>
-			</footer>
-		</div>
+			</section>
+			<RecentProjectActivity />
+			<section className="px-10 py-24 text-center">
+				<div className="container mx-auto max-w-screen-xl">
+					<h2 className="mb-5 text-3xl md:text-4xl">How It Works</h2>
+					<p className="mb-7 text-xl md:mb-10 md:text-2xl">
+						Songs are created publicly via stems and sold as NFTs. Proceeds are split equally among artists.
+					</p>
+					<div className="grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-4">
+						<div>
+							<h6 className="text-lg">1&#41; Someone Starts a Project</h6>
+							<div className="m-2 border-4 border-[--arbor-black] bg-gray-100 p-4">
+								<div className="m-2 border-2 border-[--arbor-black] bg-white p-7"></div>
+								<div className="m-2 border-2 border-[--arbor-black] bg-white p-7"></div>
+								<div className="m-2 border-2 border-[--arbor-black] bg-white p-7"></div>
+								<div className="m-2 border-2 border-[--arbor-black] bg-white p-7"></div>
+								<div className="my-4 flex justify-center text-2xl">
+									<TbArrowBigDownLines />
+								</div>
+								<div className="m-2 flex min-h-20 items-center justify-center border-2 border-[--arbor-black] bg-white p-4 text-lg font-bold"></div>
+							</div>
+						</div>
+						<div>
+							<h6 className="text-lg">2&#41; Artists Add Stems</h6>
+							<div className="m-2 border-4 border-[--arbor-black] bg-gray-100 p-4">
+								<ArtistBlocks />
+								<div className="my-4 flex justify-center text-2xl">
+									<TbArrowBigDownLines />
+								</div>
+								<div className="m-2 flex min-h-20 items-center justify-center border-2 border-[--arbor-black] bg-white p-4 text-lg font-bold"></div>
+							</div>
+						</div>
+						<div>
+							<h6 className="text-lg">3&#41; Collectors Mint &amp; Buy Songs</h6>
+							<div className="m-2 border-4 border-[--arbor-black] bg-gray-100 p-4">
+								<ArtistBlocks />
+								<div className="my-4 flex justify-center text-2xl">
+									<TbArrowBigDownLines />
+								</div>
+								<div className="bg-multi m-2 flex min-h-20 items-center justify-center border-2 border-[--arbor-black] p-4 text-lg font-bold">
+									SOLD FOR 1 ETH
+								</div>
+							</div>
+						</div>
+						<div>
+							<h6 className="text-lg">4&#41; Artists Get Paid</h6>
+							<div className="m-2 border-4 border-[--arbor-black] bg-gray-100 p-4">
+								<ArtistBlocks />
+								<div className="my-4 flex justify-center text-2xl">
+									<TbArrowBigDownLines />
+								</div>
+								<div className="bg-multi m-2 flex min-h-20 items-center justify-center border-2 border-[--arbor-black] p-4 text-lg font-bold">
+									.25 ETH PER ARTIST
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+			<section className="bg-white px-10 py-24">
+				<div className="container mx-auto max-w-screen-xl">
+					<h2 className="mb-5 text-3xl md:text-4xl">Why Create Here?</h2>
+					<div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+						<div>
+							<div className="mb-4">
+								<p className="mb-2 text-lg font-semibold">Like having fun?</p>
+								<p className="text-lg">
+									Join our collaborative experiment with new internet friends from all over the world.
+								</p>
+							</div>
+							<div className="mb-4">
+								<p className="mb-2 text-lg font-semibold">Like open source?</p>
+								<p className="text-lg">
+									All stems and songs are dedicated to the public domain under the CC0 license. All files are hosted
+									directly on IPFS.
+								</p>
+							</div>
+							<div className="mb-4">
+								<p className="mb-2 text-lg font-semibold">Like earning money?</p>
+								<p className="text-lg">
+									All projects are for sale as NFTs, and if you contributed a stem, you get paid (including royalties
+									from secondary sales).
+								</p>
+							</div>
+						</div>
+						<div>
+							<div className="mb-4">
+								<p className="mb-2 text-lg font-semibold">Hard drive full of &quot;WIP&quot; tracks collecting dust?</p>
+								<p className="text-lg">
+									Dig through &apos;em. One of your gently used stems could be worth something on Arbor.
+								</p>
+							</div>
+							<div className="mb-4">
+								<p className="mb-2 text-lg font-semibold">Looking to expand your creative horizons?</p>
+								<p className="text-lg">
+									Every project comes with unique constraints, so every project serves as a fascinating creative
+									exercise.
+								</p>
+							</div>
+							<div className="mb-4">
+								<p className="mb-2 text-lg font-semibold">Crunched for time?</p>
+								<p className="text-lg">All contributions are welcome, even if it&apos;s just one stem.</p>
+							</div>
+						</div>
+					</div>
+					<div className="mt-10 text-center">
+						<Link href="/projects" passHref>
+							<ButtonPrimary color="purple" text="Explore Projects" />
+						</Link>
+					</div>
+				</div>
+			</section>
+			<section className="px-10 py-24">
+				<div className="container mx-auto max-w-screen-xl">
+					<h2 className="mb-5 text-center text-3xl md:text-4xl">Frequently Asked Questions</h2>
+					<Faq />
+				</div>
+			</section>
+		</>
 	)
 }
+
+// type Project = {
+// 	_id: string
+// 	name: string
+// 	description: string
+// 	stems: string[]
+// 	trackLimit: number
+// 	collaborators: string[]
+// 	tags: string[]
+// }
+
+// type HomeProps = {
+// 	projects: Project[]
+// }
+// export const getServerSideProps = async () => {
+// 	const result = await get('/projects/recent')
+// 	return {
+// 		props: {
+// 			projects: result.data,
+// 		},
+// 	}
+// }

@@ -3,6 +3,7 @@
 @tailwind utilities;
 
 :root {
+	--min-page-height: calc(100vh - (64px + 58px));
 	--arbor-black: #1E1E1E;
 	--arbor-white: #F1F1F1;
 	--arbor-gray: #374151;
@@ -11,12 +12,17 @@
 	--arbor-red-hover: #710c29;
 	--arbor-pink: #E74B7A;
 	--arbor-pink-hover: #953250;
+	--arbor-light-peach: #fdefe2;
+	--arbor-peach: #FFD6D8;
+	--arbor-peach-hover: #F8B195;
+	--arbor-light-purple: #D8C5F2;
 	--arbor-purple: #9F86C0;
 	--arbor-purple-hover: #58496b;
 }
 
 @media (prefers-color-scheme: dark) {
 	:root {
+		--min-page-height: calc(100vh - (64px + 58px));
 		--arbor-black: #1E1E1E;
 		--arbor-white: #F1F1F1;
 		--arbor-gray: #374151;
@@ -25,6 +31,10 @@
 		--arbor-red-hover: #710c29;
 		--arbor-pink: #E74B7A;
 		--arbor-pink-hover: #953250;
+		--arbor-light-peach: #fdefe2;
+		--arbor-peach: #FFD6D8;
+		--arbor-peach-hover: #F8B195;
+		--arbor-light-purple: #D8C5F2;
 		--arbor-purple: #9F86C0;
 		--arbor-purple-hover: #58496b;
 	}
@@ -62,6 +72,10 @@ body {
 	height: 8px;
 	width: 180px;
 	background-color: var(--arbor-pink);
+}
+
+.bg-multi {
+	background: linear-gradient(94.22deg, #E74B7A 9.36%, #FFD6D8 33.65%, #D8C5F2 65.94%, #9F86C0 89.96%);
 }
 
 /* h2 {
