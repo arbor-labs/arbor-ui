@@ -3,8 +3,7 @@ import './globals.css'
 import type { Metadata } from 'next'
 import { Kanit } from 'next/font/google'
 
-import { AppFooter } from './components/AppFooter'
-import { AppHeader } from './components/AppHeader'
+import { PrimaryLayout } from './layouts/PrimaryLayout'
 
 const kanit = Kanit({
 	variable: '--font-kanit',
@@ -25,11 +24,9 @@ export default function RootLayout({
 	children: React.ReactNode
 }>) {
 	return (
-		<html lang="en">
+		<html lang="en-US">
 			<body className={`${kanit.variable} antialiased`}>
-				<AppHeader />
-				{children}
-				<AppFooter />
+				<PrimaryLayout>{children}</PrimaryLayout>
 			</body>
 		</html>
 	)

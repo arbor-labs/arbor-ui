@@ -1,4 +1,6 @@
 'use client'
+import Image from 'next/image'
+import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useState } from 'react'
 import { RiMenu5Fill } from 'react-icons/ri'
@@ -37,7 +39,15 @@ export function AppHeader() {
 						<div className="flex flex-1 items-center justify-center md:items-stretch md:justify-start">
 							<div className="flex shrink-0 items-center">
 								{/* Logo */}
-								<img className="h-8 w-auto" src="/arbor_logo_text_wave_white.svg" alt="Your Company" />
+								<Link href="/" className="block" role="link">
+									<Image
+										className="h-8 w-auto"
+										src="/arbor_logo_text_wave_white.svg"
+										alt="Arbor"
+										width="112"
+										height="32"
+									/>
+								</Link>
 							</div>
 							<div className="hidden md:ml-6 md:block">
 								{/* Desktop navigation */}
