@@ -1,11 +1,11 @@
 type PropTypes = {
 	color?: 'red' | 'pink' | 'purple' | 'peach'
-	text: string
+	children: React.ReactNode
 	onClick?: () => void
 	disabled?: boolean
 }
 
-export function ButtonPrimary({ color, text, onClick, disabled }: PropTypes) {
+export function ButtonPrimary({ children, color, onClick, disabled }: PropTypes) {
 	let className = 'inline-block rounded-md px-3 py-2 text-sm text-[--arbor-white] font-[800] uppercase italic '
 	switch (color) {
 		case 'red':
@@ -26,7 +26,7 @@ export function ButtonPrimary({ color, text, onClick, disabled }: PropTypes) {
 	}
 	return (
 		<button type="button" className={className} onClick={onClick} disabled={disabled}>
-			{text}
+			{children}
 		</button>
 	)
 }

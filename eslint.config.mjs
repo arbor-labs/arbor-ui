@@ -17,6 +17,14 @@ const eslintConfig = [
 			'prettier/prettier': 'warn',
 			'simple-import-sort/imports': 'error',
 			'simple-import-sort/exports': 'warn',
+			'@typescript-eslint/no-unused-vars': [
+				'warn',
+				{
+					argsIgnorePattern: '^_[^_].*$|^_$',
+					varsIgnorePattern: '^_[^_].*$|^_$',
+					caughtErrorsIgnorePattern: '^_[^_].*$|^_$',
+				},
+			],
 		},
 	}),
 ]

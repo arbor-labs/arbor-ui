@@ -4,38 +4,38 @@
 
 :root {
 	--min-page-height: calc(100vh - (64px + 58px));
-	--arbor-black: #1E1E1E;
-	--arbor-white: #F1F1F1;
+	--arbor-black: #1e1e1e;
+	--arbor-white: #f1f1f1;
 	--arbor-gray: #374151;
 	--arbor-gray-light: #87a1ca;
-	--arbor-red: #C9184A;
+	--arbor-red: #c9184a;
 	--arbor-red-hover: #710c29;
-	--arbor-pink: #E74B7A;
+	--arbor-pink: #e74b7a;
 	--arbor-pink-hover: #953250;
 	--arbor-light-peach: #fdefe2;
-	--arbor-peach: #FFD6D8;
-	--arbor-peach-hover: #F8B195;
-	--arbor-light-purple: #D8C5F2;
-	--arbor-purple: #9F86C0;
+	--arbor-peach: #ffd6d8;
+	--arbor-peach-hover: #f8b195;
+	--arbor-light-purple: #d8c5f2;
+	--arbor-purple: #9f86c0;
 	--arbor-purple-hover: #58496b;
 }
 
 @media (prefers-color-scheme: dark) {
 	:root {
 		--min-page-height: calc(100vh - (64px + 58px));
-		--arbor-black: #1E1E1E;
-		--arbor-white: #F1F1F1;
+		--arbor-black: #1e1e1e;
+		--arbor-white: #f1f1f1;
 		--arbor-gray: #374151;
 		--arbor-gray-light: #87a1ca;
-		--arbor-red: #C9184A;
+		--arbor-red: #c9184a;
 		--arbor-red-hover: #710c29;
-		--arbor-pink: #E74B7A;
+		--arbor-pink: #e74b7a;
 		--arbor-pink-hover: #953250;
 		--arbor-light-peach: #fdefe2;
-		--arbor-peach: #FFD6D8;
-		--arbor-peach-hover: #F8B195;
-		--arbor-light-purple: #D8C5F2;
-		--arbor-purple: #9F86C0;
+		--arbor-peach: #ffd6d8;
+		--arbor-peach-hover: #f8b195;
+		--arbor-light-purple: #d8c5f2;
+		--arbor-purple: #9f86c0;
 		--arbor-purple-hover: #58496b;
 	}
 }
@@ -48,7 +48,7 @@ body {
 }
 
 .separator-sm::after {
-	content: "";
+	content: '';
 	display: block;
 	margin: 1rem auto;
 	height: 4px;
@@ -57,7 +57,7 @@ body {
 }
 
 .separator-md::after {
-	content: "";
+	content: '';
 	display: block;
 	margin: 1rem auto;
 	height: 8px;
@@ -66,7 +66,7 @@ body {
 }
 
 .separator-lg::after {
-	content: "";
+	content: '';
 	display: block;
 	margin: 1rem auto;
 	height: 8px;
@@ -75,7 +75,7 @@ body {
 }
 
 .bg-multi {
-	background: linear-gradient(94.22deg, #E74B7A 9.36%, #FFD6D8 33.65%, #D8C5F2 65.94%, #9F86C0 89.96%);
+	background: linear-gradient(94.22deg, #e74b7a 9.36%, #ffd6d8 33.65%, #d8c5f2 65.94%, #9f86c0 89.96%);
 }
 
 /* h2 {

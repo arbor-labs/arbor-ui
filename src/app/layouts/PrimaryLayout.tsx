@@ -1,7 +1,7 @@
 'use client'
 import { Web3OnboardProvider } from '@web3-onboard/react'
 
-import { onboard } from '$/lib/onboard'
+import { onboardConfig } from '$/lib/onboard.config'
 
 import { AppFooter } from '../components/AppFooter'
 import { AppHeader } from '../components/AppHeader'
@@ -12,7 +12,7 @@ type PropTypes = {
 
 export function PrimaryLayout({ children }: PropTypes) {
 	return (
-		<Web3OnboardProvider web3Onboard={onboard}>
+		<Web3OnboardProvider web3Onboard={onboardConfig}>
 			<AppHeader />
 			{children}
 			<AppFooter />

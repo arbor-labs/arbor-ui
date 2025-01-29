@@ -1,15 +1,23 @@
+import Head from 'next/head'
+
 import { PageTitle } from './PageTitle'
 
-type PropTypes = {
-	title: string
+type Props = {
+	metaTitle: string
+	pageTitle: string
 	children: React.ReactNode
 }
 
-export function Page({ title, children }: PropTypes) {
+export function Page({ metaTitle, pageTitle, children }: Props) {
 	return (
-		<main className="min-h-[--min-page-height] px-10 py-12">
-			<PageTitle title={title} />
-			{children}
-		</main>
+		<>
+			<Head>
+				<title>Arbor | {metaTitle}</title>
+			</Head>
+			<main className="min-h-[--min-page-height] px-10 py-12">
+				<PageTitle title={pageTitle} />
+				{children}
+			</main>
+		</>
 	)
 }
