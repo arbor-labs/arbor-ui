@@ -69,11 +69,12 @@ export async function switchWagmiChain(chainId: string) {
 
 export async function disconnectWallet() {
 	const [activeWallet] = onboardConfig.state.get().wallets
+	console.log(onboardConfig.state.get().wallets)
 	const { wagmiConnector } = activeWallet
 	const wagmiConfig = onboardConfig.state.get().wagmiConfig
 
 	if (!wagmiConfig) {
-		console.warn('[sendTransaction]: Wagmi config is not loaded')
+		console.warn('[disconnectWallet]: Wagmi config is not loaded')
 		return
 	}
 

@@ -1,11 +1,13 @@
-type PropTypes = {
+import { ButtonHTMLAttributes, MouseEventHandler } from 'react'
+
+type Props = {
 	color?: 'red' | 'pink' | 'purple' | 'peach'
 	children: React.ReactNode
-	onClick?: () => void
 	disabled?: boolean
-}
+	onClick?: MouseEventHandler<HTMLButtonElement>
+} & ButtonHTMLAttributes<HTMLButtonElement>
 
-export function ButtonPrimary({ children, color, onClick, disabled }: PropTypes) {
+export function ButtonPrimary({ children, color, onClick, disabled, ...props }: Props) {
 	let className = 'inline-block rounded-md px-3 py-2 text-sm text-[--arbor-white] font-[800] uppercase italic '
 	switch (color) {
 		case 'red':
@@ -25,7 +27,7 @@ export function ButtonPrimary({ children, color, onClick, disabled }: PropTypes)
 			break
 	}
 	return (
-		<button type="button" className={className} onClick={onClick} disabled={disabled}>
+		<button type="button" className={className} onClick={onClick} disabled={disabled} {...props}>
 			{children}
 		</button>
 	)

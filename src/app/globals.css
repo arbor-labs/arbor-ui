@@ -4,6 +4,10 @@
 
 :root {
 	--min-page-height: calc(100vh - (64px + 58px));
+	--error: #d10000;
+	--warning: #fe922f;
+	--info: #6bc1ff;
+	--success: #23af00;
 	--arbor-black: #1e1e1e;
 	--arbor-white: #f1f1f1;
 	--arbor-gray: #374151;
@@ -23,6 +27,10 @@
 @media (prefers-color-scheme: dark) {
 	:root {
 		--min-page-height: calc(100vh - (64px + 58px));
+		--error: #d10000;
+		--warning: #fe922f;
+		--info: #6bc1ff;
+		--success: #23af00;
 		--arbor-black: #1e1e1e;
 		--arbor-white: #f1f1f1;
 		--arbor-gray: #374151;

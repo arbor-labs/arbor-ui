@@ -2,8 +2,8 @@ import Head from 'next/head'
 import Link from 'next/link'
 import { TbArrowBigDownLines, TbMusic } from 'react-icons/tb'
 
-import { ButtonPrimary } from './components/Buttons'
-import { Faq } from './components/Faq'
+import { ButtonPrimary } from '../components/Buttons'
+import { Faq } from '../components/Faq'
 
 // import RecentProjectActivity from '../components/RecentProjectActivity'
 

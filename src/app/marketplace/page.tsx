@@ -1,5 +1,9 @@
-import { Page } from '../components/Page'
+import { Page } from '../../components/Page'
 
 export default function ArboretumPage() {
-	return <Page title="Welcome to the Arboretum">stuff</Page>
+	return (
+		<Page metaTitle="Welcome to the Arboretum" pageTitle="Welcome to the Arboretum">
+			stuff
+		</Page>
+	)
 }
