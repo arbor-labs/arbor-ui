@@ -14,15 +14,15 @@ export const getKey = <TData = unknown, TVariables = unknown>(document: TypedDoc
 
 export const useGqlQuery = <TData = unknown, TVariables = unknown, TError = unknown>(
 	document: TypedDocumentNode<TData, TVariables>,
+	queryKey: string,
 	variables?: TVariables,
 	options?: Omit<UseQueryOptions<TData, TError, TData>, 'queryKey'>,
 	requestHeaders?: RequestOptions['requestHeaders'],
-	queryKey?: unknown,
 ) => {
 	const enabled = options?.enabled ?? true
 	return useQuery<TData, TError, TData>({
 		...options,
-		queryKey: [GRAPHQL_API_BASE_URL, ...getKey(document), queryKey ?? variables, requestHeaders],
+		queryKey: [...getKey(document), queryKey ?? variables, requestHeaders],
 		queryFn: enabled
 			? async ({ signal }) => {
 					const client = new GraphQLClient(GRAPHQL_API_BASE_URL, {
@@ -60,3 +60,47 @@ export const useGqlMutation = <TData = unknown, TVariables = unknown, TError = u
 			}),
 	})
 }
+
+/** Type-safe utilities for interacting with the GraphQL API specified in `apps/server`. */
+
+// import { initGraphQLTada, readFragment } from 'gql.tada'
+// import type { Address, Hex } from 'viem'
+
+// import type { introspection } from './introspection.js'
+
+// /**
+//  * Same API as `graphql-codegen`, but does not need a watch process:
+//  * @example
+//  * ```typescript
+//  * const query = graphql(`
+//  * query GetOrder($id: String!) {
+//  *   order(id: $id) {
+//  *     maker
+//  *   }
+//  * }
+//  * `)
+//  */
+// export const graphql = initGraphQLTada<{
+//   introspection: typeof introspection
+//   scalars: {
+//     // As a query input, the client can pass in `Date` or `string` (thanks to `JSON.stringify`).
+//     // However, the query result will always come back as an un-decoded `string`
+//     // (but they are working on this: jasonkuhrt/graphql-request#672).
+//     // Thus, sadly, we cannot annotate `DateTimeISO: Date` on the client-side.
+//     DateTimeISO: Date | string
+//     EthereumAddress: Address
+//     EthereumHash: Hex
+//     EthereumSignature: Hex
+//   }
+// }>()
+
+// /**
+//  * @example
+//  * ```typescript
+//  * export type CreateOrderInput = GqlType<'CreateOrderInput'>
+//  * ```
+//  */
+// export type GqlType<T extends string> = ReturnType<typeof graphql.scalar<T>>
+
+// export type { FragmentOf, ResultOf, VariablesOf } from 'gql.tada'
+// export { readFragment }
