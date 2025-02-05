@@ -169,7 +169,7 @@ export default function HomePage() {
 					</div>
 					<div className="mt-10 text-center">
 						<Link href="/projects" passHref>
-							<ButtonPrimary color="purple" text="Explore Projects" />
+							<ButtonPrimary color="purple">Explore Projects</ButtonPrimary>
 						</Link>
 					</div>
 				</div>

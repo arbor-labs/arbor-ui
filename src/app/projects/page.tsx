@@ -1,31 +1,46 @@
-import { ReactNode } from 'react'
+'use client'
 
+import { ClientError } from 'graphql-request'
+
+import { ErrorMessage } from '$/components/ErrorMessage'
+import { LoadingSpinner } from '$/components/LoadingSpinner'
+import { NoData } from '$/components/NoData'
 import { ProjectData, useGetProjects } from '$/graphql/useProjects'
 
 import { Page } from '../../components/Page'
 
 export default function ProjectsPage() {
 	const { data, isLoading, isError, error } = useGetProjects()
+	const projects = data?.projects?.items ?? []
 
 	if (isLoading)
 		return (
 			<Page metaTitle="Arbor Projects" pageTitle="Arbor Projects">
-				Loading...
+				<div className="flex place-content-center">
+					<LoadingSpinner />
+				</div>
 			</Page>
 		)
 
 	if (isError) {
-		console.log({ error })
+		const e = error as ClientError
+		console.error(e.message)
 		return (
 			<Page metaTitle="Arbor Projects" pageTitle="Arbor Projects">
-				{error as ReactNode}
+				<ErrorMessage statusCode={e.response.status} message="An error occurred while fetching projects" />
 			</Page>
 		)
 	}
 
 	return (
 		<Page metaTitle="Arbor Projects" pageTitle="Arbor Projects">
-			{data?.projects?.items?.map((project: ProjectData) => <div key={project.id}>{project.id}</div>)}
+			{!projects.length ? (
+				<NoData resource="project" tagline="Get started by creating a new project." />
+			) : (
+				projects.map((p: ProjectData) => {
+					return <div key={p.id}>{p.id}</div>
+				})
+			)}
 		</Page>
 	)
 }

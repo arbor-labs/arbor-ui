@@ -45,7 +45,7 @@ const QUERY_GET_ALL_PROJECTS = gql(
 )
 
 export const useGetProjects = () => {
-	return useGqlQuery(QUERY_GET_ALL_PROJECTS, 'GetAllProjects')
+	return useGqlQuery(QUERY_GET_ALL_PROJECTS)
 }
 
 export type ProjectData = NonNullable<ResultOf<typeof QUERY_GET_ALL_PROJECTS>['projects']['items']>[number]

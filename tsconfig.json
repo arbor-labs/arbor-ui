@@ -19,7 +19,7 @@
 			},
 			{
         "name": "gql.tada/ts-plugin",
-        "schema": "http://localhost:5280/graphql",
+        "schema": "./src/graphql/schema.graphql",
 				"tadaOutputLocation": "./src/graphql/graphql-env.d.ts"
       },
 		],
