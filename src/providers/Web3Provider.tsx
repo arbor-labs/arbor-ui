@@ -1,92 +1,107 @@
 import { useConnectWallet } from '@web3-onboard/react'
-import { Context as Web3OnboardContext } from '@web3-onboard/react/dist/context'
-import { type GetAccountReturnType } from '@web3-onboard/wagmi'
-import { getAccount } from '@web3-onboard/wagmi'
-import _omit from 'lodash/omit'
-import { createContext, useContext, useEffect, useState } from 'react'
+import { createContext, useCallback, useContext, useEffect, useReducer } from 'react'
+import { Address, zeroAddress } from 'viem'
+
+import { AccountData, useAccount } from '$/graphql/hooks/useAccount'
+import { useCreateAccount } from '$/graphql/hooks/useCreateAccount'
 
 type Web3ContextValues = {
-	account?: GetAccountReturnType
 	connecting: boolean
 	isConnected: boolean
 	handleConnectDisconnect: () => void
+	connectedAccount?: AccountData | undefined
 }
 
 type Props = {
 	children: React.ReactNode
 }
 
-const defaultContextValues: Web3ContextValues = {
-	account: {
-		address: undefined,
-		addresses: undefined,
-		chain: undefined,
-		chainId: undefined,
-		connector: undefined,
-		isConnected: false,
-		isReconnecting: false,
-		isConnecting: false,
-		isDisconnected: true,
-		status: 'disconnected',
-	},
-	connecting: false,
-	isConnected: false,
-	handleConnectDisconnect: () => {},
+type State = {
+	connecting: boolean
+	isConnected: boolean
+	connectedAddress: Address
+	connectedAccount: AccountData | undefined
 }
 
-const Web3Context = createContext<Web3ContextValues>(defaultContextValues)
+type Action =
+	| { type: 'SET_CONNECTING'; connecting: boolean }
+	| { type: 'CONNECT_SUCCESS'; address: Address }
+	| { type: 'DISCONNECT_SUCCESS' }
+	| { type: 'SET_ACCOUNT'; account: AccountData }
+
+const initialState: State = {
+	connecting: false,
+	isConnected: false,
+	connectedAddress: zeroAddress,
+	connectedAccount: undefined,
+}
+
+const reducer = (state: State, action: Action): State => {
+	switch (action.type) {
+		case 'SET_CONNECTING':
+			console.log('updating connecting...')
+			return { ...state, connecting: action.connecting }
+		case 'CONNECT_SUCCESS':
+			return { ...state, connecting: false, isConnected: true, connectedAddress: action.address }
+		case 'DISCONNECT_SUCCESS':
+			return { ...state, isConnected: false, connectedAddress: zeroAddress, connectedAccount: undefined }
+		case 'SET_ACCOUNT':
+			return { ...state, connectedAccount: action.account }
+		default:
+			return state
+	}
+}
+
+const Web3Context = createContext<Web3ContextValues | undefined>(undefined)
 
 export function Web3Provider({ children }: Props) {
-	const context = useContext(Web3OnboardContext)
+	const [state, dispatch] = useReducer(reducer, initialState)
 
-	// Local state for context values
-	const [account, setAccount] = useState(defaultContextValues.account)
-
-	// Hooks from web3-onboard
 	const [{ wallet, connecting }, connect, disconnect] = useConnectWallet()
-
-	const handleConnectWallet = () => {
-		if (wallet) disconnect(wallet)
-		else connect()
-	}
-
-	const setConnectedAccount = () => {
-		const wagmiConfig = context?.state.get().wagmiConfig
-		if (!wagmiConfig) return
-		const acct = getAccount(wagmiConfig)
-		setAccount(acct)
-		// localStorage.setItem('connectedAccount', stringify(acct))
-	}
-
-	// useEffect(() => {
-	// 	// Check local storage for a previous connected account to persist through refreshes
-	// 	const storedAccount = localStorage.getItem('connectedAccount')
-	// 	if (storedAccount) setAccount(JSON.parse(storedAccount))
-	// }, [])
+	const { refetch: fetchAccount } = useAccount(state.connectedAddress)
+	const { mutateAsync: createAccount } = useCreateAccount()
 
 	useEffect(() => {
-		const storedAccount = localStorage.getItem('connectedAccount')
-		if (context && wallet) {
-			// Connected, set local state and storage
-			console.log('connected', { context, wallet })
-			setConnectedAccount()
-		} else if (storedAccount) {
-			setAccount(JSON.parse(storedAccount))
+		dispatch({ type: 'SET_CONNECTING', connecting })
+	}, [connecting])
+
+	const handleConnectWallet = useCallback(async () => {
+		if (wallet) {
+			console.log('has wallet, disconnecting...')
+			await disconnect(wallet)
+			dispatch({ type: 'DISCONNECT_SUCCESS' })
 		} else {
-			// Disconnected, reset local state and storage
-			console.log('disconnected')
-			setAccount(undefined)
-			// localStorage.removeItem('connectedAccount')
+			console.log('no wallet, connecting...')
+			const walletState = await connect()
+			if (walletState[0]?.accounts[0]) {
+				const { address } = walletState[0].accounts[0]
+				dispatch({ type: 'CONNECT_SUCCESS', address })
+			}
 		}
-	}, [wallet, context])
+	}, [wallet, connect, disconnect])
+
+	useEffect(() => {
+		const fetchConnectedAccount = async () => {
+			const { data } = await fetchAccount()
+			if (!data) {
+				const result = await createAccount({ address: state.connectedAddress })
+				dispatch({ type: 'SET_ACCOUNT', account: result.createAccount })
+			} else {
+				dispatch({ type: 'SET_ACCOUNT', account: data.account })
+			}
+		}
+		if (state.connectedAddress !== zeroAddress) {
+			fetchConnectedAccount()
+		}
+	}, [state.connectedAddress, fetchAccount, createAccount])
 
 	return (
 		<Web3Context.Provider
 			value={{
-				account,
-				connecting, //: !!account?.isConnecting,
-				isConnected: !!wallet, //: !!account?.isConnected,
+				connecting: state.connecting,
+				isConnected: state.isConnected,
 				handleConnectDisconnect: handleConnectWallet,
+				connectedAccount: state.connectedAccount,
 			}}
 		>
 			{children}
@@ -94,9 +109,8 @@ export function Web3Provider({ children }: Props) {
 	)
 }
 
-// Hook
 export const useWeb3 = () => {
-	const context: Web3ContextValues = useContext(Web3Context)
+	const context = useContext(Web3Context)
 	if (context === undefined) {
 		throw new Error('The "useWeb3()" hook must be used within a <Web3Provider /> component.')
 	}

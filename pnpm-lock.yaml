@@ -10996,6 +10996,5 @@ packages:
     resolution: {tarball: https://codeload.github.com/0no-co/graphqlsp/tar.gz/4ec1921fc2229be78c2a377a12be33caee13bfb4}
     name: graphqlsp
     version: 0.2.0
-    prepare: true
     requiresBuild: true
     dev: true

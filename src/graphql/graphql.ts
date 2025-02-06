@@ -1,7 +1,6 @@
 /**
  * Source: https://github.com/dotansimha/graphql-code-generator/discussions/9571
  */
-
 import { TypedDocumentNode } from '@graphql-typed-document-node/core'
 import {
 	GetNextPageParamFunction,
@@ -15,10 +14,47 @@ import {
 	useQuery,
 	type UseQueryOptions,
 } from '@tanstack/react-query'
+import { initGraphQLTada } from 'gql.tada'
 import { type DirectiveDefinitionNode } from 'graphql'
 import { GraphQLClient, request, type RequestOptions } from 'graphql-request'
+import type { Address, Hex } from 'viem'
+
+import type { introspection } from './graphql-env.d.ts'
 
 const GRAPHQL_API_BASE_URL = 'http://localhost:5280/graphql'
+
+/**
+ * A tag for writing GraphQL queries in TypeScript wrapping the gql.tada style
+ * Same API as `graphql-codegen`, but does not need a watch process:
+ * @example
+ * ```typescript
+ * const QUERY_GET_PROJECT = gql(`
+ *   query GetProject($id: String!) {
+ *     project(id: $id) {
+ *       name
+ *     }
+ *   }
+ * `)
+ */
+export const gql = initGraphQLTada<{
+	introspection: introspection
+	scalars: {
+		GraphQLISODateTime: Date | string
+		EthereumAddress: Address
+		EthereumHash: Hex
+		EthereumSignature: Hex
+	}
+}>()
+
+/**
+ * @example
+ * ```typescript
+ * export type CreateOrderInput = GqlType<'CreateOrderInput'>
+ * ```
+ */
+export type GqlType<T extends string> = ReturnType<typeof gql.scalar<T>>
+
+export { type FragmentOf, readFragment, type ResultOf, type VariablesOf } from 'gql.tada'
 
 export const getKey = <TData = unknown, TVariables = unknown>(document: TypedDocumentNode<TData, TVariables>) => [
 	(document.definitions[0] as DirectiveDefinitionNode).name.value,

@@ -8,9 +8,17 @@ import { LoadingSpinner } from '$/components/LoadingSpinner'
 import { Notification } from '$/components/Notification'
 import { Page } from '$/components/Page'
 import TagsInput from '$/components/TagsInput'
+import { useCreateProject } from '$/graphql/hooks/useCreateProject'
 import { useWeb3 } from '$/providers/Web3Provider'
 
 export default function ProjectCreatePage() {
+	const router = useRouter()
+	const { connectedAccount } = useWeb3()
+
+	// Mutation
+	const { mutateAsync: createProject, isPending, isSuccess, isError, data, error } = useCreateProject()
+
+	// Form State
 	const [name, setName] = useState<string>('')
 	const [description, setDescription] = useState<string>('')
 	const [bpm, setBpm] = useState<number>(120)
@@ -20,42 +28,33 @@ export default function ProjectCreatePage() {
 	const [successOpen, setSuccessOpen] = useState<boolean>(false)
 	const [errorOpen, setErrorOpen] = useState<boolean>(false)
 	const [errorMsg, setErrorMsg] = useState<string>('')
-	const router = useRouter()
-	const { account } = useWeb3()
-
-	// const createProjectMutation = useMutation({
-	// 	mutationFn: variables =>
-	// })
 
 	// Form Field Handlers
 	const handleSetBpm = (e: React.ChangeEvent<HTMLInputElement>) => {
-		// Minimum is zero, prevent negatives
+		// Enforce the bounds of 0,300
 		let val = parseInt(e.target.value)
 		if (val < 0) val = 0
-		// Maximum is 1000
-		if (val > 1000) val = 1000
+		if (val > 300) val = 300
 		setBpm(val)
 	}
 	const handleSetTrackLimit = (e: React.ChangeEvent<HTMLInputElement>) => {
-		// Minimum is zero, prevent negatives
+		// Enforce the bounds of 0,20
 		let val = parseInt(e.target.value)
 		if (val < 0) val = 0
-		// Maximum is 1000
-		if (val > 1000) val = 1000
+		if (val > 1000) val = 20
 		setTrackLimit(val)
 	}
-	const handleAddTag = (tag: string) => setTags([...tags, tag])
-	const handleRemoveTag = (tag: string) => setTags(tags.filter(t => t !== tag))
 
 	const handleSubmit: FormEventHandler<HTMLFormElement> = async e => {
 		e.preventDefault()
 		try {
-			if (!account?.address) {
+			if (!connectedAccount?.address) {
 				setErrorOpen(true)
 				setErrorMsg('Please connect your Web3 wallet')
+				return
 			}
 
-			if (!description || !name || !bpm || !trackLimit) {
+			if (!name || !bpm || !trackLimit) {
 				setErrorOpen(true)
 				setErrorMsg('Please enter in the required fields')
 				return
@@ -79,7 +78,7 @@ export default function ProjectCreatePage() {
 
 			// POST new project record to backend
 			const payload = {
-				createdBy: account?.address, // Use address rather than MongoDB ID
+				createdBy: connectedAccount.address,
 				name,
 				description,
 				bpm,
@@ -88,17 +87,21 @@ export default function ProjectCreatePage() {
 			}
 			console.log('posting data...', payload)
 
-			const projectRes = await fetch('/projects', { method: 'POST', body: JSON.stringify(payload) })
-			// Redirect to project page if successful
-			if (projectRes.ok) {
-				setSuccessOpen(true)
-				resetForm()
-				router.push(`/projects/${payload.name}`)
-			}
+			await createProject({ createProjectInput: payload })
+
+			// console.log({ data, error, isSuccess, isPending, isError })
+			if (isSuccess)
+				if (!isError && error) {
+					// Redirect to project page if successful
+					setSuccessOpen(true)
+					resetForm()
+					setTimeout(() => router.push(`/projects/${payload.name}`), 3000)
+				}
 			setLoading(false)
 		} catch (e: unknown) {
 			setLoading(false)
 			setErrorOpen(true)
+			console.error({ error })
 			if (e instanceof Error) {
 				console.log(`Project creation failed - ${e.message}`)
 				setErrorMsg(e.message)
@@ -161,11 +164,15 @@ export default function ProjectCreatePage() {
 							onChange={e => setDescription(e.target.value)}
 						/>
 					</div>
-					<div className="mb-6">
+					<div className="mb-16">
 						<label htmlFor="project-track-limit" className="mb-1 block font-bold">
 							Tags
 						</label>
-						<TagsInput tags={tags} onAdd={tag => handleAddTag(tag)} onDelete={(tag: string) => handleRemoveTag(tag)} />
+						<TagsInput
+							tags={tags}
+							onAdd={tag => setTags([...tags, tag])}
+							onDelete={tag => setTags(tags.filter(t => t !== tag))}
+						/>
 					</div>
 					<div className="mb-6">
 						<label htmlFor="project-bpm" className="mb-1 block font-bold">

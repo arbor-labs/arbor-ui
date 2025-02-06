@@ -1,8 +1,14 @@
 type Account {
   address: EthereumAddress!
+  avatarUrl: String
+  collaboratedProjects: [Project!]!
   createdAt: DateTime!
+  createdProjects: [Project!]!
+  displayName: String
   id: ID!
+  stems: [Stem!]!
   updatedAt: DateTime!
+  voterIdentities: [SemaphoreIdentity!]!
 }
 
 input CreateAccountInput {
@@ -76,6 +82,7 @@ type ProjectQueue {
 }
 
 type Query {
+  account(address: EthereumAddress!): Account
   accounts(sort: SortInput): PaginatedAccounts!
   projects(sort: SortInput): PaginatedProjects!
 }

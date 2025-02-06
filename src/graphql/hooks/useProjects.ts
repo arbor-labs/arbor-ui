@@ -1,6 +1,5 @@
-import { gql, ResultOf } from './gql'
-import { useGqlQuery } from './graphql'
-import { paginationFragment } from './pagination.fragment'
+import { paginationFragment } from '../fragments/pagination.fragment'
+import { gql, ResultOf, useGqlQuery } from '../graphql'
 
 const QUERY_GET_ALL_PROJECTS = gql(
 	`
@@ -30,10 +29,10 @@ const QUERY_GET_ALL_PROJECTS = gql(
 					id
 					address
 				}
-				# collaborators {
-				#   id
-				#   address
-				# }
+				collaborators {
+				  id
+				  address
+				}
 			}
 			meta {
 				...PaginationFields
