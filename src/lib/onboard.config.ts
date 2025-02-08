@@ -4,6 +4,7 @@ import metamaskSDK from '@web3-onboard/metamask'
 import { init } from '@web3-onboard/react'
 import wagmi from '@web3-onboard/wagmi'
 import walletConnectModule from '@web3-onboard/walletconnect'
+import { base, mainnet } from 'viem/chains'
 
 const DAPP_NAME = 'Arbor Audio'
 
@@ -24,13 +25,13 @@ const wallets = [
 	ledgerModule({
 		walletConnectVersion: 2,
 		projectId: process.env.NEXT_PUBLIC_WALLETCONNECT_ID ?? '',
-		requiredChains: ['0x1', '0x2105'],
+		requiredChains: [mainnet.id, base.id],
 	}),
 	// WallectConnect
 	walletConnectModule({
-		projectId: process.env.NEXT_PUBLIC_WALLETCONNECT_ID ?? '',
-		requiredChains: [1],
-		optionalChains: [137],
+		projectId: process.env.NEXT_PUBLIC_WALLETCONNECT_ID,
+		requiredChains: [mainnet.id],
+		optionalChains: [base.id],
 		dappUrl: 'https://arbor.audio',
 	}),
 ]
@@ -38,16 +39,16 @@ const wallets = [
 /* Chains */
 const chains = [
 	{
-		id: '0x1',
+		id: mainnet.id,
 		token: 'ETH',
 		label: 'Ethereum',
-		rpcUrl: 'https://mainnet.infura.io/v3/17c1e1500e384acfb6a72c5d2e67742e',
+		rpcUrl: `https://mainnet.infura.io/v3/${process.env.INFURA_API_KEY}`,
 	},
 	{
-		id: '0x2105',
+		id: base.id,
 		token: 'ETH',
 		label: 'Base',
-		rpcUrl: 'https://mainnet.base.org',
+		rpcUrl: `https://base-sepolia.infura.io/v3/${process.env.INFURA_API_KEY}`,
 	},
 ]
 
