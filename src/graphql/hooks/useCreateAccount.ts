@@ -1,12 +1,13 @@
 import { accountFragment } from '../fragments/account.fragment'
-import { gql, useGqlMutation } from '../graphql'
+import { gql, ResultOf, useGqlMutation } from '../graphql'
 
-const MUtATION_CREATE_ACCOUNT = gql(
+const MUTATION_CREATE_ACCOUNT = gql(
 	`
-	mutation CreateNewAccount($address: EthereumAddress!) {
+	mutation CreateNewAccount($address: EthereumAddress!, $signature: EthereumSignature!) {
 		createAccount(
 			createAccountInput: {
-				address: $address
+				address: $address,
+				signature: $signature
 			}
 		) {
 			...AccountFields
@@ -17,5 +18,7 @@ const MUtATION_CREATE_ACCOUNT = gql(
 )
 
 export const useCreateAccount = () => {
-	return useGqlMutation(MUtATION_CREATE_ACCOUNT)
+	return useGqlMutation(MUTATION_CREATE_ACCOUNT)
 }
+
+export type AccountData = ResultOf<typeof MUTATION_CREATE_ACCOUNT>['createAccount']

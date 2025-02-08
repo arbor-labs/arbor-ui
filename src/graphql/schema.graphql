@@ -6,6 +6,7 @@ type Account {
   createdProjects: [Project!]!
   displayName: String
   id: ID!
+  onboardingSignature: EthereumSignature!
   stems: [Stem!]!
   updatedAt: DateTime!
   voterIdentities: [SemaphoreIdentity!]!
@@ -13,6 +14,7 @@ type Account {
 
 input CreateAccountInput {
   address: EthereumAddress!
+  signature: EthereumSignature!
 }
 
 input CreateProjectInput {
@@ -34,9 +36,15 @@ A string whose value conforms to the standard Ethereum address format as specifi
 """
 scalar EthereumAddress @specifiedBy(url: "http://gavwood.com/paper.pdf")
 
+"""
+A string whose value conforms to the standard Ethereum signature format as specified in EIP-150 Revision (212): http://gavwood.com/paper.pdf
+"""
+scalar EthereumSignature @specifiedBy(url: "http://gavwood.com/paper.pdf")
+
 type Mutation {
   createAccount(createAccountInput: CreateAccountInput!): Account!
   createProject(createProjectInput: CreateProjectInput!): Project!
+  findOrCreateAccount(createAccountInput: CreateAccountInput!): Account!
 }
 
 type PaginatedAccounts {

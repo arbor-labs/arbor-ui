@@ -24,10 +24,13 @@ export const sendTransaction = async (to: Address, value?: string, data?: Hex) =
 		value: value ? parseEther(value) : undefined,
 		data,
 	})
-	console.log(result)
+
+	console.log({ transactionResult: result })
+
+	return result
 }
 
-export async function signMessage(chainId: string, message: string) {
+export async function signMessage(message: string) {
 	const [activeWallet] = onboardConfig.state.get().wallets
 	const wagmiConfig = onboardConfig.state.get().wagmiConfig
 
@@ -36,7 +39,7 @@ export async function signMessage(chainId: string, message: string) {
 		return
 	}
 
-	await wagmiSignMessage(wagmiConfig, {
+	return await wagmiSignMessage(wagmiConfig, {
 		message,
 		connector: activeWallet.wagmiConnector,
 	})
@@ -61,7 +64,7 @@ export async function switchWagmiChain(chainId: string) {
 		throw new Error('Invalid chainId')
 	}
 
-	await switchChain(wagmiConfig, {
+	return await switchChain(wagmiConfig, {
 		chainId: chainAsNumber,
 		connector: wagmiConnector,
 	})
@@ -69,7 +72,6 @@ export async function switchWagmiChain(chainId: string) {
 
 export async function disconnectWallet() {
 	const [activeWallet] = onboardConfig.state.get().wallets
-	console.log(onboardConfig.state.get().wallets)
 	const { wagmiConnector } = activeWallet
 	const wagmiConfig = onboardConfig.state.get().wagmiConfig
 
@@ -78,5 +80,5 @@ export async function disconnectWallet() {
 		return
 	}
 
-	disconnect(wagmiConfig, { connector: wagmiConnector })
+	return disconnect(wagmiConfig, { connector: wagmiConnector })
 }

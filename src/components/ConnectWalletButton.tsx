@@ -32,7 +32,7 @@ export function ConnectWalletButton() {
 	) : (
 		<button
 			type="button"
-			className="block rounded-md bg-[--arbor-purple] px-3 py-2 text-sm font-[800] uppercase italic text-[--arbor-white] hover:bg-[--arbor-purple-hover]"
+			className="block rounded-md bg-[--arbor-purple] px-3 py-2 text-sm font-[800] uppercase italic text-[--arbor-white] hover:bg-[--arbor-purple-hover] disabled:bg-[--arbor-purple-hover]"
 			onClick={handleConnectDisconnect}
 			disabled={connecting}
 		>

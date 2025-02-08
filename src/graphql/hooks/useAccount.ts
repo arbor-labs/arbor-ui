@@ -15,9 +15,7 @@ const QUERY_GET_ACCOUNT = gql(
 )
 
 export const useAccount = (address: Address) => {
-	const resp = useGqlQuery(QUERY_GET_ACCOUNT, { address })
-	// console.log(resp)
-	return resp
+	return useGqlQuery(QUERY_GET_ACCOUNT, { address })
 }
 
 export type AccountData = ResultOf<typeof QUERY_GET_ACCOUNT>['account']
