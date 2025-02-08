@@ -5,7 +5,8 @@ import { ClientError } from 'graphql-request'
 import { ErrorMessage } from '$/components/ErrorMessage'
 import { LoadingSpinner } from '$/components/LoadingSpinner'
 import { NoData } from '$/components/NoData'
-import { ProjectData, useGetProjects } from '$/graphql/useProjects'
+import { ProjectCard } from '$/components/ProjectCard'
+import { ProjectData, useGetProjects } from '$/graphql/hooks/useProjects'
 
 import { Page } from '../../components/Page'
 
@@ -37,9 +38,11 @@ export default function ProjectsPage() {
 			{!projects.length ? (
 				<NoData resource="project" tagline="Get started by creating a new project." />
 			) : (
-				projects.map((p: ProjectData) => {
-					return <div key={p.id}>{p.id}</div>
-				})
+				<div className="mx-auto mt-16 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-20 lg:mx-0 lg:max-w-none lg:grid-cols-3">
+					{projects.map((p: ProjectData) => {
+						return <ProjectCard key={p.id} project={p} />
+					})}
+				</div>
 			)}
 		</Page>
 	)
