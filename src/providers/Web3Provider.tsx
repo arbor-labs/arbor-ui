@@ -3,8 +3,8 @@ import { createContext, useCallback, useContext, useEffect, useReducer } from 'r
 import { Address, Hex, zeroAddress } from 'viem'
 
 import { Notification } from '$/components/Notification'
-import { AccountData } from '$/graphql/hooks/useAccount'
-import { useFindOrCreateAccount } from '$/graphql/hooks/useFindOrCreateAccount'
+import { AccountData, useAccount } from '$/graphql/hooks/useAccount'
+import { useCreateAccount } from '$/graphql/hooks/useCreateAccount'
 import { disconnectWallet, signMessage } from '$/lib/walletActions'
 import { getErrorMessage } from '$/utils/getErrorMessage'
 
@@ -79,7 +79,8 @@ export function Web3Provider({ children }: Props) {
 	const [state, dispatch] = useReducer(reducer, initialState)
 
 	const [{ wallet, connecting }, connect] = useConnectWallet()
-	const { mutateAsync: findOrCreateAccount } = useFindOrCreateAccount()
+	const { mutateAsync: createAccount } = useCreateAccount()
+	const { refetch: getAccount } = useAccount(state.connectedAddress, false)
 
 	const handleConnectWallet = useCallback(async () => {
 		if (wallet) {
@@ -99,29 +100,37 @@ export function Web3Provider({ children }: Props) {
 	}, [connecting])
 
 	useEffect(() => {
-		const getOrCreateAccount = async (signature: Hex) => {
+		// 1. Check for account record, if exists, set it in state
+		const onboardConnectedAddress = async () => {
+			dispatch({ type: 'SET_CONNECTING', connecting: true })
 			dispatch({ type: 'SET_ACCOUNT_ERROR', isError: false, errorMessage: '' })
 			dispatch({ type: 'SET_ACCOUNT_CONNECTION_SUCCESS', isSuccess: false })
-			const createAccountInput = { address: state.connectedAddress, signature }
 			try {
-				const { findOrCreateAccount: account } = await findOrCreateAccount(createAccountInput)
-				dispatch({ type: 'SET_ACCOUNT', account })
-				dispatch({ type: 'SET_ACCOUNT_CONNECTION_SUCCESS', isSuccess: true })
+				const account = await getAccount()
+				// Account record found
+				if (account.isSuccess && account.data) {
+					dispatch({ type: 'SET_ACCOUNT', account: account.data.account })
+					dispatch({ type: 'SET_ACCOUNT_CONNECTION_SUCCESS', isSuccess: true })
+				} else {
+					// No account found
+					await signOnboardingMessage()
+				}
 			} catch (error) {
 				dispatch({ type: 'SET_ACCOUNT_ERROR', isError: true, errorMessage: getErrorMessage(error) })
+			} finally {
+				dispatch({ type: 'SET_CONNECTING', connecting: false })
 			}
 		}
 
+		// 2. If account doesn't exist, sign onboarding message and create an account
 		const signOnboardingMessage = async () => {
 			dispatch({ type: 'SET_SIGNING_ERROR', isError: false })
-			dispatch({ type: 'SET_CONNECTING', connecting: true })
 			try {
 				// Capture an onboarding signature
 				const message = `Welcome to Arbor Audio! This is a place where you can collaborate with others on your music and earn royalties in the form of crypto. Please accept this message to create your account with Arbor.`
 				const signature = await signMessage(message)
 				if (signature) {
-					// Find or create the account record in backend
-					await getOrCreateAccount(signature)
+					await createNewAccount(signature)
 				}
 			} catch {
 				dispatch({ type: 'SET_SIGNING_ERROR', isError: true })
@@ -130,11 +139,24 @@ export function Web3Provider({ children }: Props) {
 			}
 		}
 
-		if (state.connectedAddress !== zeroAddress) {
-			// TODO: Check if user has already onboarded by checking if they have an account
-			signOnboardingMessage()
+		// 3. Create the new account and set it in state
+		const createNewAccount = async (signature: Hex) => {
+			dispatch({ type: 'SET_ACCOUNT_ERROR', isError: false, errorMessage: '' })
+			dispatch({ type: 'SET_ACCOUNT_CONNECTION_SUCCESS', isSuccess: false })
+			try {
+				const createAccountInput = { address: state.connectedAddress, signature }
+				const { createAccount: account } = await createAccount(createAccountInput)
+				dispatch({ type: 'SET_ACCOUNT', account })
+				dispatch({ type: 'SET_ACCOUNT_CONNECTION_SUCCESS', isSuccess: true })
+			} catch (error) {
+				dispatch({ type: 'SET_ACCOUNT_ERROR', isError: true, errorMessage: getErrorMessage(error) })
+			}
 		}
-	}, [state.connectedAddress, findOrCreateAccount])
+
+		if (state.connectedAddress !== zeroAddress) {
+			onboardConnectedAddress()
+		}
+	}, [state.connectedAddress, getAccount, createAccount])
 
 	return (
 		<Web3Context.Provider

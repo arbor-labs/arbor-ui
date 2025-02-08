@@ -14,8 +14,8 @@ const QUERY_GET_ACCOUNT = gql(
 	[accountFragment],
 )
 
-export const useAccount = (address: Address) => {
-	return useGqlQuery(QUERY_GET_ACCOUNT, { address })
+export const useAccount = (address: Address, retry: boolean) => {
+	return useGqlQuery(QUERY_GET_ACCOUNT, { address }, { retry })
 }
 
 export type AccountData = ResultOf<typeof QUERY_GET_ACCOUNT>['account']
