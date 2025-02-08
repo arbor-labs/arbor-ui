@@ -45,8 +45,7 @@ export default function ProjectCreatePage() {
 		setTrackLimit(val)
 	}
 
-	const handleSubmit: FormEventHandler<HTMLFormElement> = async e => {
-		e.preventDefault()
+	const handleSubmit = async () => {
 		try {
 			if (!connectedAccount?.address) {
 				setErrorOpen(true)
@@ -137,7 +136,7 @@ export default function ProjectCreatePage() {
 						completely open without guardrails. It&apos;s all your choice.
 					</p>
 				</div>
-				<form onSubmit={handleSubmit} className="m-auto max-w-[800px]">
+				<div className="m-auto max-w-[800px]">
 					<div className="mb-6">
 						<label htmlFor="name" className="mb-1 block font-bold">
 							Name
@@ -164,7 +163,7 @@ export default function ProjectCreatePage() {
 							onChange={e => setDescription(e.target.value)}
 						/>
 					</div>
-					<div className="mb-16">
+					<div className="mb-6">
 						<label htmlFor="project-track-limit" className="mb-1 block font-bold">
 							Tags
 						</label>
@@ -203,11 +202,11 @@ export default function ProjectCreatePage() {
 						/>
 					</div>
 					<div className="flex justify-center">
-						<ButtonPrimary color="pink" disabled={loading} type="submit">
+						<ButtonPrimary color="pink" disabled={loading} onClick={handleSubmit}>
 							{loading ? <LoadingSpinner /> : 'Create Project'}
 						</ButtonPrimary>
 					</div>
-				</form>
+				</div>
 				{successOpen && (
 					<Notification
 						isOpen

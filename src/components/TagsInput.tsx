@@ -14,8 +14,9 @@ export function TagsInput({ tags, onAdd, onDelete }: Props) {
 		const { keyCode } = e
 		// Add on Enter, allow multi word tags
 		if (keyCode === 13) {
-			// Only allow unique tags
-			if (!tags.includes(currTag.trim())) onAdd(currTag)
+			const trimmedTag = currTag.trim()
+			// Only allow unique and non-empty tags
+			if (trimmedTag && !tags.includes(trimmedTag)) onAdd(trimmedTag)
 			setCurrTag('')
 		}
 	}
@@ -30,9 +31,9 @@ export function TagsInput({ tags, onAdd, onDelete }: Props) {
 				onKeyDown={handleKeyDown}
 				onChange={e => setCurrTag(e.target.value)}
 			/>
-			<div className="mt-2 flex flex-wrap">
-				{tags.length > 0 &&
-					tags.map(tag => (
+			{tags.length > 0 && (
+				<div className="mt-2 flex flex-wrap">
+					{tags.map(tag => (
 						<div
 							key={tag}
 							className="m-1 flex items-center rounded-full bg-[--arbor-purple] px-3 py-1 text-[--arbor-white]"
@@ -43,7 +44,8 @@ export function TagsInput({ tags, onAdd, onDelete }: Props) {
 							</button>
 						</div>
 					))}
-			</div>
+				</div>
+			)}
 		</>
 	)
 }
