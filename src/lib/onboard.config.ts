@@ -42,13 +42,13 @@ const chains = [
 		id: mainnet.id,
 		token: 'ETH',
 		label: 'Ethereum',
-		rpcUrl: `https://mainnet.infura.io/v3/${process.env.INFURA_API_KEY}`,
+		rpcUrl: `https://mainnet.infura.io/v3/${process.env.NEXT_PUBLIC_INFURA_API_KEY}`,
 	},
 	{
 		id: base.id,
 		token: 'ETH',
 		label: 'Base',
-		rpcUrl: `https://base-sepolia.infura.io/v3/${process.env.INFURA_API_KEY}`,
+		rpcUrl: `https://base-sepolia.infura.io/v3/${process.env.NEXT_PUBLIC_INFURA_API_KEY}`,
 	},
 ]
 

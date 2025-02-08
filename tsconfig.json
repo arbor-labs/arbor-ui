@@ -18,10 +18,10 @@
 				"name": "next"
 			},
 			{
-        "name": "gql.tada/ts-plugin",
-        "schema": "./src/graphql/schema.graphql",
+				"name": "gql.tada/ts-plugin",
+				"schema": "./src/graphql/schema.graphql",
 				"tadaOutputLocation": "./src/graphql/graphql-env.d.ts"
-      },
+			}
 		],
 		"paths": {
 			"$/*": ["./src/*"]
