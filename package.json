@@ -2,6 +2,10 @@
 	"name": "arbor-ui",
 	"version": "0.1.0",
 	"private": true,
+	"license": "MIT",
+	"engines": {
+		"node": ">=20.0.0"
+	},
 	"scripts": {
 		"codegen": "gql-tada generate schema 'http://localhost:5280/graphql' --output './src/graphql/schema.graphql' && pnpm build",
 		"dev": "next dev",
