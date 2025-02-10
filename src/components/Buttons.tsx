@@ -8,7 +8,8 @@ type Props = {
 } & ButtonHTMLAttributes<HTMLButtonElement>
 
 export function ButtonPrimary({ children, color, onClick, disabled, ...props }: Props) {
-	let className = 'inline-block rounded-md px-3 py-2 text-sm text-[--arbor-white] font-[800] uppercase italic '
+	let className =
+		'inline-block rounded-md px-3 py-2 text-sm text-[--arbor-white] font-[800] uppercase italic border-2 border-[--arbor-black] '
 	switch (color) {
 		case 'red':
 			className += 'bg-[--arbor-red] hover:bg-[--arbor-red-hover]'

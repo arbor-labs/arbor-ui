@@ -1,14 +1,12 @@
 import { paginationFragment } from '../fragments/pagination.fragment'
 import { gql, ResultOf, useGqlQuery } from '../graphql'
 
-const QUERY_GET_ALL_PROJECTS = gql(
+const QUERY_PROJECTS_LIST = gql(
 	`
-	query GetAllProjects {
+	query GetProjectsList {
 		projects {
 			items {
 				id
-				createdAt
-				updatedAt
 				name
 				description
 				bpm
@@ -16,18 +14,6 @@ const QUERY_GET_ALL_PROJECTS = gql(
 				tags
 				stems {
 					id
-					bpm
-				}
-				queue {
-					id
-					# stems {
-					#   id
-					#   votes
-					# }
-				}
-				createdBy {
-					id
-					address
 				}
 				collaborators {
 				  id
@@ -44,7 +30,7 @@ const QUERY_GET_ALL_PROJECTS = gql(
 )
 
 export const useGetProjects = () => {
-	return useGqlQuery(QUERY_GET_ALL_PROJECTS)
+	return useGqlQuery(QUERY_PROJECTS_LIST)
 }
 
-export type ProjectData = NonNullable<ResultOf<typeof QUERY_GET_ALL_PROJECTS>['projects']['items']>[number]
+export type ProjectCardData = NonNullable<ResultOf<typeof QUERY_PROJECTS_LIST>['projects']['items']>[number]
