@@ -1,6 +1,8 @@
 import Link from 'next/link'
 import { TiPlus } from 'react-icons/ti'
 
+import { ButtonPrimary } from './Buttons'
+
 type Props = {
 	resource: string
 	tagline: string
@@ -30,13 +32,10 @@ export function NoData({ resource, tagline, buttonHref }: Props) {
 			{buttonHref && (
 				<div className="mt-6">
 					<Link href={buttonHref}>
-						<button
-							type="button"
-							className="shadow-xs inline-flex items-center rounded-md bg-[--arbor-pink] px-3 py-2 text-sm font-semibold text-[--arbor-white] hover:bg-[--arbor-pink-hover] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[--arbor-pink-hover]"
-						>
+						<ButtonPrimary color="purple" className="inline-flex border-none text-xs">
 							<TiPlus aria-hidden="true" className="-ml-0.5 mr-1.5 size-4" />
 							New {resource}
-						</button>
+						</ButtonPrimary>
 					</Link>
 				</div>
 			)}
