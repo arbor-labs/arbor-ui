@@ -4,9 +4,10 @@ import { TiPlus } from 'react-icons/ti'
 type Props = {
 	resource: string
 	tagline: string
+	buttonHref?: string
 }
 
-export function NoData({ resource, tagline }: Props) {
+export function NoData({ resource, tagline, buttonHref }: Props) {
 	return (
 		<div className="text-center">
 			<svg
@@ -26,17 +27,19 @@ export function NoData({ resource, tagline }: Props) {
 			</svg>
 			<h3 className="mt-2 text-sm font-semibold text-gray-900">{`No ${resource}s`}</h3>
 			<p className="mt-1 text-sm text-gray-500">{tagline}</p>
-			<div className="mt-6">
-				<Link href="/projects/create">
-					<button
-						type="button"
-						className="shadow-xs inline-flex items-center rounded-md bg-[--arbor-pink] px-3 py-2 text-sm font-semibold text-[--arbor-white] hover:bg-[--arbor-pink-hover] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[--arbor-pink-hover]"
-					>
-						<TiPlus aria-hidden="true" className="-ml-0.5 mr-1.5 size-4" />
-						New {resource}
-					</button>
-				</Link>
-			</div>
+			{buttonHref && (
+				<div className="mt-6">
+					<Link href={buttonHref}>
+						<button
+							type="button"
+							className="shadow-xs inline-flex items-center rounded-md bg-[--arbor-pink] px-3 py-2 text-sm font-semibold text-[--arbor-white] hover:bg-[--arbor-pink-hover] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[--arbor-pink-hover]"
+						>
+							<TiPlus aria-hidden="true" className="-ml-0.5 mr-1.5 size-4" />
+							New {resource}
+						</button>
+					</Link>
+				</div>
+			)}
 		</div>
 	)
 }

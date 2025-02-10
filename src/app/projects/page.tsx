@@ -36,7 +36,7 @@ export default function ProjectsPage() {
 	return (
 		<Page metaTitle="Arbor Projects" pageTitle="Arbor Projects">
 			{!projects.length ? (
-				<NoData resource="project" tagline="Get started by creating a new project." />
+				<NoData resource="project" tagline="Get started by creating a new project." buttonHref="/projects/create" />
 			) : (
 				<div className="mx-auto mt-16 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-20 lg:mx-0 lg:max-w-none lg:grid-cols-3">
 					{projects.map((p: ProjectCardData) => {
