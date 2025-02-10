@@ -1,7 +1,6 @@
 'use client'
-// import { useMutation } from '@tanstack/react-query'
 import { useRouter } from 'next/navigation'
-import { FormEventHandler, useState } from 'react'
+import { useState } from 'react'
 
 import { ButtonPrimary } from '$/components/Buttons'
 import { LoadingSpinner } from '$/components/LoadingSpinner'
@@ -10,13 +9,14 @@ import { Page } from '$/components/Page'
 import TagsInput from '$/components/TagsInput'
 import { useCreateProject } from '$/graphql/hooks/useCreateProject'
 import { useWeb3 } from '$/providers/Web3Provider'
+import { getErrorMessage } from '$/utils/getErrorMessage'
 
 export default function ProjectCreatePage() {
 	const router = useRouter()
 	const { connectedAccount } = useWeb3()
 
 	// Mutation
-	const { mutateAsync: createProject, isPending, isSuccess, isError, data, error } = useCreateProject()
+	const { mutateAsync: createProject } = useCreateProject()
 
 	// Form State
 	const [name, setName] = useState<string>('')
@@ -58,9 +58,9 @@ export default function ProjectCreatePage() {
 				setErrorMsg('Please enter in the required fields')
 				return
 			}
-			setLoading(true)
 
 			/*
+				TODO:
 				Create new Semaphore group for given project
 				- Create new group with project creator as group admin
 				- Do not add in the project creator as a voting member (yet)
@@ -75,38 +75,29 @@ export default function ProjectCreatePage() {
 			// const receipt = await contractRes.wait()
 			// const votingGroupId = receipt.events[1].args.groupId.toString()
 
-			// POST new project record to backend
-			const payload = {
-				createdBy: connectedAccount.address,
-				name,
-				description,
-				bpm,
-				tags,
-				trackLimit,
+			// POST new project, redirect to details page if successful
+			setLoading(true)
+			const { createProject: project } = await createProject({
+				createProjectInput: {
+					createdBy: connectedAccount.address,
+					name,
+					description,
+					bpm,
+					tags,
+					trackLimit,
+				},
+			})
+			if (project) {
+				setSuccessOpen(true)
+				resetForm()
+				setTimeout(() => router.push(`/projects/${project.id}`), 3000)
 			}
-			console.log('posting data...', payload)
-
-			await createProject({ createProjectInput: payload })
-
-			// console.log({ data, error, isSuccess, isPending, isError })
-			if (isSuccess)
-				if (!isError && error) {
-					// Redirect to project page if successful
-					setSuccessOpen(true)
-					resetForm()
-					setTimeout(() => router.push(`/projects/${payload.name}`), 3000)
-				}
-			setLoading(false)
-		} catch (e: unknown) {
-			setLoading(false)
+		} catch (e) {
+			console.error(e)
 			setErrorOpen(true)
-			console.error({ error })
-			if (e instanceof Error) {
-				console.log(`Project creation failed - ${e.message}`)
-				setErrorMsg(e.message)
-			} else {
-				console.log('Project creation failed')
-			}
+			setErrorMsg(getErrorMessage(e))
+		} finally {
+			setLoading(false)
 		}
 	}
 
