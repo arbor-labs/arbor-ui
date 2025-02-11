@@ -1,4 +1,5 @@
 import Head from 'next/head'
+import Image from 'next/image'
 import Link from 'next/link'
 import { TbArrowBigDownLines, TbMusic } from 'react-icons/tb'
 
@@ -31,36 +32,35 @@ export default function HomePage() {
 			<Head>
 				<title>Arbor | A Generative Music NFT Platform</title>
 			</Head>
-			<section
-				className="bg-cover bg-center bg-no-repeat px-10 py-24 text-[--arbor-white]"
-				style={{ backgroundColor: 'var(--arbor-black)', backgroundImage: 'url("/banner_bg.png")' }}
-			>
+			<section className="relative bg-[#1B2021] bg-[url('/arbor_6x6_logo.svg')] bg-contain bg-[90%] bg-no-repeat px-10 py-24">
 				<div className="container mx-auto max-w-screen-xl">
-					<h2 className="mb-5 text-3xl font-medium md:text-5xl">
-						Create Together,
-						<br />
-						Earn Together.
-					</h2>
-					<ul>
-						<li className="mb-1 flex items-center">
-							<TbMusic />
-							<p className="ml-2 text-xl">Co-create songs with anyone</p>
-						</li>
-						<li className="mb-1 flex items-center">
-							<TbMusic />
-							<p className="ml-2 text-xl">Use the DAW you already love</p>
-						</li>
-						<li className="mb-1 flex items-center">
-							<TbMusic />
-							<p className="ml-2 text-xl">Collectors buy songs as NFTs</p>
-						</li>
-						<li className="mb-1 flex items-center">
-							<TbMusic />
-							<p className="ml-2 text-xl">
-								The artists earn <span className="underline">all</span> proceeds.
-							</p>
-						</li>
-					</ul>
+					<div className="-ml-10 inline-block rounded-r-3xl bg-[rgba(0,0,0,0.5)] p-10 text-[--arbor-white]">
+						<h2 className="mb-5 text-3xl font-medium md:text-5xl">
+							Create Together,
+							<br />
+							Earn Together.
+						</h2>
+						<ul>
+							<li className="mb-1 flex items-center">
+								<TbMusic />
+								<p className="ml-2 text-xl">Co-create songs with anyone</p>
+							</li>
+							<li className="mb-1 flex items-center">
+								<TbMusic />
+								<p className="ml-2 text-xl">Use the DAW you already love</p>
+							</li>
+							<li className="mb-1 flex items-center">
+								<TbMusic />
+								<p className="ml-2 text-xl">Collectors buy songs as NFTs</p>
+							</li>
+							<li className="mb-1 flex items-center">
+								<TbMusic />
+								<p className="ml-2 text-xl">
+									The artists earn <span className="underline">all</span> proceeds.
+								</p>
+							</li>
+						</ul>
+					</div>
 				</div>
 			</section>
 			<RecentProjectActivity />

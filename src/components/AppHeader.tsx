@@ -21,7 +21,7 @@ export function AppHeader() {
 
 	return (
 		<header>
-			<nav className="bg-[--arbor-black]">
+			<nav className="bg-black">
 				<div className="mx-auto max-w-7xl px-2 md:px-6 lg:px-8">
 					<div className="relative flex h-16 items-center justify-between">
 						<div className="absolute inset-y-0 left-0 flex items-center md:hidden">
