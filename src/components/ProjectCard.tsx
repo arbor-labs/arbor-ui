@@ -4,6 +4,7 @@ import { MdQueueMusic } from 'react-icons/md'
 import { type ProjectCardData } from '$/graphql/hooks/useProjects'
 
 import { ButtonPrimary } from './Buttons'
+import { ProjectTag } from './ProjectTag'
 
 type Props = {
 	project: ProjectCardData
@@ -30,12 +31,7 @@ export function ProjectCard({ project }: Props) {
 				</p>
 				<p className="mb-2 font-light">{project.description.slice(0, 60) + '...'}</p>
 				{project.tags.map((tag: string) => (
-					<span
-						key={tag}
-						className="my-1 mr-2 inline-block rounded-full bg-[--arbor-purple] px-3 py-1 text-sm font-semibold text-[--arbor-white]"
-					>
-						{tag}
-					</span>
+					<ProjectTag key={tag} tag={tag} />
 				))}
 			</div>
 			<div className="flex justify-end p-4">

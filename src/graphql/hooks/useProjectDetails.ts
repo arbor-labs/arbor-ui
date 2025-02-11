@@ -14,7 +14,12 @@ const QUERY_PROJECT_DETAILS = gql(
 			tags
 			stems {
 				id
-				bpm
+				name
+				type
+				filename
+				createdBy {
+					address
+				}
 			}
 			queue {
 				id
