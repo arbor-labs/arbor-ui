@@ -11,7 +11,7 @@ import type WaveSurfer from 'wavesurfer.js'
 import { formatAddress } from '$/utils/formatAddress'
 import { formatStemName } from '$/utils/formatStem'
 
-type DetailsProp = {
+export type DetailsProp = {
 	id: string
 	name: string
 	type: string

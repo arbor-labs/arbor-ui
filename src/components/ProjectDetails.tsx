@@ -15,7 +15,7 @@ import { ErrorMessage } from './ErrorMessage'
 import { LoadingSpinner } from './LoadingSpinner'
 import { Notification } from './Notification'
 import { ProjectTag } from './ProjectTag'
-import { StemPlayer } from './StemPlayer'
+import { DetailsProp, StemPlayer } from './StemPlayer'
 
 type Props = {
 	id: string
@@ -93,7 +93,7 @@ export function ProjectDetails({ id }: Props) {
 	if (data) {
 		const { project } = data
 		const tags = project.tags
-		const stems = /* project.stems ?? */ [
+		const stems: DetailsProp[] = /* project.stems ?? */ [
 			{
 				id: '12230',
 				name: 'Stem 1',
