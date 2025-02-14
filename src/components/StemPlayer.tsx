@@ -19,7 +19,7 @@ export type DetailsProp = {
 	createdBy: {
 		address: Address
 	}
-	url: string
+	// url: string
 }
 
 type Props = {
@@ -59,10 +59,17 @@ export function StemPlayer({
 	const containerRef = useRef(null)
 	const { wavesurfer, isReady, isPlaying, currentTime } = useWavesurfer({
 		container: containerRef,
-		url: details.url,
 		waveColor: '#e74b7a',
 		progressColor: '#87a1ca',
-		height: 80,
+		height: 100,
+
+		// Set a bar width
+		barWidth: 2,
+		// Optionally, specify the spacing between bars
+		barGap: 1,
+		// And the bar radius
+		barRadius: 2,
+
 		/**
 		 * Render a waveform as a squiggly line
 		 * @see https://css-tricks.com/making-an-audio-waveform-visualizer-with-vanilla-javascript/
@@ -195,7 +202,13 @@ export function StemPlayer({
 					</div>
 				</div>
 				<div className="border-t-2 border-[--arbor-black] bg-gray-200 px-2 py-1 font-normal text-gray-600">
-					Timestamp: <span className="inline-block font-thin text-gray-500">{currentTime}</span>
+					<div className="">
+						Total Duration:{' '}
+						<span className="inline-block font-thin text-gray-500">{wavesurfer?.getDuration() ?? ''}</span>
+					</div>
+					<div className="">
+						Timestamp: <span className="inline-block font-thin text-gray-500">{currentTime}</span>
+					</div>
 				</div>
 			</div>
 		</>

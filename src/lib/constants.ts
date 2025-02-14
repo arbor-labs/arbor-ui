@@ -12,3 +12,14 @@ export const STEM_COLORS: Record<string, string> = {
 	combo: '#9F86C0',
 	other: '#D8C5F2',
 }
+
+export enum EStemType {
+	MELODY = 'melody',
+	HARMONY = 'harmony',
+	RHYTHM = 'rhythm',
+	BASS = 'bass',
+	DRUMS = 'drums',
+	VOCALS = 'vocals',
+	FX = 'fx',
+	OTHER = 'other',
+}

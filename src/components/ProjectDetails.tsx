@@ -2,15 +2,17 @@
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { FaPause, FaPlay } from 'react-icons/fa'
-import { LuCirclePlus, LuPause, LuPlay, LuSkipBack } from 'react-icons/lu'
+import { LuPause, LuPlay, LuSkipBack } from 'react-icons/lu'
 import { RiStopLargeLine } from 'react-icons/ri'
 import type WaveSurfer from 'wavesurfer.js'
 
+import { usePinataFile } from '$/graphql/hooks/useGetCID'
 import { useProjectDetails } from '$/graphql/hooks/useProjectDetails'
 // import { useWeb3 } from '$/providers/Web3Provider'
 import { formatAddress } from '$/utils/formatAddress'
 import { getErrorMessage } from '$/utils/getErrorMessage'
 
+import { AddStemDialog } from './AddStemDialog'
 import { ErrorMessage } from './ErrorMessage'
 import { LoadingSpinner } from './LoadingSpinner'
 import { Notification } from './Notification'
@@ -21,23 +23,11 @@ type Props = {
 	id: string
 }
 
-const VerticalBarSmall = () => (
+export const VerticalBarSmall = () => (
 	<span className="ml-[37px] block min-h-[32px] w-[2px] bg-[--arbor-black]" aria-hidden="true" />
 )
 
 export function ProjectDetails({ id }: Props) {
-	// State
-	// Notifications
-	const [successOpen, setSuccessOpen] = useState<boolean>(false)
-	const [successMsg, setSuccessMsg] = useState<string>('')
-	const [downloading, setDownloading] = useState<boolean>(false)
-	const [downloadingMsg, setDownloadingMsg] = useState<string>('')
-	const [errorOpen, setErrorOpen] = useState<boolean>(false)
-	const [errorMsg, setErrorMsg] = useState<string>('')
-	// Minting
-	const [minting, setMinting] = useState<boolean>(false)
-	const [mintingOpen, setMintingOpen] = useState<boolean>(false)
-	const [mintingMsg, setMintingMsg] = useState<string>('')
 	// Stems
 	const [uploadStemOpen, setUploadStemOpen] = useState<boolean>(false)
 	const [files, setFiles] = useState<Map<string, Blob>>(new Map())
@@ -45,15 +35,31 @@ export function ProjectDetails({ id }: Props) {
 	const [soloedTracks, setSoloedTracks] = useState<number[]>([])
 	const [handleUnmuteAll, setHandleUnmuteAll] = useState<boolean>(false)
 	// Play/Pause
-	const [wsInstances, setWsInstances] = useState<Map<number, WaveSurfer>>(new Map())
+	const [blobs, setBlobs] = useState<Blob[]>([])
+	const [wsInstances, setWsInstances] = useState<WaveSurfer[]>([])
 	const [isPlayingAll, setIsPlayingAll] = useState<boolean>(false)
-
+	// Minting
+	const [minting, setMinting] = useState<boolean>(false)
+	const [mintingOpen, setMintingOpen] = useState<boolean>(false)
+	const [mintingMsg, setMintingMsg] = useState<string>('')
+	// Notifications
+	const [successOpen, setSuccessOpen] = useState<boolean>(false)
+	const [successMsg, setSuccessMsg] = useState<string>('')
+	const [downloading, setDownloading] = useState<boolean>(false)
+	const [downloadingMsg, setDownloadingMsg] = useState<string>('')
+	const [errorOpen, setErrorOpen] = useState<boolean>(false)
+	const [errorMsg, setErrorMsg] = useState<string>('')
 	// Hooks
 	// const { isConnected, connectedAccount, handleConnectDisconnect } = useWeb3()
 	const { data, isLoading, isError, error } = useProjectDetails(id)
+	// const {
+	// 	data: pinataFile,
+	// 	isError: isPinataError,
+	// 	error: pinataError,
+	// } = usePinataFile('bafybeiffqh4gqawzehdbvxcr5f7iyj4ztnuetumi4fqc2lfnsf5ygrbjz4')
 
 	useEffect(() => {
-		if (soloedTracks.length > 0 && soloedTracks.length === wsInstances.size) {
+		if (soloedTracks.length > 0 && soloedTracks.length === wsInstances.length) {
 			setHandleUnmuteAll(unMuteAll => !unMuteAll)
 			setSoloedTracks([])
 			setMutedTracks([])
@@ -69,6 +75,31 @@ export function ProjectDetails({ id }: Props) {
 		})
 	}, [soloedTracks, mutedTracks])
 
+	// useEffect(() => {
+	// 	console.log({ wsInstances })
+	// }, [wsInstances])
+
+	// useEffect(() => {
+	// 	const loadFileIntoWs = async (contentType: string, data: string) => {
+	// 		console.log({ data })
+	// 		const binaryData = Buffer.from(data, 'binary')
+	// 		const blob = new Blob([binaryData], { type: contentType })
+	// 		console.log({ blob })
+	// 		setBlobs([...blobs, blob])
+	// 		// wsInstances[0].loadBlob(blob)
+	// 	}
+	// 	if (pinataFile) {
+	// 		const {
+	// 			getFile: { contentType, data },
+	// 		} = pinataFile
+	// 		loadFileIntoWs(String(contentType), String(data))
+	// 	}
+	// }, [pinataFile])
+
+	// if (isPinataError) {
+	// 	console.error({ pinataError })
+	// }
+
 	if (isLoading)
 		return (
 			<div className="flex place-content-center">
@@ -79,7 +110,7 @@ export function ProjectDetails({ id }: Props) {
 	if (isError) {
 		return (
 			<>
-				<ErrorMessage message="This project may not exist. Please check the URL and try again." />
+				<ErrorMessage message="This project may not exist, or the server may be down. Please try again." />
 				<Notification
 					isOpen
 					variant="error"
@@ -95,24 +126,31 @@ export function ProjectDetails({ id }: Props) {
 		const tags = project.tags
 		const stems: DetailsProp[] = /* project.stems ?? */ [
 			{
-				id: '12230',
-				name: 'Stem 1',
-				type: 'combo',
-				filename: 'stem1.wav',
+				id: '1',
+				name: 'Drums',
+				type: 'drums',
+				filename: 'DRUMS.wav',
 				createdBy: {
-					address: '0x1234567890abcdef1234567890abcdef12345678',
+					address: '0xd997ebC236a9533fa7D8A9C81a62215Cb248763F',
 				},
-				url: 'https://www.mfiles.co.uk/mp3-downloads/gs-cd-track2.mp3',
 			},
 			{
-				id: '1230',
-				name: 'Stem 2',
-				type: 'vocals',
-				filename: 'stem2.wav',
+				id: '2',
+				name: 'Rhythm Guitar',
+				type: 'chords',
+				filename: 'GTR - Rhythm.wav',
 				createdBy: {
-					address: '0x1234567890abcdef1234567890abcdef12343333',
+					address: '0xD6FfB3479F78876956880D1666299610eDd6DF56',
 				},
-				url: 'https://www.mfiles.co.uk/mp3-downloads/moonlight-movement1.mp3',
+			},
+			{
+				id: '3',
+				name: 'Lead Guitar',
+				type: 'melody',
+				filename: 'GTR - Lead.wav',
+				createdBy: {
+					address: '0x5B4C6e68637618285d2792d2934dF552E23c62C2',
+				},
 			},
 		]
 		const collaborators = project.collaborators ?? []
@@ -122,13 +160,6 @@ export function ProjectDetails({ id }: Props) {
 		const handleDownloadAll = () => {}
 
 		/* Stem Upload handlers */
-		const handleUploadStemOpen = () => {
-			setUploadStemOpen(true)
-		}
-
-		// const handleUploadStemClose = () => {
-		// 	setUploadStemOpen(false)
-		// }
 
 		// const onStemUploadSuccess = () => {
 		// 	// Refresh UI
@@ -146,9 +177,7 @@ export function ProjectDetails({ id }: Props) {
 			Wavesurfer handlers
 		*/
 		const onWavesInit = (idx: number, ws: WaveSurfer) => {
-			const tmp = new Map(wsInstances.entries())
-			tmp.set(idx, ws)
-			setWsInstances(tmp)
+			setWsInstances([...wsInstances, ws])
 		}
 
 		// Play or pause each stem audio from wavesurfer
@@ -227,7 +256,7 @@ export function ProjectDetails({ id }: Props) {
 									{formatAddress(project.createdBy.address)}
 								</Link>
 							</p>
-							<h2 className="mb-1 text-5xl font-bold">{project.name}</h2>
+							<h2 className="mb-4 text-5xl font-bold">{project.name}</h2>
 						</div>
 						<div className="mb-1">
 							<p className="mr-5 inline-block">
@@ -348,19 +377,7 @@ export function ProjectDetails({ id }: Props) {
 				)}
 
 				{/* Add stem button */}
-				{!limitReached && (
-					<div className="relative">
-						<VerticalBarSmall />
-						<button
-							className="inline-flex items-center rounded border-2 border-[--arbor-black] px-3 py-1 font-semibold hover:border-[--arbor-gray-gray] hover:bg-gray-200 hover:text-[--arbor-gray]"
-							onClick={handleUploadStemOpen}
-						>
-							<LuCirclePlus className="mr-1 size-6" /> Add Stem
-						</button>
-						{/* TODO: Add StemUploadDialog component */}
-						<div></div>
-					</div>
-				)}
+				{!limitReached && <AddStemDialog projectId={project.id} />}
 
 				{successOpen && (
 					<Notification isOpen variant="success" title="Success!" text={successMsg} onClose={onNotificationClose} />

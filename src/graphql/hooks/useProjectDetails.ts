@@ -17,9 +17,10 @@ const QUERY_PROJECT_DETAILS = gql(
 				name
 				type
 				filename
-				createdBy {
-					address
-				}
+				audioCID
+				# createdBy {
+				# 	address
+				# }
 			}
 			queue {
 				id
