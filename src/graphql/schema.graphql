@@ -1,29 +1,29 @@
 type Account {
-  address: EthereumAddress!
-  avatarUrl: String
-  collaboratedProjects: [Project!]!
-  createdAt: DateTime!
-  createdProjects: [Project!]!
-  displayName: String
-  id: ID!
-  onboardingSignature: EthereumSignature!
-  stems: [Stem!]!
-  updatedAt: DateTime!
-  voterIdentities: [SemaphoreIdentity!]!
+	address: EthereumAddress!
+	avatarUrl: String
+	collaboratedProjects: [Project!]!
+	createdAt: DateTime!
+	createdProjects: [Project!]!
+	displayName: String
+	id: ID!
+	onboardingSignature: EthereumSignature!
+	stems: [Stem!]!
+	updatedAt: DateTime!
+	voterIdentities: [SemaphoreIdentity!]!
 }
 
 input CreateAccountInput {
-  address: EthereumAddress!
-  signature: EthereumSignature!
+	address: EthereumAddress!
+	signature: EthereumSignature!
 }
 
 input CreateProjectInput {
-  bpm: Int!
-  createdBy: EthereumAddress!
-  description: String!
-  name: String!
-  tags: [String!] = []
-  trackLimit: Int!
+	bpm: Int!
+	createdBy: EthereumAddress!
+	description: String!
+	name: String!
+	tags: [String!] = []
+	trackLimit: Int!
 }
 
 """
@@ -42,33 +42,33 @@ A string whose value conforms to the standard Ethereum signature format as speci
 scalar EthereumSignature @specifiedBy(url: "http://gavwood.com/paper.pdf")
 
 type Mutation {
-  createAccount(createAccountInput: CreateAccountInput!): Account!
-  createProject(createProjectInput: CreateProjectInput!): Project!
-  findOrCreateAccount(createAccountInput: CreateAccountInput!): Account!
+	createAccount(createAccountInput: CreateAccountInput!): Account!
+	createProject(createProjectInput: CreateProjectInput!): Project!
+	findOrCreateAccount(createAccountInput: CreateAccountInput!): Account!
 }
 
 type PaginatedAccounts {
-  items: [Account!]
-  meta: PaginationMeta!
+	items: [Account!]
+	meta: PaginationMeta!
 }
 
 type PaginatedProjects {
-  items: [Project!]
-  meta: PaginationMeta!
+	items: [Project!]
+	meta: PaginationMeta!
 }
 
 type PaginationMeta {
-  currentPage: Int!
-  itemCount: Int!
-  itemType: String!
-  itemsPerPage: Int!
-  totalItems: Int!
-  totalPages: Int!
+	currentPage: Int!
+	itemCount: Int!
+	itemType: String!
+	itemsPerPage: Int!
+	totalItems: Int!
+	totalPages: Int!
 }
 
 type PinataCIDResponse {
-  contentType: PinataContentType
-  data: PinataData
+	contentType: PinataContentType
+	data: PinataData
 }
 
 """
@@ -82,79 +82,79 @@ Custom scalar type for Pinata data that can JSON or a base64 encoded string of a
 scalar PinataData
 
 type Project {
-  bpm: Int!
-  collaborators: [Account!]
-  createdAt: DateTime!
-  createdBy: Account!
-  description: String!
-  id: ID!
-  name: String!
-  queue: ProjectQueue!
-  stems: [Stem!]
-  tags: [String!]!
-  trackLimit: Int!
-  updatedAt: DateTime!
-  votingGroup: VotingGroup!
+	bpm: Int!
+	collaborators: [Account!]
+	createdAt: DateTime!
+	createdBy: Account!
+	description: String!
+	id: ID!
+	name: String!
+	queue: ProjectQueue!
+	stems: [Stem!]
+	tags: [String!]!
+	trackLimit: Int!
+	updatedAt: DateTime!
+	votingGroup: VotingGroup!
 }
 
 type ProjectQueue {
-  createdAt: DateTime!
-  id: ID!
-  stems: [QueuedStem!]!
-  updatedAt: DateTime!
+	createdAt: DateTime!
+	id: ID!
+	stems: [QueuedStem!]!
+	updatedAt: DateTime!
 }
 
 type Query {
-  account(address: EthereumAddress!): Account
-  accounts(sort: SortInput): PaginatedAccounts!
-  getFile(cid: String!): PinataCIDResponse!
-  project(id: String!): Project!
-  projects(sort: SortInput): PaginatedProjects!
+	account(address: EthereumAddress!): Account
+	accounts(sort: SortInput): PaginatedAccounts!
+	getFile(cid: String!): PinataCIDResponse!
+	project(id: String!): Project!
+	projects(sort: SortInput): PaginatedProjects!
 }
 
 type QueuedStem {
-  createdAt: DateTime!
-  id: ID!
-  queue: ProjectQueue!
-  stem: Stem!
-  updatedAt: DateTime!
-  votes: Int!
+	createdAt: DateTime!
+	id: ID!
+	queue: ProjectQueue!
+	stem: Stem!
+	updatedAt: DateTime!
+	votes: Int!
 }
 
 type SemaphoreIdentity {
-  account: Account!
-  commitment: String!
-  createdAt: DateTime!
-  group: VotingGroup!
-  id: ID!
-  nullifier: String!
-  trapdoor: String!
-  updatedAt: DateTime!
+	account: Account!
+	commitment: String!
+	createdAt: DateTime!
+	group: VotingGroup!
+	id: ID!
+	nullifier: String!
+	trapdoor: String!
+	updatedAt: DateTime!
 }
 
 input SortInput {
-  asc: Boolean!
-  key: String!
+	asc: Boolean!
+	key: String!
 }
 
 type Stem {
-  audioCID: String!
-  createdAt: DateTime!
-  createdBy: Account!
-  filename: String!
-  filesize: Int!
-  filetype: String!
-  id: ID!
-  metadataCID: String!
-  name: String!
-  projectsAddedTo: [Project!]!
-  type: String!
-  updatedAt: DateTime!
+	audioCID: String!
+	createdAt: DateTime!
+	createdBy: Account!
+	filename: String!
+	filesize: Int!
+	filetype: String!
+	id: ID!
+	metadataCID: String!
+	name: String!
+	projectsAddedTo: [Project!]!
+	type: String!
+	updatedAt: DateTime!
 }
 
 type VotingGroup {
-  createdAt: DateTime!
-  id: ID!
-  members: [SemaphoreIdentity!]!
-  updatedAt: DateTime!
+	createdAt: DateTime!
+	id: ID!
+	members: [SemaphoreIdentity!]!
+	updatedAt: DateTime!
 }
