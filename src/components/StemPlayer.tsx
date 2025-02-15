@@ -7,19 +7,19 @@ import { RiStopLargeLine } from 'react-icons/ri'
 import { Address } from 'viem'
 import type WaveSurfer from 'wavesurfer.js'
 
-// import { STEM_COLORS } from '$/lib/constants'
+import { PINATA_BASE_URL, STEM_COLORS } from '$/lib/constants'
 import { formatAddress } from '$/utils/formatAddress'
 import { formatStemName } from '$/utils/formatStem'
 
-export type DetailsProp = {
+export interface DetailsProp {
 	id: string
 	name: string
 	type: string
 	filename: string
+	audioCID: unknown // for some reason gql-tada is not converting this to a string
 	createdBy: {
 		address: Address
 	}
-	// url: string
 }
 
 type Props = {
@@ -48,8 +48,6 @@ export function StemPlayer({
 	onMute,
 	onSkipPrev,
 	onStop,
-	onFinish,
-	onNewFile,
 }: Props) {
 	// State
 	const [isMuted, setIsMuted] = useState<boolean>(false)
@@ -57,54 +55,17 @@ export function StemPlayer({
 
 	// Hooks
 	const containerRef = useRef(null)
+
+	// WaveSurfer config - https://wavesurfer.xyz/examples/
 	const { wavesurfer, isReady, isPlaying, currentTime } = useWavesurfer({
+		url: PINATA_BASE_URL + details.audioCID,
 		container: containerRef,
-		waveColor: '#e74b7a',
-		progressColor: '#87a1ca',
+		waveColor: STEM_COLORS[details.type],
+		progressColor: '#',
 		height: 100,
-
-		// Set a bar width
-		barWidth: 2,
-		// Optionally, specify the spacing between bars
+		barWidth: 4,
 		barGap: 1,
-		// And the bar radius
 		barRadius: 2,
-
-		/**
-		 * Render a waveform as a squiggly line
-		 * @see https://css-tricks.com/making-an-audio-waveform-visualizer-with-vanilla-javascript/
-		 */
-		// renderFunction: (channels, ctx) => {
-		// 	const { width, height } = ctx.canvas
-		// 	const scale = channels[0].length / width
-		// 	const step = 10
-
-		// 	ctx.translate(0, height / 2)
-		// 	ctx.strokeStyle = ctx.fillStyle
-		// 	ctx.beginPath()
-
-		// 	for (let i = 0; i < width; i += step * 2) {
-		// 		const index = Math.floor(i * scale)
-		// 		const value = Math.abs(channels[0][index])
-		// 		let x = i
-		// 		let y = value * height
-
-		// 		ctx.moveTo(x, 0)
-		// 		ctx.lineTo(x, y)
-		// 		ctx.arc(x + step / 2, y, step / 2, Math.PI, 0, true)
-		// 		ctx.lineTo(x + step, 0)
-
-		// 		x = x + step
-		// 		y = -y
-		// 		ctx.moveTo(x, 0)
-		// 		ctx.lineTo(x, y)
-		// 		ctx.arc(x + step / 2, y, step / 2, Math.PI, 0, false)
-		// 		ctx.lineTo(x + step, 0)
-		// 	}
-
-		// 	ctx.stroke()
-		// 	ctx.closePath()
-		// },
 	})
 
 	// Callback to parent when file is loaded
@@ -148,7 +109,10 @@ export function StemPlayer({
 							{formatAddress(details.createdBy.address)}
 						</Link>
 					</div>
-					<div className="absolute -top-3 right-4 rounded-md bg-[--arbor-pink] px-1.5 py-1 text-xs font-bold uppercase text-[--arbor-white]">
+					<div
+						className="absolute -top-3 right-4 rounded-md border-2 border-[--arbor-black] px-1.5 py-1 text-xs font-bold uppercase text-[--arbor-white] [text-shadow:_1.5px_1.5px_0px_rgba(0,0,0,1)]"
+						style={{ backgroundColor: STEM_COLORS[details.type] }}
+					>
 						{details.type}
 					</div>
 				</div>

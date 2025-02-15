@@ -18,9 +18,9 @@ const QUERY_PROJECT_DETAILS = gql(
 				type
 				filename
 				audioCID
-				# createdBy {
-				# 	address
-				# }
+				createdBy {
+					address
+				}
 			}
 			queue {
 				id
@@ -45,3 +45,4 @@ export const useProjectDetails = (id: string) => {
 }
 
 export type ProjectDetailsData = ResultOf<typeof QUERY_PROJECT_DETAILS>['project']
+export type ProjectStemData = NonNullable<ProjectDetailsData['stems']>[number]

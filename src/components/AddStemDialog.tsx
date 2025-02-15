@@ -18,9 +18,10 @@ import { VerticalBarSmall } from './ProjectDetails'
 
 type Props = {
 	projectId: string
+	disabled: boolean
 }
 
-export function AddStemDialog({ projectId }: Props) {
+export function AddStemDialog({ projectId, disabled }: Props) {
 	const [open, setOpen] = useState(false)
 	const [file, setFile] = useState<File | null>(null)
 	const [name, setName] = useState<string>('')
@@ -28,18 +29,13 @@ export function AddStemDialog({ projectId }: Props) {
 	const [uploading, setUploading] = useState(false)
 	const [errorMsg, setErrorMsg] = useState<string | null>(null)
 	const [successMsg, setSuccessMsg] = useState<string | null>(null)
-	const { isConnected, connectedAccount } = useWeb3()
+	const { connectedAccount } = useWeb3()
 
 	const handleUpload = async () => {
 		setSuccessMsg(null)
 		setErrorMsg(null)
 
 		try {
-			if (!isConnected) {
-				setErrorMsg('Please connect a Web3 wallet.')
-				return
-			}
-
 			if (!name || !type || !file) {
 				setErrorMsg('Please fill in all required fields.')
 				return
@@ -91,9 +87,9 @@ export function AddStemDialog({ projectId }: Props) {
 			<div className="relative">
 				<VerticalBarSmall />
 				<button
-					className="inline-flex items-center rounded border-2 border-[--arbor-black] px-3 py-1 font-semibold hover:border-[--arbor-gray-gray] hover:bg-gray-200 hover:text-[--arbor-gray]"
+					className="inline-flex items-center rounded border-2 border-[--arbor-black] px-3 py-1 font-semibold hover:border-[--arbor-gray-gray] hover:bg-gray-200 hover:text-[--arbor-gray] disabled:cursor-not-allowed disabled:border-gray-500 disabled:bg-gray-400 disabled:text-gray-300"
 					onClick={() => setOpen(true)}
-					disabled={!isConnected}
+					disabled={disabled}
 				>
 					<LuCirclePlus className="mr-1 size-6" /> Add Stem
 				</button>
@@ -201,11 +197,6 @@ export function AddStemDialog({ projectId }: Props) {
 										/>
 									</div>
 									{!file && errorMsg && <p className="mt-1 text-sm text-red-600">File is required</p>}
-									{/* <TbDeviceDesktopSearch aria-hidden="true" className="-ml-0.5 size-4 text-gray-400" /> */}
-
-									{/* <p id="fileUpload-error" className="mt-2 text-sm text-red-600">
-										File must be a valid .wav audio file.
-									</p> */}
 								</div>
 							</div>
 							<div className="flex items-center justify-between space-x-2">
