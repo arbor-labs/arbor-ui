@@ -49,7 +49,7 @@ export function AddStemDialog({ projectId, disabled }: Props) {
 			formData.append('createdBy', String(connectedAccount?.address))
 
 			// Make request
-			const resp = await fetch('http://localhost:5280/pinata/upload', {
+			const resp = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/pinata/upload`, {
 				method: 'POST',
 				body: formData,
 				headers: {

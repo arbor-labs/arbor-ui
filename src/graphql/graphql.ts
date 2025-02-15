@@ -21,7 +21,9 @@ import type { Address, Hex } from 'viem'
 
 import type { introspection } from './graphql-env.d.ts'
 
-const GRAPHQL_API_BASE_URL = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:5280/graphql'
+const GRAPHQL_API_BASE_URL = process.env.NEXT_PUBLIC_API_URL
+	? `${process.env.NEXT_PUBLIC_API_URL}/graphql`
+	: 'http://localhost:5280/graphql'
 
 /**
  * A tag for writing GraphQL queries in TypeScript wrapping the gql.tada style
