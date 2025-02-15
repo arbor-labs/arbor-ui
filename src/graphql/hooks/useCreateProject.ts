@@ -11,23 +11,10 @@ const MUTATION_CREATE_PROJECT = gql(`
 			bpm
 			trackLimit
 			tags
-			stems {
-				id
-				bpm
-			}
 			queue {
 				id
-				# stems {
-				# 	id
-				# 	votes
-				# }
 			}
 			createdBy {
-				id
-				address
-			}
-			collaborators {
-				id
 				address
 			}
 		}

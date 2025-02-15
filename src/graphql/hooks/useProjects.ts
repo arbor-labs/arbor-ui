@@ -17,7 +17,6 @@ const QUERY_PROJECTS_LIST = gql(
 				}
 				collaborators {
 				  id
-				  address
 				}
 			}
 			meta {
