@@ -64,7 +64,7 @@ export function AddStemDialog({ projectId, disabled }: Props) {
 		} catch (e) {
 			console.error(e)
 			setErrorMsg(getErrorMessage(e))
-			setOpen(false)
+			handleClose()
 		} finally {
 			setUploading(false)
 		}
