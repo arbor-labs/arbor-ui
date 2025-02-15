@@ -1,12 +1,10 @@
 'use client'
-// import { Blob } from 'node:buffer'
 
 import { Dialog, DialogBackdrop, DialogPanel, DialogTitle } from '@headlessui/react'
 import { useState } from 'react'
 import { HiOutlineCloudUpload } from 'react-icons/hi'
 import { LuCirclePlus } from 'react-icons/lu'
 import { LuFileAudio } from 'react-icons/lu'
-import { TbDeviceDesktopSearch } from 'react-icons/tb'
 
 import { EStemType } from '$/lib/constants'
 import { useWeb3 } from '$/providers/Web3Provider'

@@ -8,7 +8,6 @@ import type WaveSurfer from 'wavesurfer.js'
 
 import { ProjectStemData, useProjectDetails } from '$/graphql/hooks/useProjectDetails'
 import { useWeb3 } from '$/providers/Web3Provider'
-// import { useWeb3 } from '$/providers/Web3Provider'
 import { formatAddress } from '$/utils/formatAddress'
 import { getErrorMessage } from '$/utils/getErrorMessage'
 
@@ -29,13 +28,12 @@ export const VerticalBarSmall = () => (
 
 export function ProjectDetails({ id }: Props) {
 	// Stems
-	const [uploadStemOpen, setUploadStemOpen] = useState<boolean>(false)
-	const [files, setFiles] = useState<Map<string, Blob>>(new Map())
 	const [mutedTracks, setMutedTracks] = useState<number[]>([])
 	const [soloedTracks, setSoloedTracks] = useState<number[]>([])
 	const [handleUnmuteAll, setHandleUnmuteAll] = useState<boolean>(false)
+	const [downloading, setDownloading] = useState<boolean>(false)
+	const [downloadingMsg, setDownloadingMsg] = useState<string>('')
 	// Play/Pause
-	const [blobs, setBlobs] = useState<Blob[]>([])
 	const [wsInstances, setWsInstances] = useState<Map<number, WaveSurfer>>(new Map())
 	const [isPlayingAll, setIsPlayingAll] = useState<boolean>(false)
 	// Minting
@@ -45,8 +43,6 @@ export function ProjectDetails({ id }: Props) {
 	// Notifications
 	const [successOpen, setSuccessOpen] = useState<boolean>(false)
 	const [successMsg, setSuccessMsg] = useState<string>('')
-	const [downloading, setDownloading] = useState<boolean>(false)
-	const [downloadingMsg, setDownloadingMsg] = useState<string>('')
 	const [errorOpen, setErrorOpen] = useState<boolean>(false)
 	const [errorMsg, setErrorMsg] = useState<string>('')
 	// Hooks
@@ -256,7 +252,7 @@ export function ProjectDetails({ id }: Props) {
 						<button
 							className="font-bold uppercase italic text-[--arbor-white]"
 							onClick={handleDownloadAll}
-							disabled={stems.length !== files.size || stems.length === 0}
+							disabled={stems.length === 0}
 						>
 							Export Stems
 						</button>

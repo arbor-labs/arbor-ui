@@ -1,7 +1,7 @@
 'use client'
 
 import { Transition } from '@headlessui/react'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { CgClose } from 'react-icons/cg'
 import { LuCircleCheckBig, LuCircleX } from 'react-icons/lu'
 
@@ -14,6 +14,15 @@ type Props = {
 }
 export function Notification({ isOpen, variant, title, text, onClose }: Props) {
 	const [show, setShow] = useState(isOpen)
+
+	useEffect(() => {
+		if (show) {
+			const timer = setTimeout(() => {
+				handleClose()
+			}, 7000)
+			return () => clearTimeout(timer)
+		}
+	}, [show])
 
 	const handleClose = () => {
 		setShow(false)
@@ -28,9 +37,16 @@ export function Notification({ isOpen, variant, title, text, onClose }: Props) {
 				className="pointer-events-none fixed inset-0 flex items-end px-4 py-6 sm:items-start sm:p-6"
 			>
 				<div className="flex w-full flex-col items-center space-y-4 sm:items-end">
-					{/* Notification panel, dynamically insert this into the live region when it needs to be displayed */}
-					<Transition show={show}>
-						<div className="data-closed:opacity-0 data-enter:duration-1000 data-enter:ease-out data-closed:data-enter:translate-y-2 data-leave:duration-1000 data-leave:ease-in data-closed:data-enter:sm:translate-x-2 data-closed:data-enter:sm:translate-y-0 pointer-events-auto w-full max-w-sm overflow-hidden rounded-lg bg-white shadow-lg ring-1 ring-black/5 transition">
+					<Transition
+						show={show}
+						enter="transform ease-out duration-300 transition"
+						enterFrom="translate-x-full opacity-0"
+						enterTo="translate-x-0 opacity-100"
+						leave="transform ease-in duration-200 transition"
+						leaveFrom="translate-x-0 opacity-100"
+						leaveTo="translate-x-full opacity-0"
+					>
+						<div className="pointer-events-auto w-full max-w-sm overflow-hidden rounded-lg bg-white shadow-lg ring-1 ring-black/5">
 							<div className="p-4">
 								<div className="flex items-start">
 									<div className="shrink-0">
