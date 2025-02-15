@@ -47,6 +47,7 @@ export function AddStemDialog({ projectId, disabled }: Props) {
 			formData.append('type', type)
 			formData.append('projectId', projectId)
 			formData.append('createdBy', String(connectedAccount?.address))
+
 			// Make request
 			const resp = await fetch('http://localhost:5280/pinata/upload', {
 				method: 'POST',
@@ -55,6 +56,7 @@ export function AddStemDialog({ projectId, disabled }: Props) {
 					Accept: 'application/json',
 				},
 			})
+
 			// Inspect response
 			const data = await resp.json()
 			if (resp.ok) {
@@ -63,6 +65,7 @@ export function AddStemDialog({ projectId, disabled }: Props) {
 			} else {
 				throw new Error(data.message)
 			}
+
 			setOpen(false)
 		} catch (e) {
 			console.error(e)
