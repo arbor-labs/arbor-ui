@@ -71,4 +71,16 @@ export const onboardConfig = init({
 		// 	privacyUrl: 'https://arbor.audio/privacy',
 		// },
 	},
+	accountCenter: {
+		desktop: {
+			enabled: false,
+			minimal: true,
+			position: 'topRight',
+		},
+		mobile: {
+			enabled: false,
+			minimal: true,
+			position: 'topRight',
+		},
+	},
 })
