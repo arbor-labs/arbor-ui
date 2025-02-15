@@ -1,5 +1,6 @@
 import { Popover, PopoverButton, PopoverGroup, PopoverPanel } from '@headlessui/react'
 import { HiOutlineChevronDown } from 'react-icons/hi'
+import { LuWalletMinimal } from 'react-icons/lu'
 
 import { useWeb3 } from '$/providers/Web3Provider'
 import { formatAddress } from '$/utils/formatAddress'
@@ -30,13 +31,26 @@ export function ConnectWalletButton() {
 			</PopoverGroup>
 		</div>
 	) : (
-		<button
-			type="button"
-			className="block rounded-md bg-[--arbor-purple] px-3 py-2 text-sm font-[800] uppercase italic text-[--arbor-white] hover:bg-[--arbor-purple-hover] disabled:bg-[--arbor-purple-hover]"
-			onClick={handleConnectDisconnect}
-			disabled={connecting}
-		>
-			{connecting ? 'Connecting...' : 'Connect Wallet'}
-		</button>
+		<>
+			{/* Mobile icon */}
+			<button
+				type="button"
+				className="block rounded-md p-2 text-[--arbor-white] hover:text-[--arbor-purple] disabled:text-[--arbor-gray-light] sm:hidden"
+				onClick={handleConnectDisconnect}
+				disabled={connecting}
+			>
+				<LuWalletMinimal className="size-6" />
+			</button>
+
+			{/* Desktop button */}
+			<button
+				type="button"
+				className="hidden rounded-md bg-[--arbor-purple] px-3 py-2 text-sm font-[800] uppercase italic text-[--arbor-white] hover:bg-[--arbor-purple-hover] disabled:bg-[--arbor-purple-hover] sm:block"
+				onClick={handleConnectDisconnect}
+				disabled={connecting}
+			>
+				{connecting ? 'Connecting...' : 'Connect Wallet'}
+			</button>
+		</>
 	)
 }
