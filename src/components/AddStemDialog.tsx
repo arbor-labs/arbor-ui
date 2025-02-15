@@ -54,12 +54,14 @@ export function AddStemDialog({ projectId, disabled }: Props) {
 				},
 			})
 
+			console.log({ resp, json: await resp.json() })
+
 			if (resp.ok) {
 				const data = await resp.json()
 				console.log('upload success', { data })
 				setSuccessMsg('The new stem has been added to the project and pinned by Pinata on IPFS.')
 			} else {
-				throw new Error('An error occurred while uploading to Pinata.')
+				throw new Error((await resp.json()).message)
 			}
 
 			setOpen(false)
