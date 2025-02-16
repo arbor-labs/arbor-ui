@@ -21,7 +21,6 @@ export interface DetailsProp {
 	filename: string
 	audioCID: string
 	createdBy: {
-		id: string
 		address: Address
 	}
 }
@@ -30,9 +29,7 @@ type Props = {
 	idx: number
 	details: DetailsProp
 	isStemDetails?: boolean
-	isQueued?: boolean
 	onInit: (idx: number, wavesurfer: WaveSurfer) => void
-	onPlay?: (idx: number) => void
 	onSolo?: (idx: number) => void
 	onMute?: (idx: number) => void
 	onSkipPrev?: () => void
@@ -44,9 +41,7 @@ export function StemPlayer({
 	idx,
 	details,
 	isStemDetails,
-	isQueued,
 	onInit,
-	onPlay,
 	onSolo,
 	onMute,
 	onSkipPrev,

@@ -5,13 +5,18 @@ const QUERY_PROJECT_DETAILS = gql(
 	query GetProjectDetails($id: String!) {
 		project(id: $id) {
 			id
-			createdAt
-			updatedAt
 			name
 			description
 			bpm
 			trackLimit
 			tags
+			createdAt
+			createdBy {
+				address
+			}
+			collaborators {
+				address
+			}
 			stems {
 				id
 				name
@@ -19,24 +24,11 @@ const QUERY_PROJECT_DETAILS = gql(
 				filename
 				audioCID
 				createdBy {
-					id
 					address
 				}
 			}
 			queue {
 				id
-				# stems {
-				#   id
-				#   votes
-				# }
-			}
-			createdBy {
-				id
-				address
-			}
-			collaborators {
-				id
-				address
 			}
 		}
 	}
@@ -47,5 +39,5 @@ export const useProjectDetails = (id: string) => {
 	return useGqlQuery(QUERY_PROJECT_DETAILS, { id })
 }
 
-export type ProjectDetailsData = ResultOf<typeof QUERY_PROJECT_DETAILS>['project']
+export type ProjectDetailsData = NonNullable<ResultOf<typeof QUERY_PROJECT_DETAILS>['project']>
 export type ProjectStemData = NonNullable<ProjectDetailsData['stems']>[number]

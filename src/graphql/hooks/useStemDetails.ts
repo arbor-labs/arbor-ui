@@ -7,11 +7,11 @@ const QUERY_STEM_DETAILS = gql(
 			id
 			name
 			type
-			metadataCID
 			audioCID
 			filename
 			filetype
 			filesize
+			createdAt
 			createdBy {
 				id
 				address
@@ -20,15 +20,11 @@ const QUERY_STEM_DETAILS = gql(
 				id
 				name
 			}
-			createdAt
-			updatedAt
 		}
 	}
 `,
 )
 
-export function useStemDetails(id: string) {
-	return useGqlQuery(QUERY_STEM_DETAILS, { id })
-}
+export const useStemDetails = (id: string) => useGqlQuery(QUERY_STEM_DETAILS, { id })
 
-export type StemDetailsData = ResultOf<typeof QUERY_STEM_DETAILS>['stem']
+export type StemDetailsData = NonNullable<ResultOf<typeof QUERY_STEM_DETAILS>['stem']>

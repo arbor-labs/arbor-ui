@@ -41,7 +41,7 @@ const GRAPHQL_API_BASE_URL = process.env.NEXT_PUBLIC_API_URL
 export const gql = initGraphQLTada<{
 	introspection: introspection
 	scalars: {
-		GraphQLISODateTime: Date | string
+		DateTimeISO: Date | string
 		EthereumAddress: Address
 		EthereumHash: Hex
 		EthereumSignature: Hex

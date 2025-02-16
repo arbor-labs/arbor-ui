@@ -1,6 +1,6 @@
 'use client'
 import Link from 'next/link'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { FaPlay } from 'react-icons/fa'
 import { FaPause } from 'react-icons/fa'
 import WaveSurfer from 'wavesurfer.js'
@@ -126,11 +126,15 @@ export function StemDetails({ id }: Props) {
 								<span className="font-medium text-gray-700">File Size:</span> {formatBytes(stem.filesize)}
 							</p>
 							<p>
-								<span className="font-medium text-gray-700">Created:</span> {formatDate(String(stem.createdAt))}
+								<span className="font-medium text-gray-700">Created:</span> {formatDate(stem.createdAt)}
 							</p>
 							<p>
 								<span className="font-medium text-gray-700">Audio File:</span>{' '}
-								<Link href={`${PINATA_BASE_URL}${stem.audioCID}`} target="_blank" className="hover:text-[--arbor-pink]">
+								<Link
+									href={`${PINATA_BASE_URL}${stem.audioCID}`}
+									target="_blank"
+									className="underline hover:text-[--arbor-pink]"
+								>
 									View on IPFS
 								</Link>
 							</p>
@@ -139,7 +143,7 @@ export function StemDetails({ id }: Props) {
 								{stem.projectsAddedTo.map((project, idx) => (
 									<span key={project.id}>
 										{idx > 0 && ', '}
-										<Link href={`/projects/${project.id}`} className="hover:text-[--arbor-pink]">
+										<Link href={`/projects/${project.id}`} className="underline hover:text-[--arbor-pink]">
 											{project.name}
 										</Link>
 									</span>
