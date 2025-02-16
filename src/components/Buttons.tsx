@@ -92,14 +92,13 @@ export function StemPlayerControl({
 	children,
 	variant = 'primary',
 }: StemPlayerControlProps) {
-	const baseClasses = 'rounded-md border-2 border-[--arbor-black] px-1.5 py-0.5 text-xs font-semibold'
+	const baseClasses = 'rounded-md border-2 border-[--arbor-black] px-1.5 py-0.5 text-xs font-semibold hover:bg-gray-500'
 	const disabledClasses =
 		'disabled:cursor-not-allowed disabled:border-gray-500 disabled:bg-gray-400 disabled:text-gray-300'
 
 	const variantClasses = {
 		primary: `text-[--arbor-white] ${active ? 'bg-[--arbor-gray]' : 'bg-[--arbor-gray-light]'}`,
-		secondary:
-			'text-[--arbor-black] hover:text-[--arbor-purple-hover] hover:bg-[--arbor-gray-light] hover:text-[--arbor-white] border-2 border-[--arbor-black] py-2 px-2',
+		secondary: 'text-[--arbor-white] bg-[--arbor-gray-light] hover:bg-[--arbor-gray-light] py-2 px-2',
 	}
 
 	return (

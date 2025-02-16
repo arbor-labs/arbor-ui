@@ -64,15 +64,13 @@ export function StemDetails({ id }: Props) {
 		}
 
 		const handleFinish = (_idx: number) => {
-			if (ws) {
-				ws.stop()
-				setIsPlaying(false)
-			}
+			setIsPlaying(false)
 		}
 
 		const handleStop = (_idx: number) => {
 			if (ws) {
 				ws.stop()
+				ws.seekTo(0)
 				setIsPlaying(false)
 			}
 		}

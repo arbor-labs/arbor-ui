@@ -152,6 +152,15 @@ export function StemPlayer({
 				</div>
 				<div className="flex">
 					<div className="flex items-center justify-start border-r-2 border-[--arbor-black] bg-gray-200 p-2 px-3">
+						{!isStemDetails && (
+							<button
+								className="mr-2 flex size-14 items-center justify-center rounded-md bg-[--arbor-black] text-[--arbor-white] disabled:cursor-not-allowed disabled:border-gray-500 disabled:bg-gray-400 disabled:text-gray-300"
+								onClick={togglePlayPause}
+								disabled={isLoading}
+							>
+								{isPlaying ? <FaPause /> : <FaPlay />}
+							</button>
+						)}
 						<div className={`flex flex-col`}>
 							{isStemDetails ? (
 								<>
@@ -161,21 +170,14 @@ export function StemPlayer({
 										variant="secondary"
 										className="my-1"
 									>
-										<LuSkipBack />
+										<LuSkipBack size={16} />
 									</StemPlayerControl>
 									<StemPlayerControl onClick={() => onStop?.(idx)} title="Stop stem" variant="secondary">
-										<RiStopLargeLine />
+										<RiStopLargeLine size={16} />
 									</StemPlayerControl>
 								</>
 							) : (
 								<>
-									<button
-										className="mr-2 flex size-14 items-center justify-center rounded-md bg-[--arbor-black] text-[--arbor-white] disabled:cursor-not-allowed disabled:border-gray-500 disabled:bg-gray-400 disabled:text-gray-300"
-										onClick={togglePlayPause}
-										disabled={isLoading}
-									>
-										{isPlaying ? <FaPause /> : <FaPlay />}
-									</button>
 									<StemPlayerControl
 										onClick={toggleMute}
 										title="Mute"
