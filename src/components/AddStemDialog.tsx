@@ -17,9 +17,10 @@ import { VerticalBarSmall } from './ProjectDetails'
 type Props = {
 	projectId: string
 	disabled: boolean
+	onSuccess: () => void
 }
 
-export function AddStemDialog({ projectId, disabled }: Props) {
+export function AddStemDialog({ projectId, disabled, onSuccess }: Props) {
 	const [open, setOpen] = useState(false)
 	const [file, setFile] = useState<File | null>(null)
 	const [name, setName] = useState<string>('')
@@ -60,19 +61,17 @@ export function AddStemDialog({ projectId, disabled }: Props) {
 			// Inspect response
 			const data = await resp.json()
 			if (resp.ok) {
-				console.log('upload success', { data })
 				setSuccessMsg('The new stem has been added to the project and pinned by Pinata on IPFS.')
+				onSuccess()
 			} else {
-				throw new Error(data.message)
+				setErrorMsg(getErrorMessage(data.message))
 			}
-
-			setOpen(false)
 		} catch (e) {
 			console.error(e)
 			setErrorMsg(getErrorMessage(e))
 			handleClose()
 		} finally {
-			setUploading(false)
+			handleClose()
 		}
 	}
 
@@ -82,8 +81,6 @@ export function AddStemDialog({ projectId, disabled }: Props) {
 		if (type) setType(null)
 		if (file) setFile(null)
 		if (uploading) setUploading(false)
-		// if (errorMsg) setErrorMsg(null)
-		// if (successMsg) setSuccessMsg(null)
 	}
 
 	return (

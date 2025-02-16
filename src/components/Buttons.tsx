@@ -10,7 +10,7 @@ type Props = {
 
 export function ButtonPrimary({ children, className, color, onClick, disabled, ...props }: Props) {
 	let classes =
-		'inline-block rounded-md px-3 py-2 text-sm text-[--arbor-white] font-[800] uppercase italic border-2 border-[--arbor-black] disabled:bg-gray-400 disabled:border-gray-500 disabled:text-gray-300 '
+		'inline-block rounded-md px-3 py-2 text-sm text-[--arbor-white] font-[800] uppercase italic border-2 border-[--arbor-black] disabled:bg-gray-400 disabled:border-gray-500 disabled:text-gray-300 disabled:cursor-not-allowed '
 	switch (color) {
 		case 'red':
 			classes += 'bg-[--arbor-red] hover:bg-[--arbor-red-hover]'
@@ -40,7 +40,7 @@ export function ButtonPrimary({ children, className, color, onClick, disabled, .
 
 export function ButtonSecondary({ children, className, color, onClick, disabled, ...props }: Props) {
 	let classes =
-		'inline-block rounded-md px-3 py-2 text-sm font-[800] uppercase italic border-2 bg-none disabled:bg-gray-400 disabled:border-gray-500 disabled:text-gray-300 '
+		'inline-block rounded-md px-3 py-2 text-sm font-[800] uppercase italic border-2 bg-none disabled:bg-gray-400 disabled:border-gray-500 disabled:text-gray-300 disabled:cursor-not-allowed '
 	switch (color) {
 		case 'red':
 			classes +=

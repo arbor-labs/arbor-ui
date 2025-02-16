@@ -6,9 +6,9 @@ export const STEM_COLORS: Record<string, string> = {
 	melody: '#5E548E',
 	harmony: '#FFD6D8',
 	rhythm: '#E74B7A',
-	bass: '#20163B',
+	bass: '#d8c5f2',
 	drums: '#9F86C0',
-	vocals: '#7E0017',
+	vocals: '#710c29',
 	fx: '#C9184A',
 	other: '#87a1ca',
 }

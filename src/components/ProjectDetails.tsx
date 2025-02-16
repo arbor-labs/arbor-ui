@@ -22,6 +22,13 @@ type Props = {
 	id: string
 }
 
+type StemState = {
+	playing: boolean
+	muted: boolean
+	soloed: boolean
+	finished: boolean
+}
+
 export const VerticalBarSmall = () => (
 	<span className="ml-[37px] block min-h-[32px] w-[2px] bg-[--arbor-black]" aria-hidden="true" />
 )
@@ -33,6 +40,7 @@ export function ProjectDetails({ id }: Props) {
 	const [handleUnmuteAll, setHandleUnmuteAll] = useState<boolean>(false)
 	const [downloading, setDownloading] = useState<boolean>(false)
 	const [downloadingMsg, setDownloadingMsg] = useState<string>('')
+	const [stemState, setStemState] = useState<Map<number, StemState>>(new Map())
 	// Play/Pause
 	const [wsInstances, setWsInstances] = useState<Map<number, WaveSurfer>>(new Map())
 	const [isPlayingAll, setIsPlayingAll] = useState<boolean>(false)
@@ -47,7 +55,7 @@ export function ProjectDetails({ id }: Props) {
 	const [errorMsg, setErrorMsg] = useState<string>('')
 	// Hooks
 	const { isConnected } = useWeb3()
-	const { data, isLoading, isError, error } = useProjectDetails(id)
+	const { data, isLoading, isError, error, refetch } = useProjectDetails(id)
 
 	useEffect(() => {
 		if (soloedTracks.length > 0 && soloedTracks.length === wsInstances.size) {
@@ -65,6 +73,30 @@ export function ProjectDetails({ id }: Props) {
 			}
 		})
 	}, [soloedTracks, mutedTracks])
+
+	// Reset back to initial state after all stems have finished playing
+	useEffect(() => {
+		if (stemState.size !== 0 && stemState.size === wsInstances.size) {
+			const allStemsFinished = Array.from(stemState.values()).every(state => state.finished)
+			if (allStemsFinished) {
+				// Reset global playing state
+				setIsPlayingAll(false)
+
+				// Reset all individual stem states
+				setStemState(prev => {
+					const next = new Map(prev)
+					for (const [idx, state] of next.entries()) {
+						next.set(idx, {
+							...state,
+							playing: false,
+							finished: false,
+						})
+					}
+					return next
+				})
+			}
+		}
+	}, [stemState])
 
 	if (isLoading)
 		return (
@@ -102,6 +134,7 @@ export function ProjectDetails({ id }: Props) {
 		*/
 		const onWavesInit = (idx: number, ws: WaveSurfer) => {
 			setWsInstances(prev => new Map(prev).set(idx, ws))
+			setStemState(prev => new Map(prev).set(idx, { playing: false, muted: false, soloed: false, finished: false }))
 		}
 
 		// Play or pause each stem audio from wavesurfer
@@ -141,6 +174,21 @@ export function ProjectDetails({ id }: Props) {
 				setMutedTracks([...mutedTracks, idx])
 				setSoloedTracks(soloedTracks.filter(i => i !== idx))
 			}
+		}
+
+		// Mark the stem as finished
+		const handleFinish = (idx: number) => {
+			setStemState(prev => {
+				const next = new Map(prev)
+				const state = next.get(idx)
+				if (state) {
+					next.set(idx, { ...state, finished: true, playing: false })
+				}
+				return next
+			})
+			wsInstances.get(idx)?.setTime(0)
+			wsInstances.get(idx)?.seekTo(0)
+			wsInstances.get(idx)?.play()
 		}
 
 		const onNotificationClose = () => {
@@ -293,7 +341,14 @@ export function ProjectDetails({ id }: Props) {
 					stems.map((stem: ProjectStemData, idx: number) => (
 						<div key={idx} className="relative">
 							<VerticalBarSmall />
-							<StemPlayer idx={idx} details={stem} onInit={onWavesInit} onMute={handleMute} onSolo={handleSolo} />
+							<StemPlayer
+								idx={idx}
+								details={stem}
+								onInit={onWavesInit}
+								onMute={handleMute}
+								onSolo={handleSolo}
+								onFinish={handleFinish}
+							/>
 						</div>
 					))
 				) : (
@@ -303,7 +358,9 @@ export function ProjectDetails({ id }: Props) {
 				)}
 
 				{/* Add stem button */}
-				{!limitReached && <AddStemDialog projectId={project.id} disabled={!isConnected || limitReached} />}
+				{!limitReached && (
+					<AddStemDialog projectId={project.id} disabled={!isConnected || limitReached} onSuccess={refetch} />
+				)}
 
 				{successOpen && (
 					<Notification isOpen variant="success" title="Success!" text={successMsg} onClose={onNotificationClose} />
