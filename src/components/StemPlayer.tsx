@@ -19,8 +19,9 @@ export interface DetailsProp {
 	name: string
 	type: string
 	filename: string
-	audioCID: unknown // for some reason gql-tada is not converting this to a string
+	audioCID: string
 	createdBy: {
+		id: string
 		address: Address
 	}
 }
@@ -30,7 +31,7 @@ type Props = {
 	details: DetailsProp
 	isStemDetails?: boolean
 	isQueued?: boolean
-	onInit: (idx: number, ws: WaveSurfer) => void
+	onInit: (idx: number, wavesurfer: WaveSurfer) => void
 	onPlay?: (idx: number) => void
 	onSolo?: (idx: number) => void
 	onMute?: (idx: number) => void

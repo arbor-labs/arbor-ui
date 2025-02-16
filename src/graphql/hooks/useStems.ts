@@ -34,4 +34,4 @@ export const useGetStems = () => {
 	return useGqlQuery(QUERY_STEMS_LIST)
 }
 
-export type StemCardData = NonNullable<ResultOf<typeof QUERY_STEMS_LIST>['stems']>['items'][number]
+export type StemCardData = NonNullable<ResultOf<typeof QUERY_STEMS_LIST>['stems']['items']>[number]

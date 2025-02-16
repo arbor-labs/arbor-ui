@@ -91,6 +91,9 @@ devDependencies:
   '@eslint/eslintrc':
     specifier: ^3
     version: 3.2.0
+  '@gql.tada/cli-utils':
+    specifier: ^1.6.3
+    version: 1.6.3(@0no-co/graphqlsp@1.12.16)(graphql@16.10.0)(typescript@5.7.3)
   '@tanstack/eslint-plugin-query':
     specifier: 5.66.0
     version: 5.66.0(eslint@9.18.0)(typescript@5.7.3)
@@ -154,7 +157,6 @@ packages:
         optional: true
     dependencies:
       graphql: 16.10.0
-    dev: false
 
   /@0no-co/graphqlsp@1.12.16(graphql@16.10.0)(typescript@5.7.3):
     resolution:
@@ -166,7 +168,6 @@ packages:
       '@gql.tada/internal': 1.0.8(graphql@16.10.0)(typescript@5.7.3)
       graphql: 16.10.0
       typescript: 5.7.3
-    dev: false
 
   /@adraffy/ens-normalize@1.10.0:
     resolution:
@@ -2412,7 +2413,6 @@ packages:
       '@gql.tada/internal': 1.0.8(graphql@16.10.0)(typescript@5.7.3)
       graphql: 16.10.0
       typescript: 5.7.3
-    dev: false
 
   /@gql.tada/internal@1.0.8(graphql@16.10.0)(typescript@5.7.3):
     resolution:
@@ -2424,7 +2424,6 @@ packages:
       '@0no-co/graphql.web': 1.0.13(graphql@16.10.0)
       graphql: 16.10.0
       typescript: 5.7.3
-    dev: false
 
   /@graphql-typed-document-node/core@3.2.0(graphql@16.10.0):
     resolution:
@@ -8121,7 +8120,6 @@ packages:
     resolution:
       { integrity: sha512-AjqGKbDGUFRKIRCP9tCKiIGHyriz2oHEbPIbEtcSLSs4YjReZOIPQQWek4+6hjw62H9QShXHyaGivGiYVLeYFQ== }
     engines: { node: ^12.22.0 || ^14.16.0 || ^16.0.0 || >=17.0.0 }
-    dev: false
 
   /h3@1.14.0:
     resolution:

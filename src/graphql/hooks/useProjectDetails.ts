@@ -19,6 +19,7 @@ const QUERY_PROJECT_DETAILS = gql(
 				filename
 				audioCID
 				createdBy {
+					id
 					address
 				}
 			}

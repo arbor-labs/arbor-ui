@@ -7,7 +7,8 @@
 		"node": ">=20.0.0"
 	},
 	"scripts": {
-		"codegen": "gql-tada generate schema 'http://localhost:5280/graphql' --output './src/graphql/schema.graphql' && pnpm build",
+		"clean:schema": "rm -f ./src/graphql/schema.graphql && rm -f ./src/graphql/graphql.d.ts",
+		"codegen": "pnpm clean:schema && node ./scripts/codegen.mjs",
 		"dev": "next dev",
 		"build": "next build",
 		"start": "next start",
@@ -49,6 +50,7 @@
 		"@commitlint/cli": "^19.6.1",
 		"@commitlint/config-conventional": "^19.6.0",
 		"@eslint/eslintrc": "^3",
+		"@gql.tada/cli-utils": "^1.6.3",
 		"@tanstack/eslint-plugin-query": "5.66.0",
 		"@types/lodash": "^4.17.15",
 		"@types/node": "^20.17.16",

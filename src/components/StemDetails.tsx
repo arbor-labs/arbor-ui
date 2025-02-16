@@ -128,7 +128,7 @@ export function StemDetails({ id }: Props) {
 								<span className="font-medium text-gray-700">File Size:</span> {formatBytes(stem.filesize)}
 							</p>
 							<p>
-								<span className="font-medium text-gray-700">Created:</span> {formatDate(stem.createdAt)}
+								<span className="font-medium text-gray-700">Created:</span> {formatDate(String(stem.createdAt))}
 							</p>
 							<p>
 								<span className="font-medium text-gray-700">Audio File:</span>{' '}
