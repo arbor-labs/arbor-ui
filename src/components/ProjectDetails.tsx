@@ -9,6 +9,7 @@ import type WaveSurfer from 'wavesurfer.js'
 import { ProjectStemData, useProjectDetails } from '$/graphql/hooks/useProjectDetails'
 import { useWeb3 } from '$/providers/Web3Provider'
 import { formatAddress } from '$/utils/formatAddress'
+import { formatDate } from '$/utils/formatDate'
 import { getErrorMessage } from '$/utils/getErrorMessage'
 
 import { AddStemDialog } from './AddStemDialog'
@@ -235,6 +236,16 @@ export function ProjectDetails({ id }: Props) {
 							<h2 className="mb-4 text-5xl font-bold">{project.name}</h2>
 						</div>
 						<div className="mb-1">
+							<p className="mr-5 inline-block">
+								<span className="mr-1 inline-block font-semibold text-[--arbor-gray]">Created On</span>
+								{formatDate(project.createdAt)}
+							</p>
+							<p className="mr-5 inline-block">
+								<span className="mr-1 inline-block font-semibold text-[--arbor-gray]">Last Updated</span>
+								{formatDate(project.updatedAt)}
+							</p>
+						</div>
+						<div className="mb-4">
 							<p className="mr-5 inline-block">
 								<span className="mr-1 inline-block font-semibold text-[--arbor-gray]">BPM</span>
 								{project.bpm}

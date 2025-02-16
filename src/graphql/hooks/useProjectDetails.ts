@@ -11,6 +11,7 @@ const QUERY_PROJECT_DETAILS = gql(
 			trackLimit
 			tags
 			createdAt
+			updatedAt
 			createdBy {
 				address
 			}
