@@ -149,7 +149,11 @@ export function ProjectDetails({ id }: Props) {
 			setIsPlayingAll(false)
 		}
 		// Bring all tracks back to beginning
-		const handleSkipPrevAllTracks = () => wsInstances.forEach(ws => ws.seekTo(0))
+		const handleSkipPrevAllTracks = () =>
+			wsInstances.forEach(ws => {
+				ws.seekTo(0)
+				ws.setTime(0)
+			})
 
 		// Play all tracks
 		const handlePlayAllTracks = () => wsInstances.forEach(ws => ws.play())

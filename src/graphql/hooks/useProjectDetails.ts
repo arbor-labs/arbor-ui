@@ -30,9 +30,11 @@ const QUERY_PROJECT_DETAILS = gql(
 				# }
 			}
 			createdBy {
+				id
 				address
 			}
 			collaborators {
+				id
 				address
 			}
 		}

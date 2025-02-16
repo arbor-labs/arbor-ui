@@ -12,6 +12,8 @@ import { PINATA_BASE_URL, STEM_COLORS } from '$/lib/constants'
 import { formatAddress } from '$/utils/formatAddress'
 import { formatStemName } from '$/utils/formatStem'
 
+import { StemPlayerControl } from './Buttons'
+
 export interface DetailsProp {
 	id: string
 	name: string
@@ -138,57 +140,53 @@ export function StemPlayer({
 							{formatAddress(details.createdBy.address)}
 						</Link>
 					</div>
-					<div
-						className="absolute -top-3 right-4 rounded-md border-2 border-[--arbor-black] px-1.5 py-1 text-xs font-bold uppercase text-[--arbor-white] [text-shadow:_1.5px_1.5px_0px_rgba(0,0,0,1)]"
-						style={{ backgroundColor: STEM_COLORS[details.type] }}
-					>
-						{details.type}
-					</div>
+					{!isStemDetails && (
+						<div
+							className="absolute -top-3 right-4 rounded-md border-2 border-[--arbor-black] px-1.5 py-1 text-xs font-bold uppercase text-[--arbor-white] [text-shadow:_1.5px_1.5px_0px_rgba(0,0,0,1)]"
+							style={{ backgroundColor: STEM_COLORS[details.type] }}
+						>
+							{details.type}
+						</div>
+					)}
 				</div>
 				<div className="flex">
 					<div className="flex items-center justify-start border-r-2 border-[--arbor-black] bg-gray-200 p-2 px-3">
-						<button
-							className="mr-2 flex size-14 items-center justify-center rounded-md bg-[--arbor-black] text-[--arbor-white] disabled:cursor-not-allowed disabled:border-gray-500 disabled:bg-gray-400 disabled:text-gray-300"
-							onClick={togglePlayPause}
-							disabled={isLoading}
-						>
-							{isPlaying ? <FaPause /> : <FaPlay />}
-						</button>
 						<div className={`flex flex-col`}>
-							{isStemDetails || isQueued ? (
+							{isStemDetails ? (
 								<>
-									{isQueued && (
-										<button onClick={() => (onPlay ? onPlay(idx) : null)} title="Play stem">
-											<FaPlay />
-										</button>
-									)}
-									{isStemDetails && (
-										<button onClick={() => (onSkipPrev ? onSkipPrev() : null)} title="Skip to beginning">
-											<LuSkipBack />
-										</button>
-									)}
-									<button onClick={() => (onStop ? onStop(idx) : null)} title="Stop stem">
+									<StemPlayerControl
+										onClick={onSkipPrev}
+										title="Skip to beginning"
+										variant="secondary"
+										className="my-1"
+									>
+										<LuSkipBack />
+									</StemPlayerControl>
+									<StemPlayerControl onClick={() => onStop?.(idx)} title="Stop stem" variant="secondary">
 										<RiStopLargeLine />
-									</button>
+									</StemPlayerControl>
 								</>
 							) : (
 								<>
 									<button
-										className={`mb-1 rounded-md border-2 border-[--arbor-black] px-1.5 py-0.5 text-xs font-semibold text-[--arbor-white] disabled:cursor-not-allowed disabled:border-gray-500 disabled:bg-gray-400 disabled:text-gray-300 ${isMuted ? 'bg-[--arbor-gray]' : 'bg-[--arbor-gray-light]'}`}
+										className="mr-2 flex size-14 items-center justify-center rounded-md bg-[--arbor-black] text-[--arbor-white] disabled:cursor-not-allowed disabled:border-gray-500 disabled:bg-gray-400 disabled:text-gray-300"
+										onClick={togglePlayPause}
+										disabled={isLoading}
+									>
+										{isPlaying ? <FaPause /> : <FaPlay />}
+									</button>
+									<StemPlayerControl
 										onClick={toggleMute}
 										title="Mute"
 										disabled={isLoading}
+										active={isMuted}
+										className="mb-1"
 									>
 										M
-									</button>
-									<button
-										className={`rounded-md border-2 border-[--arbor-black] px-1.5 py-0.5 text-xs font-semibold text-[--arbor-white] disabled:cursor-not-allowed disabled:border-gray-500 disabled:bg-gray-400 disabled:text-gray-300 ${isSoloed ? 'bg-[--arbor-gray]' : 'bg-[--arbor-gray-light]'}`}
-										onClick={toggleSolo}
-										title="Solo"
-										disabled={isLoading}
-									>
+									</StemPlayerControl>
+									<StemPlayerControl onClick={toggleSolo} title="Solo" disabled={isLoading} active={isSoloed}>
 										S
-									</button>
+									</StemPlayerControl>
 								</>
 							)}
 						</div>

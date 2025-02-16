@@ -57,6 +57,11 @@ type PaginatedProjects {
 	meta: PaginationMeta!
 }
 
+type PaginatedStems {
+	items: [Stem!]
+	meta: PaginationMeta!
+}
+
 type PaginationMeta {
 	currentPage: Int!
 	itemCount: Int!
@@ -110,6 +115,8 @@ type Query {
 	getFile(cid: String!): PinataCIDResponse!
 	project(id: String!): Project!
 	projects(sort: SortInput): PaginatedProjects!
+	stem(id: String!): Stem!
+	stems(sort: SortInput): PaginatedStems!
 }
 
 type QueuedStem {
