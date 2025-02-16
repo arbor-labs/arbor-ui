@@ -5,6 +5,8 @@ import { LuWalletMinimal } from 'react-icons/lu'
 import { useWeb3 } from '$/providers/Web3Provider'
 import { formatAddress } from '$/utils/formatAddress'
 
+import { UserAvatar } from './UserAvatar'
+
 export function ConnectWalletButton() {
 	const { connectedAccount, connecting, isConnected, handleConnectDisconnect } = useWeb3()
 
@@ -13,6 +15,7 @@ export function ConnectWalletButton() {
 			<PopoverGroup>
 				<Popover className="relative">
 					<PopoverButton className="flex items-center gap-x-1 rounded-md border-2 border-[--arbor-purple] px-3 py-1 text-sm/6 font-semibold text-[--arbor-white]">
+						<UserAvatar avatarUri={connectedAccount.avatarUri} className="mr-1" />
 						{formatAddress(connectedAccount.address)}
 						<HiOutlineChevronDown aria-hidden="true" className="size-4 text-[--arbor-white]" />
 					</PopoverButton>

@@ -5,7 +5,7 @@ export const accountFragment = gql(`
 		id
 		address
 		displayName
-		avatarUrl
+		avatarUri
 		createdAt
 		updatedAt
 	}

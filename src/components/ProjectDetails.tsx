@@ -16,6 +16,7 @@ import { AddStemDialog } from './AddStemDialog'
 import { ErrorMessage } from './ErrorMessage'
 import { LoadingSpinner } from './LoadingSpinner'
 import { Notification } from './Notification'
+import { ProjectCollaboratorsDialog } from './ProjectCollaboratorsDialog'
 import { ProjectTag } from './ProjectTag'
 import { StemPlayer } from './StemPlayer'
 
@@ -31,7 +32,7 @@ type StemState = {
 }
 
 export const VerticalBarSmall = () => (
-	<span className="ml-[37px] block min-h-[32px] w-[4px] bg-[--arbor-black]" aria-hidden="true" />
+	<span className="ml-[28px] block min-h-[32px] w-[4px] bg-[--arbor-black] sm:ml-[37px]" aria-hidden="true" />
 )
 
 export function ProjectDetails({ id }: Props) {
@@ -213,16 +214,16 @@ export function ProjectDetails({ id }: Props) {
 				<div className="relative flex items-center justify-start">
 					<div className="mr-6 h-full w-24 sm:mr-4">
 						<span
-							className="absolute left-[38px] top-1 block h-full min-h-[400px] w-[4px] bg-[--arbor-black] sm:min-h-[390px] md:min-h-[354px]"
+							className="absolute left-[28px] top-1 block h-full min-h-[400px] w-[4px] bg-[--arbor-black] sm:left-[38px] sm:min-h-[390px] md:min-h-[354px]"
 							aria-hidden="true"
 						/>
 						<button
-							className={`absolute top-1 size-20 rounded-xl bg-[--arbor-black] text-[--arbor-white] shadow-none hover:bg-[--arbor-gray] ${stems.length === 0 ? 'cursor-not-allowed' : 'cursor-pointer'} place-items-center`}
+							className={`absolute top-1 size-16 rounded-xl bg-[--arbor-black] text-[--arbor-white] shadow-none hover:bg-[--arbor-gray] sm:size-20 ${stems.length === 0 ? 'cursor-not-allowed' : 'cursor-pointer'} place-items-center`}
 							onClick={togglePlayPauseAllTracks}
 							disabled={stems.length === 0}
 							title={isPlayingAll ? 'Pause playback' : 'Play all stems simultaneously'}
 						>
-							{isPlayingAll ? <FaPause className="size-8" /> : <FaPlay className="size-8" />}
+							{isPlayingAll ? <FaPause className="size-6 sm:size-8" /> : <FaPlay className="size-6 sm:size-8" />}
 						</button>
 					</div>
 					<div className="grow">
@@ -293,32 +294,21 @@ export function ProjectDetails({ id }: Props) {
 				{/* Global stems header */}
 				<div className="relative">
 					<div className="mt-16 flex items-center justify-between rounded-t-lg bg-[--arbor-black] px-3 py-5 text-[--arbor-white]">
-						<h3 className="text-2xl font-semibold uppercase italic">Song Stems</h3>
-						<div className="flex grow items-center justify-center uppercase italic">
+						<h3 className="mr-4 text-2xl font-semibold uppercase italic">Song Stems</h3>
+						<div className="flex grow items-center justify-between uppercase italic">
 							<p>
 								{stems.length} Stem{stems.length === 1 ? '' : 's'} from {collaborators.length} Collaborator
 								{collaborators.length === 1 ? '' : 's'}
 							</p>
-							<div className="ml-2 flex space-x-2">
-								{/* TODO: create a UserAvatar component */}
-								{collaborators.map((c, idx) => (
-									<a
-										key={idx}
-										href={`/users/${c}`}
-										className="flex size-8 cursor-pointer items-center justify-center rounded-full border border-pink-700 bg-pink-500 hover:bg-pink-600"
-									>
-										<span className="text-white">P</span>
-									</a>
-								))}
-							</div>
+							<ProjectCollaboratorsDialog collaborators={collaborators} stems={stems} disabled={stems.length === 0} />
 						</div>
-						<button
+						{/* <button
 							className="font-bold uppercase italic text-[--arbor-white]"
 							onClick={handleDownloadAll}
 							disabled={stems.length === 0}
 						>
 							Export Stems
-						</button>
+						</button> */}
 					</div>
 
 					{/* Global playback submenu */}

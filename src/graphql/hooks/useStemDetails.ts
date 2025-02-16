@@ -15,6 +15,7 @@ const QUERY_STEM_DETAILS = gql(
 			createdBy {
 				id
 				address
+				avatarUri
 			}
 			projectsAddedTo {
 				id

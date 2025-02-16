@@ -6,7 +6,7 @@ import { FaPause } from 'react-icons/fa'
 import WaveSurfer from 'wavesurfer.js'
 
 import { useStemDetails } from '$/graphql/hooks/useStemDetails'
-import { PINATA_BASE_URL, STEM_COLORS } from '$/lib/constants'
+import { PINATA_BASE_URL } from '$/lib/constants'
 import { formatAddress } from '$/utils/formatAddress'
 import { formatBytes } from '$/utils/formatBytes'
 import { formatDate } from '$/utils/formatDate'
@@ -16,6 +16,7 @@ import { ErrorMessage } from './ErrorMessage'
 import { LoadingSpinner } from './LoadingSpinner'
 import { Notification } from './Notification'
 import { StemPlayer } from './StemPlayer'
+import { StemTypeTag } from './StemTypeTag'
 
 type Props = {
 	id: string
@@ -110,12 +111,7 @@ export function StemDetails({ id }: Props) {
 							</p>
 							<div className="mb-4 flex items-center space-x-4">
 								<h2 className="text-5xl font-bold">{stem.name}</h2>
-								<div
-									className="rounded-md border-2 border-[--arbor-black] px-2 py-1 text-sm font-bold uppercase text-[--arbor-white] [text-shadow:_1.5px_1.5px_0px_rgba(0,0,0,1)]"
-									style={{ backgroundColor: STEM_COLORS[stem.type] }}
-								>
-									{stem.type}
-								</div>
+								<StemTypeTag type={stem.type} />
 							</div>
 						</div>
 						<div className="mb-4 space-y-2 text-lg font-light text-gray-500">

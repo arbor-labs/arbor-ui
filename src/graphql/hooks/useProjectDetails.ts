@@ -14,9 +14,12 @@ const QUERY_PROJECT_DETAILS = gql(
 			updatedAt
 			createdBy {
 				address
+				avatarUri
 			}
 			collaborators {
+				id
 				address
+				avatarUri
 			}
 			stems {
 				id
@@ -42,3 +45,5 @@ export const useProjectDetails = (id: string) => {
 
 export type ProjectDetailsData = NonNullable<ResultOf<typeof QUERY_PROJECT_DETAILS>['project']>
 export type ProjectStemData = NonNullable<ProjectDetailsData['stems']>[number]
+export type ProjectCollaboratorsData = NonNullable<ProjectDetailsData['collaborators']>
+export type ProjectCollaboratorData = NonNullable<ProjectDetailsData['collaborators']>[number]

@@ -139,6 +139,26 @@ export function AddStemDialog({ projectId, disabled, onSuccess }: Props) {
 							</div>
 							<div className="py-4">
 								<div className="mb-6">
+									<label htmlFor="type" className="mb-2 block text-sm font-semibold">
+										File Upload
+									</label>
+									<div className="flex space-x-2">
+										<LuFileAudio aria-hidden="true" className="pointer-events-none size-8 self-center text-gray-400" />
+										<input
+											id="file"
+											name="file"
+											type="file"
+											accept="audio/wav"
+											onChange={e => setFile(e.target?.files?.[0] ?? null)}
+											placeholder="/sick-bass-drop.wav"
+											className="w-full rounded-md border-2 border-gray-300"
+											disabled={uploading}
+											required
+										/>
+									</div>
+									{!file && errorMsg && <p className="mt-1 text-sm text-red-600">File is required</p>}
+								</div>
+								<div className="mb-6">
 									<label htmlFor="name" className="mb-2 block text-sm font-semibold">
 										Stem Name
 									</label>
@@ -178,26 +198,6 @@ export function AddStemDialog({ projectId, disabled, onSuccess }: Props) {
 										))}
 									</select>
 									{!type && errorMsg && <p className="mt-1 text-sm text-red-600">Type is required</p>}
-								</div>
-								<div className="mb-6">
-									<label htmlFor="type" className="mb-2 block text-sm font-semibold">
-										File Upload
-									</label>
-									<div className="flex space-x-2">
-										<LuFileAudio aria-hidden="true" className="pointer-events-none size-8 self-center text-gray-400" />
-										<input
-											id="file"
-											name="file"
-											type="file"
-											accept="audio/wav"
-											onChange={e => setFile(e.target?.files?.[0] ?? null)}
-											placeholder="/sick-bass-drop.wav"
-											className="w-full rounded-md border-2 border-gray-300"
-											disabled={uploading}
-											required
-										/>
-									</div>
-									{!file && errorMsg && <p className="mt-1 text-sm text-red-600">File is required</p>}
 								</div>
 							</div>
 							<div className="flex items-center justify-between space-x-2">

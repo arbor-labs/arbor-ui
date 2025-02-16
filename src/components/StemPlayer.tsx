@@ -13,6 +13,7 @@ import { formatAddress } from '$/utils/formatAddress'
 import { formatStemName } from '$/utils/formatStem'
 
 import { StemPlayerControl } from './Buttons'
+import { StemTypeTag } from './StemTypeTag'
 
 export interface DetailsProp {
 	id: string
@@ -136,14 +137,7 @@ export function StemPlayer({
 							{formatAddress(details.createdBy.address)}
 						</Link>
 					</div>
-					{!isStemDetails && (
-						<div
-							className="absolute -top-3 right-4 rounded-md border-2 border-[--arbor-black] px-1.5 py-1 text-xs font-bold uppercase text-[--arbor-white] [text-shadow:_1.5px_1.5px_0px_rgba(0,0,0,1)]"
-							style={{ backgroundColor: STEM_COLORS[details.type] }}
-						>
-							{details.type}
-						</div>
-					)}
+					{!isStemDetails && <StemTypeTag type={details.type} className="absolute -top-3 right-4" />}
 				</div>
 				<div className="flex">
 					<div className="flex items-center justify-start border-r-2 border-[--arbor-black] bg-gray-200 p-2 px-3">
