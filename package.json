@@ -8,7 +8,7 @@
 	},
 	"scripts": {
 		"clean:schema": "rm -f ./src/graphql/schema.graphql && rm -f ./src/graphql/graphql.d.ts",
-		"codegen": "pnpm clean:schema && node ./scripts/codegen.mjs",
+		"codegen": "pnpm clean:schema && node ./scripts/codegen.mjs && pnpm format",
 		"dev": "next dev",
 		"build": "next build",
 		"start": "next start",
