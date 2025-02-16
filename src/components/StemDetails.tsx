@@ -86,9 +86,9 @@ export function StemDetails({ id }: Props) {
 			<div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
 				{/* Header section */}
 				<div className="relative flex items-center justify-start">
-					<div className="mr-2 h-full w-24">
+					<div className="mr-6 h-full w-24 sm:mr-4">
 						<span
-							className="absolute left-[38px] top-1 block h-full min-h-[300px] w-[4px] bg-[--arbor-black]"
+							className="absolute left-[38px] top-1 block h-full min-h-[354px] w-[4px] bg-[--arbor-black]"
 							aria-hidden="true"
 						/>
 						<button

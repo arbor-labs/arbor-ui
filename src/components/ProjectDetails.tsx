@@ -31,7 +31,7 @@ type StemState = {
 }
 
 export const VerticalBarSmall = () => (
-	<span className="ml-[37px] block min-h-[32px] w-[2px] bg-[--arbor-black]" aria-hidden="true" />
+	<span className="ml-[37px] block min-h-[32px] w-[4px] bg-[--arbor-black]" aria-hidden="true" />
 )
 
 export function ProjectDetails({ id }: Props) {
@@ -211,9 +211,9 @@ export function ProjectDetails({ id }: Props) {
 			<>
 				{/* Project metadata */}
 				<div className="relative flex items-center justify-start">
-					<div className="mr-2 h-full w-24">
+					<div className="mr-6 h-full w-24 sm:mr-4">
 						<span
-							className="absolute left-[38px] top-1 block h-full min-h-[300px] w-[4px] bg-[--arbor-black]"
+							className="absolute left-[38px] top-1 block h-full min-h-[400px] w-[4px] bg-[--arbor-black] sm:min-h-[390px] md:min-h-[354px]"
 							aria-hidden="true"
 						/>
 						<button

@@ -120,7 +120,7 @@ export function StemPlayer({
 
 	return (
 		<>
-			<div className="rounded-t-lg border-2 border-[--arbor-black]">
+			<div className="rounded-lg border-2 border-[--arbor-black]">
 				<div className="relative flex items-center bg-[--arbor-black] px-3 py-2 text-[--arbor-white]">
 					<Link href={`/stems/${details.id}`} className="hover:text-[--arbor-pink]">
 						<h4 className="mr-4 inline-block break-all text-2xl font-extrabold uppercase italic">
@@ -208,7 +208,7 @@ export function StemPlayer({
 						<div className={`${isLoading ? 'hidden' : ''}`} ref={containerRef} />
 					</div>
 				</div>
-				<div className="border-t-2 border-[--arbor-black] bg-gray-200 px-2 py-1 font-normal text-gray-600">
+				<div className="rounded-b-lg border-t-2 border-[--arbor-black] bg-gray-200 px-2 py-1 font-normal text-gray-600">
 					<div className="">
 						Total Duration:{' '}
 						<span className="inline-block font-thin text-gray-500">{wavesurfer?.getDuration() ?? ''}</span>

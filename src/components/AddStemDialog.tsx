@@ -88,7 +88,7 @@ export function AddStemDialog({ projectId, disabled, onSuccess }: Props) {
 			<div className="relative">
 				<VerticalBarSmall />
 				<button
-					className="inline-flex items-center rounded border-2 border-[--arbor-black] px-3 py-1 font-semibold hover:border-[--arbor-gray-gray] hover:bg-gray-200 hover:text-[--arbor-gray] disabled:cursor-not-allowed disabled:border-gray-500 disabled:bg-gray-400 disabled:text-gray-300"
+					className="inline-flex items-center rounded border-4 border-[--arbor-black] px-3 py-1 font-semibold hover:border-[--arbor-gray-gray] hover:bg-gray-200 hover:text-[--arbor-gray] disabled:cursor-not-allowed disabled:border-gray-500 disabled:bg-gray-400 disabled:text-gray-300"
 					onClick={() => setOpen(true)}
 					disabled={disabled}
 				>
