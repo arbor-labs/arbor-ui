@@ -23,16 +23,14 @@ export function ProjectCard({ project }: Props) {
 			<div className="rounded-t-md border-b-2 border-[--arbor-black] bg-gradient-to-r from-[--arbor-red] to-[--arbor-pink] px-1.5 py-1">
 				<MdQueueMusic className="text-2xl text-[--arbor-white]" />
 			</div>
-			<div className="p-4">
+			<div className="p-4 pb-0">
 				<h5 className="mb-2 text-xl font-bold">{project.name}</h5>
 				<p className="mb-1 font-semibold uppercase text-gray-700">
 					{project.stems?.length ?? 0} Stem{project.stems?.length === 1 ? '' : 's'} • {project.trackLimit} Track Limit •{' '}
 					{project.collaborators?.length ?? 0} Collaborator{project.collaborators?.length === 1 ? '' : 's'}
 				</p>
-				<p className="mb-2 font-light">{project.description.slice(0, 60) + '...'}</p>
-				{project.tags.map((tag: string) => (
-					<ProjectTag key={tag} tag={tag} />
-				))}
+				{project.description && <p className="mb-2 font-light">{project.description.slice(0, 60) + '...'}</p>}
+				{project.tags.length > 0 && project.tags.map((tag: string) => <ProjectTag key={tag} tag={tag} />)}
 			</div>
 			<div className="flex justify-end p-4">
 				<Link href={`/projects/${project.id}`}>

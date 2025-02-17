@@ -1,12 +1,13 @@
 import Image from 'next/image'
 import { PiTreeDuotone } from 'react-icons/pi'
 
-type AvatarSize = 'sm' | 'md' | 'lg'
+type AvatarSize = 'sm' | 'md' | 'lg' | 'profile'
 
 const AVATAR_SIZES: Record<AvatarSize, number> = {
 	sm: 24,
 	md: 32,
 	lg: 40,
+	profile: 100,
 }
 
 type Props = {
@@ -22,7 +23,7 @@ export function UserAvatar({ avatarUri, size = 'sm', className = '' }: Props) {
 	return avatarUri ? (
 		<Image
 			src={avatarUri}
-			alt="Avatar"
+			alt="User Avatar"
 			width={pixelSize}
 			height={pixelSize}
 			className={`${baseClassName} ${className}`}

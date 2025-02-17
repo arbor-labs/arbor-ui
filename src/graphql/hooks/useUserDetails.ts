@@ -1,6 +1,7 @@
 import { Address } from 'viem'
 
 import { accountFragment } from '../fragments/account.fragment'
+import { projectCardFragment } from '../fragments/project-card.fragment'
 import { gql, ResultOf, useGqlQuery } from '../graphql'
 
 const QUERY_USER_DETAILS = gql(
@@ -8,21 +9,34 @@ const QUERY_USER_DETAILS = gql(
 	query GetUserDetails($address: EthereumAddress!) {
 		account(address: $address) {
 			...AccountFields
+			createdAt
+			updatedAt
 			createdProjects {
-				id
-				name
+				...ProjectCardFields
 			}
 			collaboratedProjects {
-				id
-				name
+				...ProjectCardFields
 			}
 			uploadedStems {
 				id
+				name
+				type
+				filetype
+				filesize
+				createdAt
+				createdBy {
+					id
+					address
+				}
+				projectsAddedTo {
+					id
+					name
+				}
 			}
-	}
+		}
 	}
 `,
-	[accountFragment],
+	[accountFragment, projectCardFragment],
 )
 
 export const useUserDetails = (address: Address) => {

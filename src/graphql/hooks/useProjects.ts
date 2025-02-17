@@ -1,4 +1,5 @@
 import { paginationFragment } from '../fragments/pagination.fragment'
+import { projectCardFragment } from '../fragments/project-card.fragment'
 import { gql, ResultOf, useGqlQuery } from '../graphql'
 
 const QUERY_PROJECTS_LIST = gql(
@@ -6,18 +7,7 @@ const QUERY_PROJECTS_LIST = gql(
 	query GetProjectsList {
 		projects {
 			items {
-				id
-				name
-				description
-				bpm
-				trackLimit
-				tags
-				stems {
-					id
-				}
-				collaborators {
-				  id
-				}
+				...ProjectCardFields
 			}
 			meta {
 				...PaginationFields
@@ -25,7 +15,7 @@ const QUERY_PROJECTS_LIST = gql(
 		}
 	}
 `,
-	[paginationFragment],
+	[paginationFragment, projectCardFragment],
 )
 
 export const useGetProjects = () => {
