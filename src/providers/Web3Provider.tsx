@@ -127,7 +127,7 @@ export function Web3Provider({ children }: Props) {
 			dispatch({ type: 'SET_SIGNING_ERROR', isError: false })
 			try {
 				// Capture an onboarding signature
-				const message = `Welcome to Arbor Audio! This is a place where you can collaborate with others on your music and earn royalties in the form of crypto. Please accept this message to create your account with Arbor.`
+				const message = `Welcome to Arbor Audio! This is a place where you can collaborate with others on your music and earn royalties in the form of crypto.\n\nPlease confirm this message to create your account with Arbor.`
 				const signature = await signMessage(message)
 				if (signature) {
 					await createNewAccount(signature)
