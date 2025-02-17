@@ -2,11 +2,13 @@ import { mainnet } from 'viem/chains'
 
 export const DEFAULT_CHAIN_ID = mainnet.id
 
+export const NOTIFICATION_DURATION = 5000
+
 export const STEM_COLORS: Record<string, string> = {
 	melody: '#5E548E',
-	harmony: '#FFD6D8',
+	harmony: '#FB8C92',
 	rhythm: '#E74B7A',
-	bass: '#d8c5f2',
+	bass: '#D5B6FF',
 	drums: '#9F86C0',
 	vocals: '#710c29',
 	fx: '#C9184A',

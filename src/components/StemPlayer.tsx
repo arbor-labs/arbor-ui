@@ -143,7 +143,7 @@ export function StemPlayer({
 					<div className="flex items-center justify-start border-r-2 border-[--arbor-black] bg-gray-200 p-2 px-3">
 						{!isStemDetails && (
 							<button
-								className="mr-2 flex size-14 items-center justify-center rounded-md bg-[--arbor-black] text-[--arbor-white] disabled:cursor-not-allowed disabled:border-gray-500 disabled:bg-gray-400 disabled:text-gray-300"
+								className="mr-2 flex size-14 items-center justify-center rounded-md bg-[--arbor-black] text-[--arbor-white] hover:bg-[--arbor-gray] disabled:cursor-not-allowed disabled:border-gray-500 disabled:bg-gray-400 disabled:text-gray-300"
 								onClick={togglePlayPause}
 								disabled={isLoading}
 							>

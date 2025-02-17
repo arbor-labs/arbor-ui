@@ -111,7 +111,7 @@ export function StemDetails({ id }: Props) {
 							</p>
 							<div className="mb-4 flex items-center space-x-4">
 								<h2 className="text-5xl font-bold">{stem.name}</h2>
-								<StemTypeTag type={stem.type} />
+								<StemTypeTag type={stem.type} className="mt-1" />
 							</div>
 						</div>
 						<div className="mb-4 space-y-2 text-lg font-light text-gray-500">
@@ -123,6 +123,16 @@ export function StemDetails({ id }: Props) {
 							</p>
 							<p>
 								<span className="font-medium text-gray-700">Created:</span> {formatDate(stem.createdAt)}
+							</p>
+							<p>
+								<span className="font-medium text-gray-700">Metadata File:</span>{' '}
+								<Link
+									href={`${PINATA_BASE_URL}${stem.metadataCID}`}
+									target="_blank"
+									className="underline hover:text-[--arbor-pink]"
+								>
+									View on IPFS
+								</Link>
 							</p>
 							<p>
 								<span className="font-medium text-gray-700">Audio File:</span>{' '}

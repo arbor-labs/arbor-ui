@@ -69,7 +69,6 @@ export function AddStemDialog({ projectId, disabled, onSuccess }: Props) {
 		} catch (e) {
 			console.error(e)
 			setErrorMsg(getErrorMessage(e))
-			handleClose()
 		} finally {
 			handleClose()
 		}
@@ -77,10 +76,10 @@ export function AddStemDialog({ projectId, disabled, onSuccess }: Props) {
 
 	const handleClose = () => {
 		setOpen(false)
-		if (name) setName('')
-		if (type) setType(null)
-		if (file) setFile(null)
-		if (uploading) setUploading(false)
+		setName('')
+		setType(null)
+		setFile(null)
+		setUploading(false)
 	}
 
 	return (
@@ -108,7 +107,10 @@ export function AddStemDialog({ projectId, disabled, onSuccess }: Props) {
 						>
 							<div>
 								<div className="mx-auto flex size-12 items-center justify-center rounded-full border-2 border-[--arbor-red]">
-									<HiOutlineCloudUpload aria-hidden="true" className="size-6 text-[--arbor-red]" />
+									<HiOutlineCloudUpload
+										aria-hidden="true"
+										className={`size-6 text-[--arbor-red] ${uploading ? 'animate-spin' : ''}`}
+									/>
 								</div>
 								<div className="mt-3 text-center sm:mt-5">
 									<DialogTitle as="h3" className="text-base font-semibold text-gray-900">

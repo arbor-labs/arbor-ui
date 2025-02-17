@@ -5,6 +5,8 @@ import { useEffect, useState } from 'react'
 import { CgClose } from 'react-icons/cg'
 import { LuCircleCheckBig, LuCircleX } from 'react-icons/lu'
 
+import { NOTIFICATION_DURATION } from '$/lib/constants'
+
 type Props = {
 	isOpen: boolean
 	variant: 'success' | 'error' | 'warning' | 'info'
@@ -19,7 +21,7 @@ export function Notification({ isOpen, variant, title, text, onClose }: Props) {
 		if (show) {
 			const timer = setTimeout(() => {
 				handleClose()
-			}, 7000)
+			}, NOTIFICATION_DURATION)
 			return () => clearTimeout(timer)
 		}
 	}, [show])

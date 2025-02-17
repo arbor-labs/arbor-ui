@@ -214,7 +214,7 @@ export function ProjectDetails({ id }: Props) {
 				<div className="relative flex items-center justify-start">
 					<div className="mr-6 h-full w-24 sm:mr-4">
 						<span
-							className="absolute left-[28px] top-1 block h-full min-h-[400px] w-[4px] bg-[--arbor-black] sm:left-[38px] sm:min-h-[390px] md:min-h-[354px]"
+							className="absolute left-[28px] top-1 -z-10 block h-full min-h-[400px] w-[4px] bg-[--arbor-black] sm:left-[38px] sm:min-h-[390px] md:min-h-[354px]"
 							aria-hidden="true"
 						/>
 						<button
@@ -293,7 +293,7 @@ export function ProjectDetails({ id }: Props) {
 
 				{/* Global stems header */}
 				<div className="relative">
-					<div className="mt-16 flex items-center justify-between rounded-t-lg bg-[--arbor-black] px-3 py-5 text-[--arbor-white]">
+					<div className="mt-16 flex items-center justify-between rounded-t-lg bg-[--arbor-black] p-5 text-[--arbor-white]">
 						<h3 className="mr-4 text-2xl font-semibold uppercase italic">Song Stems</h3>
 						<div className="flex grow items-center justify-between uppercase italic">
 							<p>
@@ -312,23 +312,23 @@ export function ProjectDetails({ id }: Props) {
 					</div>
 
 					{/* Global playback submenu */}
-					<div className="flex items-center space-x-2 border-2 border-[--arbor-black] px-2 py-3">
+					<div className="flex items-center space-x-2 rounded-b-lg border-2 border-[--arbor-black] bg-white p-4">
 						<button
-							className="text-[--arbor-gray] hover:text-[--arbor-purple-hover]"
+							className="text-[--arbor-gray] hover:text-[--arbor-pink]"
 							onClick={handlePlayAllTracks}
 							title={isPlayingAll ? 'Pause playback' : 'Play all stems simultaneously'}
 						>
 							{isPlayingAll ? <LuPause /> : <LuPlay />}
 						</button>
 						<button
-							className="text-[--arbor-gray] hover:text-[--arbor-purple-hover]"
+							className="text-[--arbor-gray] hover:text-[--arbor-pink]"
 							onClick={handleStopAllTracks}
 							title="Stop playback"
 						>
 							<RiStopLargeLine />
 						</button>
 						<button
-							className="text-[--arbor-gray] hover:text-[--arbor-purple-hover]"
+							className="text-[--arbor-gray] hover:text-[--arbor-pink]"
 							onClick={handleSkipPrevAllTracks}
 							title="Skip to beginning"
 						>

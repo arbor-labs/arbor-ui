@@ -7,6 +7,7 @@ const QUERY_STEM_DETAILS = gql(
 			id
 			name
 			type
+			metadataCID
 			audioCID
 			filename
 			filetype

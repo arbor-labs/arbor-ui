@@ -38,7 +38,7 @@ export function ProjectCollaboratorsDialog({ collaborators, stems, disabled }: P
 		<>
 			<VerticalBarSmall />
 			<button
-				className="inline-flex items-center rounded border-4 border-[--arbor-black] px-3 py-1 font-semibold hover:text-[--arbor-gray-light] disabled:cursor-not-allowed disabled:border-gray-500 disabled:bg-gray-400 disabled:text-gray-300"
+				className="inline-flex items-center rounded border-4 border-[--arbor-black] py-1 text-right font-semibold hover:text-[--arbor-gray-light] disabled:cursor-not-allowed disabled:text-gray-500"
 				onClick={() => setOpen(true)}
 				disabled={disabled}
 			>
