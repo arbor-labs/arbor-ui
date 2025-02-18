@@ -59,7 +59,7 @@ export function ProjectCollaboratorsDialog({ collaborators, stems, disabled }: P
 
 						<div className="max-h-[60vh] space-y-4 overflow-y-auto">
 							{collaborators.map(collaborator => (
-								<div key={collaborator.id} className="rounded-lg border-2 border-[--arbor-black] pb-4">
+								<div key={collaborator.id} className="rounded-lg border-2 border-[--arbor-black]">
 									<div className="mb-4 flex items-center gap-2 px-4 pt-4">
 										<UserAvatar avatarUri={collaborator.avatarUri} size="md" />
 										<div className="align-base">
@@ -79,14 +79,14 @@ export function ProjectCollaboratorsDialog({ collaborators, stems, disabled }: P
 										<div className="text-sm font-semibold uppercase italic text-gray-500">Stem Name</div>
 										<div className="text-sm font-semibold uppercase italic text-gray-500">Stem Type</div>
 									</div>
-									<ul role="list" className="divide-y divide-gray-100">
+									<ul role="list" className="divide-y divide-gray-300 border-t-2">
 										{stemsByCollaborator[collaborator.address]?.map(stem => (
 											<Link
 												key={stem.id}
 												href={`/stems/${stem.id}`}
-												className="text-[--arbor-gray] hover:text-[--arbor-pink]"
+												className="block text-[--arbor-gray] hover:bg-gray-100 hover:text-[--arbor-pink] hover:last:rounded-b-lg"
 											>
-												<li className="flex items-center justify-between px-4 py-2 hover:bg-gray-100">
+												<li className="flex items-center justify-between px-4 py-2">
 													<div className="font-semibold">{stem.name}</div>
 													<StemTypeTag type={stem.type} />
 												</li>

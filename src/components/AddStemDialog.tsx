@@ -206,7 +206,7 @@ export function AddStemDialog({ projectId, disabled, onSuccess }: Props) {
 								<ButtonPrimary className="w-full" color="pink" disabled={uploading} onClick={handleUpload}>
 									{uploading ? 'Uploading...' : 'Upload'}
 								</ButtonPrimary>
-								<ButtonSecondary className="w-full" onClick={handleClose}>
+								<ButtonSecondary className="w-full" disabled={uploading} onClick={handleClose}>
 									Cancel
 								</ButtonSecondary>
 							</div>
