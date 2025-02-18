@@ -17,7 +17,11 @@ export function Page({ metaTitle, pageTitle, subtext, children }: Props) {
 			</Head>
 			<main className="min-h-[--min-page-height] px-10 py-12">
 				<PageTitle title={pageTitle} />
-				{subtext && <p className="m-auto mb-10 max-w-[500px] text-center text-xl text-gray-600">{subtext}</p>}
+				{subtext && (
+					<p className="text-md m-auto mb-10 max-w-[500px] text-center text-gray-600 sm:text-lg md:text-xl">
+						{subtext}
+					</p>
+				)}
 				{children}
 			</main>
 		</>
