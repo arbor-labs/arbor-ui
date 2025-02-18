@@ -16,7 +16,11 @@ export default function ProjectsPage() {
 
 	if (isLoading)
 		return (
-			<Page metaTitle="Arbor Projects" pageTitle="Arbor Projects">
+			<Page
+				metaTitle="Arbor Projects"
+				pageTitle="Arbor Projects"
+				subtext="Explore the ecosystem for unique music, collaborate and build with others, create something one of a kind."
+			>
 				<div className="flex place-content-center">
 					<LoadingSpinner />
 				</div>
@@ -27,18 +31,26 @@ export default function ProjectsPage() {
 		const e = error as ClientError
 		console.error(e.message)
 		return (
-			<Page metaTitle="Arbor Projects" pageTitle="Arbor Projects">
+			<Page
+				metaTitle="Arbor Projects"
+				pageTitle="Arbor Projects"
+				subtext="Explore the ecosystem for unique music, collaborate and build with others, create something one of a kind."
+			>
 				<ErrorMessage statusCode={e.response.status} message="An error occurred while fetching projects" />
 			</Page>
 		)
 	}
 
 	return (
-		<Page metaTitle="Arbor Projects" pageTitle="Arbor Projects">
+		<Page
+			metaTitle="Arbor Projects"
+			pageTitle="Arbor Projects"
+			subtext="Explore the ecosystem for unique music, collaborate and build with others, create something one of a kind."
+		>
 			{!projects.length ? (
 				<NoData resource="project" tagline="Get started by creating a new project." buttonHref="/projects/create" />
 			) : (
-				<div className="mx-auto mt-16 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-20 lg:mx-0 lg:max-w-none lg:grid-cols-3">
+				<div className="mx-auto mb-8 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-20 lg:mx-0 lg:max-w-none lg:grid-cols-3">
 					{projects.map((p: ProjectCardData) => {
 						return <ProjectCard key={p.id} project={p} />
 					})}

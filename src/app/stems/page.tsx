@@ -16,7 +16,11 @@ export default function StemsListPage() {
 
 	if (isLoading)
 		return (
-			<Page metaTitle="Arbor Stems" pageTitle="Arbor Stems">
+			<Page
+				metaTitle="Arbor Stems"
+				pageTitle="Arbor Stems"
+				subtext="Explore the stem pool for unique music stems from the artist community, upload your own, or grab a few and start a new project with them."
+			>
 				<div className="flex place-content-center">
 					<LoadingSpinner />
 				</div>
@@ -27,14 +31,22 @@ export default function StemsListPage() {
 		const e = error as ClientError
 		console.error(e.message)
 		return (
-			<Page metaTitle="Arbor Stems" pageTitle="Arbor Stems">
+			<Page
+				metaTitle="Arbor Stems"
+				pageTitle="Arbor Stems"
+				subtext="Explore the stem pool for unique music stems from the artist community, upload your own, or grab a few and start a new project with them."
+			>
 				<ErrorMessage statusCode={e.response.status} message="An error occurred while fetching stems" />
 			</Page>
 		)
 	}
 
 	return (
-		<Page metaTitle="Arbor Stems" pageTitle="Arbor Stems">
+		<Page
+			metaTitle="Arbor Stems"
+			pageTitle="Arbor Stems"
+			subtext="Explore the stem pool for unique music stems from the artist community, upload your own, or grab a few and start a new project with them."
+		>
 			{!stems.length ? (
 				<NoData
 					resource="stem"
