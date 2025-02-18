@@ -21,11 +21,8 @@ const QUERY_USER_DETAILS = gql(
 				id
 				name
 				type
-				filetype
-				filesize
 				createdAt
 				createdBy {
-					id
 					address
 				}
 				projectsAddedTo {
