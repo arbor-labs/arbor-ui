@@ -290,14 +290,13 @@ export function ProjectDetails({ id }: Props) {
 
 				{/* Global stems header */}
 				<div className="relative">
-					<div className="flex items-center justify-between rounded-t-lg bg-[--arbor-black] p-5 text-[--arbor-white]">
-						<h3 className="mr-4 text-2xl font-semibold uppercase italic">Song Stems</h3>
-						<div className="flex grow items-center justify-between uppercase italic">
-							<p>
-								{stems.length} Stem{stems.length === 1 ? '' : 's'} from {collaborators.length} Collaborator
-								{collaborators.length === 1 ? '' : 's'}
-							</p>
-						</div>
+					<div className="flex flex-col items-center justify-between rounded-t-lg bg-[--arbor-black] p-5 uppercase italic text-[--arbor-white] sm:flex-row">
+						<h3 className="mr-4 text-2xl font-semibold">Song Stems</h3>
+						<p>
+							{stems.length} Stem{stems.length === 1 ? '' : 's'} from {collaborators.length} Collaborator
+							{collaborators.length === 1 ? '' : 's'}
+						</p>
+						{/* TODO: Fork Button, justify-space-evenly */}
 					</div>
 
 					{/* Global playback submenu */}
