@@ -3,7 +3,8 @@
 import { Transition } from '@headlessui/react'
 import { useEffect, useState } from 'react'
 import { CgClose } from 'react-icons/cg'
-import { LuCircleCheckBig, LuCircleX } from 'react-icons/lu'
+import { LuCircleCheckBig, LuCircleX, LuInfo } from 'react-icons/lu'
+import { PiWarning } from 'react-icons/pi'
 
 import { NOTIFICATION_DURATION } from '$/lib/constants'
 
@@ -56,6 +57,8 @@ export function Notification({ isOpen, variant, title, text, onClose }: Props) {
 											<LuCircleCheckBig aria-hidden="true" className="size-6 text-[--success]" />
 										)}
 										{variant === 'error' && <LuCircleX aria-hidden="true" className="size-6 text-[--error]" />}
+										{variant === 'warning' && <PiWarning aria-hidden="true" className="size-6 text-[--warning]" />}
+										{variant === 'info' && <LuInfo aria-hidden="true" className="size-6 text-[--info]" />}
 									</div>
 									<div className="ml-3 w-0 flex-1 pt-0.5">
 										<p className="text-sm font-medium text-gray-900">{title}</p>

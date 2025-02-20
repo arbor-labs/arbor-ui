@@ -7,8 +7,7 @@ import { LuUsers } from 'react-icons/lu'
 import { type ProjectCollaboratorsData, type ProjectStemData } from '$/graphql/hooks/useProjectDetails'
 import { formatAddress } from '$/utils/formatAddress'
 
-import { ButtonSecondary } from './Buttons'
-import { VerticalBarSmall } from './ProjectDetails'
+import { ButtonOutline, ButtonSecondary } from './Buttons'
 import { StemTypeTag } from './StemTypeTag'
 import { UserAvatar } from './UserAvatar'
 
@@ -36,16 +35,13 @@ export function ProjectCollaboratorsDialog({ collaborators, stems, disabled }: P
 
 	return (
 		<>
-			<VerticalBarSmall />
-			<button
-				className="inline-flex items-center rounded border-4 border-[--arbor-black] py-1 text-right font-semibold hover:text-[--arbor-gray-light] disabled:cursor-not-allowed disabled:text-gray-500"
+			<ButtonOutline
+				icon={<LuUsers className="mr-2 size-5" />}
 				onClick={() => setOpen(true)}
-				disabled={disabled}
+				disabled={disabled || open}
 			>
-				<LuUsers className="mr-2 size-5" />
 				View Collaborators
-			</button>
-
+			</ButtonOutline>
 			<Dialog open={open} onClose={() => setOpen(false)} className="relative z-50">
 				<div className="fixed inset-0 bg-black/30" aria-hidden="true" />
 				<div className="fixed inset-0 flex items-center justify-center p-4">

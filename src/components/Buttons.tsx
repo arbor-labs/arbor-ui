@@ -4,6 +4,7 @@ type Props = {
 	children: React.ReactNode
 	className?: string
 	color?: 'red' | 'pink' | 'purple' | 'peach'
+	icon?: React.ReactNode
 	disabled?: boolean
 	onClick?: MouseEventHandler<HTMLButtonElement>
 } & ButtonHTMLAttributes<HTMLButtonElement>
@@ -68,6 +69,20 @@ export function ButtonSecondary({ children, className, color, onClick, disabled,
 
 	return (
 		<button type="button" className={classes} onClick={onClick} disabled={disabled} {...props}>
+			{children}
+		</button>
+	)
+}
+
+export function ButtonOutline({ children, className, icon, onClick, disabled, ...props }: Props) {
+	let classes =
+		'inline-flex items-center rounded border-2 border-[--arbor-black] px-2 py-1 text-right font-semibold hover:border-[--arbor-gray-light] hover:text-[--arbor-gray-light] disabled:cursor-not-allowed disabled:border-gray-400 disabled:bg-gray-200 disabled:text-gray-400'
+
+	classes += ` ${className}`
+
+	return (
+		<button type="button" className={classes} onClick={onClick} disabled={disabled} {...props}>
+			{icon && icon}
 			{children}
 		</button>
 	)

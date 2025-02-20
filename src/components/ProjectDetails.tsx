@@ -13,6 +13,7 @@ import { formatDate } from '$/utils/formatDate'
 import { getErrorMessage } from '$/utils/getErrorMessage'
 
 import { AddStemDialog } from './AddStemDialog'
+import { DownloadStemsButton } from './DownloadStemsButton'
 import { ErrorMessage } from './ErrorMessage'
 import { LoadingSpinner } from './LoadingSpinner'
 import { Notification } from './Notification'
@@ -37,19 +38,16 @@ export const VerticalBarSmall = () => (
 
 export function ProjectDetails({ id }: Props) {
 	// Stems
-	const [mutedTracks, setMutedTracks] = useState<number[]>([])
-	const [soloedTracks, setSoloedTracks] = useState<number[]>([])
-	const [handleUnmuteAll, setHandleUnmuteAll] = useState<boolean>(false)
-	const [downloading, setDownloading] = useState<boolean>(false)
-	const [downloadingMsg, setDownloadingMsg] = useState<string>('')
 	const [stemState, setStemState] = useState<Map<number, StemState>>(new Map())
-	// Play/Pause
+	// Wavesurfer
 	const [wsInstances, setWsInstances] = useState<Map<number, WaveSurfer>>(new Map())
 	const [isPlayingAll, setIsPlayingAll] = useState<boolean>(false)
+	const [mutedTracks, setMutedTracks] = useState<number[]>([])
+	const [soloedTracks, setSoloedTracks] = useState<number[]>([])
 	// Minting
-	const [minting, setMinting] = useState<boolean>(false)
-	const [mintingOpen, setMintingOpen] = useState<boolean>(false)
-	const [mintingMsg, setMintingMsg] = useState<string>('')
+	// const [minting, setMinting] = useState<boolean>(false)
+	// const [mintingOpen, setMintingOpen] = useState<boolean>(false)
+	// const [mintingMsg, setMintingMsg] = useState<string>('')
 	// Notifications
 	const [successOpen, setSuccessOpen] = useState<boolean>(false)
 	const [successMsg, setSuccessMsg] = useState<string>('')
@@ -61,7 +59,6 @@ export function ProjectDetails({ id }: Props) {
 
 	useEffect(() => {
 		if (soloedTracks.length > 0 && soloedTracks.length === wsInstances.size) {
-			setHandleUnmuteAll(unMuteAll => !unMuteAll)
 			setSoloedTracks([])
 			setMutedTracks([])
 		}
@@ -127,9 +124,6 @@ export function ProjectDetails({ id }: Props) {
 		const collaborators = project.collaborators ?? []
 		const stems = project.stems ?? []
 		const limitReached = stems.length >= project.trackLimit
-
-		// const handleMintAndBuy = () => {}
-		const handleDownloadAll = () => console.log('TODO: implement')
 
 		/*
 			Wavesurfer handlers
@@ -202,19 +196,17 @@ export function ProjectDetails({ id }: Props) {
 			setSuccessMsg('')
 			setErrorOpen(false)
 			setErrorMsg('')
-			setDownloading(false)
-			setDownloadingMsg('')
-			setMintingOpen(false)
-			setMintingMsg('')
+			// setMintingOpen(false)
+			// setMintingMsg('')
 		}
 
 		return (
 			<>
 				{/* Project metadata */}
-				<div className="relative flex items-center justify-start">
+				<div className="relative flex items-center justify-start pb-16">
 					<div className="mr-6 h-full w-24 sm:mr-4">
 						<span
-							className="absolute left-[28px] top-1 -z-10 block h-full min-h-[400px] w-[4px] bg-[--arbor-black] sm:left-[38px] sm:min-h-[390px] md:min-h-[354px]"
+							className="absolute left-[28px] top-1 -z-10 block h-full w-[4px] bg-[--arbor-black] sm:left-[38px]"
 							aria-hidden="true"
 						/>
 						<button
@@ -271,7 +263,12 @@ export function ProjectDetails({ id }: Props) {
 						))}
 						<hr className="my-3 border-[--arbor-gray-light]" />
 
-						{/* Mint section */}
+						{/* User actions section */}
+						<div className="flex max-w-[200px] flex-col space-y-2 sm:max-w-full sm:flex-row sm:items-center sm:space-x-2 sm:space-y-0">
+							<ProjectCollaboratorsDialog collaborators={collaborators} stems={stems} disabled={stems.length === 0} />
+							<DownloadStemsButton stems={stems} projectName={project.name} />
+						</div>
+
 						{/* {stems.length > 0 && (
 							<div className="mt-3 flex flex-row items-center">
 								<button
@@ -293,22 +290,14 @@ export function ProjectDetails({ id }: Props) {
 
 				{/* Global stems header */}
 				<div className="relative">
-					<div className="mt-16 flex items-center justify-between rounded-t-lg bg-[--arbor-black] p-5 text-[--arbor-white]">
+					<div className="flex items-center justify-between rounded-t-lg bg-[--arbor-black] p-5 text-[--arbor-white]">
 						<h3 className="mr-4 text-2xl font-semibold uppercase italic">Song Stems</h3>
 						<div className="flex grow items-center justify-between uppercase italic">
 							<p>
 								{stems.length} Stem{stems.length === 1 ? '' : 's'} from {collaborators.length} Collaborator
 								{collaborators.length === 1 ? '' : 's'}
 							</p>
-							<ProjectCollaboratorsDialog collaborators={collaborators} stems={stems} disabled={stems.length === 0} />
 						</div>
-						{/* <button
-							className="font-bold uppercase italic text-[--arbor-white]"
-							onClick={handleDownloadAll}
-							disabled={stems.length === 0}
-						>
-							Export Stems
-						</button> */}
 					</div>
 
 					{/* Global playback submenu */}
@@ -367,6 +356,7 @@ export function ProjectDetails({ id }: Props) {
 					<AddStemDialog projectId={project.id} disabled={!isConnected || limitReached} onSuccess={refetch} />
 				)}
 
+				{/* Notifications */}
 				{successOpen && (
 					<Notification isOpen variant="success" title="Success!" text={successMsg} onClose={onNotificationClose} />
 				)}

@@ -9,6 +9,7 @@ import { LuFileAudio } from 'react-icons/lu'
 import { EStemType } from '$/lib/constants'
 import { useWeb3 } from '$/providers/Web3Provider'
 import { getErrorMessage } from '$/utils/getErrorMessage'
+import { postFormData } from '$/utils/http'
 
 import { ButtonPrimary, ButtonSecondary } from './Buttons'
 import { Notification } from './Notification'
@@ -50,17 +51,8 @@ export function AddStemDialog({ projectId, disabled, onSuccess }: Props) {
 			formData.append('createdBy', String(connectedAccount?.address))
 
 			// Make request
-			const resp = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/pinata/upload`, {
-				method: 'POST',
-				body: formData,
-				headers: {
-					Accept: 'application/json',
-				},
-			})
-
-			// Inspect response
-			const data = await resp.json()
-			if (resp.ok) {
+			const data = await postFormData(`${process.env.NEXT_PUBLIC_API_URL}/pinata/upload`, formData)
+			if (data) {
 				setSuccessMsg('The new stem has been added to the project and pinned by Pinata on IPFS.')
 				onSuccess()
 			} else {
