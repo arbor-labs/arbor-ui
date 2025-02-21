@@ -1,5 +1,6 @@
 import './globals.css'
 
+import { GoogleAnalytics } from '@next/third-parties/google'
 import type { Metadata } from 'next'
 import { Kanit } from 'next/font/google'
 
@@ -28,6 +29,9 @@ export default function RootLayout({
 			<body className={`${kanit.variable} antialiased`}>
 				<PrimaryLayout>{children}</PrimaryLayout>
 			</body>
+			{process.env.NODE_ENV === 'production' && process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID && (
+				<GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID} />
+			)}
 		</html>
 	)
 }
