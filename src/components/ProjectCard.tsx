@@ -20,7 +20,12 @@ export function ProjectCard({ project }: Props) {
 					Track Limit Reached!
 				</div>
 			)}
-			<div className="rounded-t-md border-b-2 border-[--arbor-black] bg-gradient-to-r from-[--arbor-red] to-[--arbor-pink] px-1.5 py-1">
+			<div
+				className="rounded-t-md border-b-2 border-[--arbor-black] px-1.5 py-1"
+				style={{
+					background: 'linear-gradient(94.22deg, #20163B 9.36%, #5E548E 33.65%, #9F86C0 65.94%)',
+				}}
+			>
 				<MdQueueMusic className="text-2xl text-[--arbor-white]" />
 			</div>
 			<div className="p-4 pb-0">
@@ -34,7 +39,7 @@ export function ProjectCard({ project }: Props) {
 			</div>
 			<div className="flex justify-end p-4">
 				<Link href={`/projects/${project.id}`}>
-					<ButtonPrimary color="pink">View Details</ButtonPrimary>
+					<ButtonPrimary color="purple">View Details</ButtonPrimary>
 				</Link>
 			</div>
 		</div>

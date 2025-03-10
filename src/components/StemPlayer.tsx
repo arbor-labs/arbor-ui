@@ -28,7 +28,9 @@ export interface DetailsProp {
 
 type Props = {
 	idx: number
-	details: DetailsProp
+	details?: DetailsProp
+	isPreview?: boolean
+	previewFile?: File
 	isStemDetails?: boolean
 	onInit: (idx: number, wavesurfer: WaveSurfer) => void
 	onSolo?: (idx: number) => void
@@ -41,6 +43,8 @@ type Props = {
 export function StemPlayer({
 	idx,
 	details,
+	isPreview,
+	previewFile,
 	isStemDetails,
 	onInit,
 	onSolo,
@@ -49,6 +53,9 @@ export function StemPlayer({
 	onStop,
 	onFinish,
 }: Props) {
+	// Work with either an in-memory preview file or an external Pinata file
+	const AUDIO_URL = isPreview && previewFile ? URL.createObjectURL(previewFile) : PINATA_BASE_URL + details?.audioCID
+
 	// State
 	const [isLoading, setIsLoading] = useState<boolean>(true)
 	const [isMuted, setIsMuted] = useState<boolean>(false)
@@ -60,9 +67,9 @@ export function StemPlayer({
 	// WaveSurfer config - https://wavesurfer.xyz/examples/
 	const wavesurferConfig = useMemo(
 		() => ({
-			url: PINATA_BASE_URL + details.audioCID,
+			url: AUDIO_URL,
 			container: containerRef,
-			waveColor: STEM_COLORS[details.type],
+			waveColor: STEM_COLORS[details?.type ?? ''],
 			progressColor: '#1e1e1e',
 			cursorColor: '#000',
 			cursorWidth: 1,
@@ -123,25 +130,36 @@ export function StemPlayer({
 		<>
 			<div className="rounded-lg border-2 border-[--arbor-black]">
 				<div className="relative flex items-center bg-[--arbor-black] px-3 py-2 text-[--arbor-white]">
-					<Link href={`/stems/${details.id}`} className="hover:text-[--arbor-pink]">
-						<h4 className="mr-4 inline-block break-all text-2xl font-extrabold uppercase italic">
-							{formatStemName(details.name || details.filename)}
-						</h4>
-					</Link>
-					<div className="text-sm font-thin italic">
-						Added {/* X hours ago */}by{' '}
-						<Link
-							href={`/users/${details.createdBy.address}`}
-							className="ml-2 font-semibold text-[--arbor-gray-light] hover:text-[--arbor-pink]"
-						>
-							{formatAddress(details.createdBy.address)}
-						</Link>
-					</div>
-					{!isStemDetails && <StemTypeTag type={details.type} className="absolute -top-3 right-4" />}
+					{details && !isPreview && (
+						<>
+							<Link href={`/stems/${details.id}`} className="hover:text-[--arbor-pink]">
+								<h4 className="mr-4 inline-block break-all text-2xl font-extrabold uppercase italic">
+									{formatStemName(details.name || details.filename)}
+								</h4>
+							</Link>
+							<div className="text-sm font-thin italic">
+								Added {/* X hours ago */}by{' '}
+								<Link
+									href={`/users/${details.createdBy.address}`}
+									className="ml-2 font-semibold text-[--arbor-gray-light] hover:text-[--arbor-pink]"
+								>
+									{formatAddress(details.createdBy.address)}
+								</Link>
+							</div>
+							{!isStemDetails && <StemTypeTag type={details.type} className="absolute -top-3 right-4" />}
+						</>
+					)}
+					{isPreview && (
+						<div className="text-sm font-thin italic">
+							<h4 className="mr-4 inline-block break-all text-2xl font-extrabold uppercase italic">
+								New Audio Preview
+							</h4>
+						</div>
+					)}
 				</div>
 				<div className="flex">
 					<div className="flex items-center justify-start border-r-2 border-[--arbor-black] bg-gray-200 p-2 px-3">
-						{!isStemDetails && (
+						{!isStemDetails && !isPreview && (
 							<button
 								className="mr-2 flex size-14 items-center justify-center rounded-md bg-[--arbor-black] text-[--arbor-white] hover:bg-[--arbor-gray] disabled:cursor-not-allowed disabled:border-gray-500 disabled:bg-gray-400 disabled:text-gray-300"
 								onClick={togglePlayPause}
@@ -151,8 +169,13 @@ export function StemPlayer({
 							</button>
 						)}
 						<div className={`flex flex-col`}>
-							{isStemDetails ? (
+							{isStemDetails || isPreview ? (
 								<>
+									{isPreview && (
+										<StemPlayerControl onClick={togglePlayPause} title="Play" variant="secondary">
+											{isPlaying ? <FaPause size={16} /> : <FaPlay size={16} />}
+										</StemPlayerControl>
+									)}
 									<StemPlayerControl
 										onClick={onSkipPrev}
 										title="Skip to beginning"
@@ -161,9 +184,11 @@ export function StemPlayer({
 									>
 										<LuSkipBack size={16} />
 									</StemPlayerControl>
-									<StemPlayerControl onClick={() => onStop?.(idx)} title="Stop stem" variant="secondary">
-										<RiStopLargeLine size={16} />
-									</StemPlayerControl>
+									{!isPreview && (
+										<StemPlayerControl onClick={() => onStop?.(idx)} title="Stop stem" variant="secondary">
+											<RiStopLargeLine size={16} />
+										</StemPlayerControl>
+									)}
 								</>
 							) : (
 								<>
@@ -202,15 +227,17 @@ export function StemPlayer({
 						<div className={`${isLoading ? 'hidden' : ''}`} ref={containerRef} />
 					</div>
 				</div>
-				<div className="rounded-b-lg border-t-2 border-[--arbor-black] bg-gray-200 px-2 py-1 font-normal text-gray-600">
-					<div className="">
-						Total Duration:{' '}
-						<span className="inline-block font-thin text-gray-500">{wavesurfer?.getDuration() ?? ''}</span>
+				{!isPreview && (
+					<div className="rounded-b-lg border-t-2 border-[--arbor-black] bg-gray-200 px-2 py-1 font-normal text-gray-600">
+						<div className="">
+							Total Duration:{' '}
+							<span className="inline-block font-thin text-gray-500">{wavesurfer?.getDuration() ?? ''}</span>
+						</div>
+						<div className="">
+							Timestamp: <span className="inline-block font-thin text-gray-500">{currentTime}</span>
+						</div>
 					</div>
-					<div className="">
-						Timestamp: <span className="inline-block font-thin text-gray-500">{currentTime}</span>
-					</div>
-				</div>
+				)}
 			</div>
 		</>
 	)

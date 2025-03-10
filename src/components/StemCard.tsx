@@ -38,7 +38,7 @@ export function StemCard({ stem }: Props) {
 				</div>
 				<Link
 					href={`/stems/${stem.id}`}
-					className="text-sm font-light italic text-[--arbor-gray-light] hover:text-[--arbor-pink]"
+					className="text-sm font-light italic text-[--arbor-white] hover:text-[--arbor-pink]"
 				>
 					View Details →
 				</Link>

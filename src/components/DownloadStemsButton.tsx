@@ -34,7 +34,7 @@ export function DownloadStemsButton({ stems, projectName }: Props) {
 			const zip = new JSZip()
 			await Promise.all(
 				stems.map(async stem => {
-					const { data } = await get(`${process.env.NEXT_PUBLIC_API_URL}/pinata/file/${stem.audioCID}`)
+					const { data } = await get(`/pinata/file/${stem.audioCID}`)
 					zip.file(stem.name + '.wav', data, { compression: 'STORE', binary: true })
 				}),
 			)

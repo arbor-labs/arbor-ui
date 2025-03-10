@@ -4,13 +4,14 @@ import { useEffect, useState } from 'react'
 import { FaPause, FaPlay } from 'react-icons/fa'
 import { LuPause, LuPlay, LuSkipBack } from 'react-icons/lu'
 import { RiStopLargeLine } from 'react-icons/ri'
-import type WaveSurfer from 'wavesurfer.js'
+import WaveSurfer from 'wavesurfer.js'
 
 import { ProjectStemData, useProjectDetails } from '$/graphql/hooks/useProjectDetails'
 import { useWeb3 } from '$/providers/Web3Provider'
 import { formatAddress } from '$/utils/formatAddress'
 import { formatDate } from '$/utils/formatDate'
 import { getErrorMessage } from '$/utils/getErrorMessage'
+import { post } from '$/utils/http'
 
 import { AddStemDialog } from './AddStemDialog'
 import { DownloadStemsButton } from './DownloadStemsButton'
@@ -56,6 +57,8 @@ export function ProjectDetails({ id }: Props) {
 	// Hooks
 	const { isConnected } = useWeb3()
 	const { data, isLoading, isError, error, refetch } = useProjectDetails(id)
+	// Add state for merged audio
+	const [mergedAudioWs, setMergedAudioWs] = useState<WaveSurfer | null>(null)
 
 	useEffect(() => {
 		if (soloedTracks.length > 0 && soloedTracks.length === wsInstances.size) {
@@ -200,6 +203,45 @@ export function ProjectDetails({ id }: Props) {
 			// setMintingMsg('')
 		}
 
+		// const handleMergeStems = async () => {
+		// 	try {
+		// 		console.log('Merging audio...')
+		// 		const { data, previewPath } = await post('/pinata/merge-audio', {
+		// 			cids: stems.map(stem => stem.audioCID),
+		// 			projectName: project.name,
+		// 		})
+
+		// 		// Create blob from buffer
+		// 		const blob = new Blob([data], { type: 'audio/wav' })
+		// 		const audioUrl = URL.createObjectURL(blob)
+		// 		console.log({ audioUrl })
+
+		// 		// Initialize WaveSurfer
+		// 		const ws = WaveSurfer.create({
+		// 			url: audioUrl,
+		// 			container: '#merged-audio-preview',
+		// 			waveColor: '#1e1e1e',
+		// 			progressColor: '#d81b60',
+		// 			height: 100,
+		// 			barWidth: 2,
+		// 			barGap: 1,
+		// 			barRadius: 2,
+		// 		})
+
+		// 		// await ws.load(audioUrl)
+		// 		await ws.loadBlob(blob)
+		// 		console.log({ ws })
+		// 		setMergedAudioWs(ws)
+		// 	} catch (error) {
+		// 		console.error('Error merging stems:', error)
+		// 	}
+		// }
+
+		const togglePlayPauseMergedAudio = () => {
+			console.log('mergedAudioWs', mergedAudioWs)
+			mergedAudioWs?.playPause()
+		}
+
 		return (
 			<>
 				{/* Project metadata */}
@@ -267,6 +309,9 @@ export function ProjectDetails({ id }: Props) {
 						<div className="flex max-w-[200px] flex-col space-y-2 sm:max-w-full sm:flex-row sm:items-center sm:space-x-2 sm:space-y-0">
 							<ProjectCollaboratorsDialog collaborators={collaborators} stems={stems} disabled={stems.length === 0} />
 							<DownloadStemsButton stems={stems} projectName={project.name} />
+							{!limitReached && (
+								<AddStemDialog projectId={project.id} disabled={!isConnected || limitReached} onSuccess={refetch} />
+							)}
 						</div>
 
 						{/* {stems.length > 0 && (
@@ -290,9 +335,15 @@ export function ProjectDetails({ id }: Props) {
 
 				{/* Global stems header */}
 				<div className="relative">
-					<div className="flex flex-col items-center justify-between rounded-t-lg bg-[--arbor-black] p-5 uppercase italic text-[--arbor-white] sm:flex-row">
+					<div
+						className="flex flex-col items-center justify-between rounded-t-lg border-2 border-b-0 border-[--arbor-black] bg-[--arbor-black] p-5 uppercase italic text-[--arbor-white] sm:flex-row"
+						style={{
+							background: 'linear-gradient(94.22deg, #20163B 9.36%, #5E548E 33.65%, #9F86C0 65.94%)',
+							// background: 'linear-gradient(94.22deg, #20163B 9.36%, #5E548E 33.65%, #9F86C0 65.94%, #D8C5F2 89.96%)',
+						}}
+					>
 						<h3 className="mr-4 text-2xl font-semibold">Song Stems</h3>
-						<p>
+						<p className="font-normal text-white">
 							{stems.length} Stem{stems.length === 1 ? '' : 's'} from {collaborators.length} Collaborator
 							{collaborators.length === 1 ? '' : 's'}
 						</p>
@@ -303,7 +354,7 @@ export function ProjectDetails({ id }: Props) {
 					<div className="flex items-center space-x-2 rounded-b-lg border-2 border-[--arbor-black] bg-white p-4">
 						<button
 							className="text-[--arbor-gray] hover:text-[--arbor-pink]"
-							onClick={handlePlayAllTracks}
+							onClick={togglePlayPauseMergedAudio}
 							title={isPlayingAll ? 'Pause playback' : 'Play all stems simultaneously'}
 						>
 							{isPlayingAll ? <LuPause /> : <LuPlay />}
@@ -324,7 +375,7 @@ export function ProjectDetails({ id }: Props) {
 						</button>
 						{/* TODO: Full combined player */}
 						<div className="grow">
-							<div className="h-4 w-full bg-gray-300" />
+							<div id="merged-audio-preview" className="h-4 w-full bg-gray-300" />
 						</div>
 					</div>
 				</div>
@@ -352,7 +403,7 @@ export function ProjectDetails({ id }: Props) {
 
 				{/* Add stem button */}
 				{!limitReached && (
-					<AddStemDialog projectId={project.id} disabled={!isConnected || limitReached} onSuccess={refetch} />
+					<AddStemDialog projectId={project.id} disabled={!isConnected || limitReached} bolded onSuccess={refetch} />
 				)}
 
 				{/* Notifications */}

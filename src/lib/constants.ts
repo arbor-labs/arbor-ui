@@ -27,3 +27,7 @@ export enum EStemType {
 }
 
 export const PINATA_BASE_URL = 'https://amber-pleased-sloth-337.mypinata.cloud/ipfs/'
+
+export const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5280'
+
+export const GRAPHQL_API_BASE_URL = `${API_BASE_URL}/graphql`

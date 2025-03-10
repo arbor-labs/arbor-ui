@@ -3,10 +3,14 @@ import { useState } from 'react'
 import { TiMinusOutline, TiPlusOutline } from 'react-icons/ti'
 
 export function Faq() {
-	const [expanded, setExpanded] = useState<string | false>(false)
-
-	const handleChange = (panel: string, isExpanded: boolean) => {
-		setExpanded(isExpanded ? panel : false)
+	const [expanded, setExpanded] = useState<Map<string, boolean>>(new Map())
+	const isOpen = (panel: string) => expanded.get(panel) ?? false
+	const toggleOpen = (panel: string) => {
+		setExpanded(prev => {
+			const newMap = new Map(prev)
+			newMap.set(panel, !prev.get(panel))
+			return newMap
+		})
 	}
 
 	return (
@@ -14,12 +18,12 @@ export function Faq() {
 			<div className="border-b border-gray-200">
 				<div
 					className="flex cursor-pointer items-center justify-between p-4 hover:bg-gray-200"
-					onClick={() => handleChange('panel-1', expanded !== 'panel-1')}
+					onClick={() => toggleOpen('panel-1')}
 				>
 					<h2 className="text-lg font-medium">What is the Arbor Protocol?</h2>
-					<span>{expanded === 'panel-1' ? <TiMinusOutline /> : <TiPlusOutline />}</span>
+					<span>{isOpen('panel-1') ? <TiMinusOutline /> : <TiPlusOutline />}</span>
 				</div>
-				{expanded === 'panel-1' && (
+				{isOpen('panel-1') && (
 					<div className="p-4">
 						<p>
 							The Arbor Protocol is a series of on-chain smart contracts that allow any number of users to collaborate
@@ -35,12 +39,12 @@ export function Faq() {
 			<div className="border-b border-gray-200">
 				<div
 					className="flex cursor-pointer items-center justify-between p-4 hover:bg-gray-200"
-					onClick={() => handleChange('panel-2', expanded !== 'panel-2')}
+					onClick={() => toggleOpen('panel-2')}
 				>
 					<h2 className="text-lg font-medium">What problems does Arbor solve?</h2>
-					<span>{expanded === 'panel-2' ? <TiMinusOutline /> : <TiPlusOutline />}</span>
+					<span>{isOpen('panel-2') ? <TiMinusOutline /> : <TiPlusOutline />}</span>
 				</div>
-				{expanded === 'panel-2' && (
+				{isOpen('panel-2') && (
 					<div className="p-4">
 						<p className="mb-4">
 							There is a huge gap in allowing music producers and artists in two major areas of being a creator. The
@@ -63,12 +67,12 @@ export function Faq() {
 			<div className="border-b border-gray-200">
 				<div
 					className="flex cursor-pointer items-center justify-between p-4 hover:bg-gray-200"
-					onClick={() => handleChange('panel-3', expanded !== 'panel-3')}
+					onClick={() => toggleOpen('panel-3')}
 				>
 					<h2 className="text-lg font-medium">How did the idea for Arbor begin?</h2>
-					<span>{expanded === 'panel-3' ? <TiMinusOutline /> : <TiPlusOutline />}</span>
+					<span>{isOpen('panel-3') ? <TiMinusOutline /> : <TiPlusOutline />}</span>
 				</div>
-				{expanded === 'panel-3' && (
+				{isOpen('panel-3') && (
 					<div className="p-4">
 						<p className="mb-4">
 							The Arbor Protocol was born out of the ETHDenver hackathon in 2022, by a small team of passionate

@@ -1,5 +1,14 @@
-export const get = async (url: string) => {
-	const resp = await fetch(url, {
+import { API_BASE_URL } from '$/lib/constants'
+
+// Utility for building the url
+const getUrl = (route: string) => {
+	if (!route.startsWith('/')) route = `/${route}`
+	return `${API_BASE_URL}${route}`
+}
+
+// GET requests
+export const get = async (route: string) => {
+	const resp = await fetch(getUrl(route), {
 		method: 'GET',
 		headers: {
 			Accept: 'audio/*, application/json',
@@ -9,8 +18,9 @@ export const get = async (url: string) => {
 	return data
 }
 
-export async function getBlob(url: string) {
-	const response = await fetch(url, {
+// GET requests for audio files
+export async function getBlob(route: string) {
+	const response = await fetch(getUrl(route), {
 		headers: {
 			Accept: 'audio/*',
 		},
@@ -21,17 +31,22 @@ export async function getBlob(url: string) {
 	return await response.arrayBuffer()
 }
 
-// export const post = async (url: string, body: any) => {
-// 	const resp = await fetch(url, {
-// 		method: 'POST',
-// 		body: JSON.stringify(body),
-// 	})
-// 	const data = await resp.json()
-// 	return data
-// }
+// POST requests
+export const post = async (route: string, body: unknown) => {
+	const resp = await fetch(getUrl(route), {
+		method: 'POST',
+		body: JSON.stringify(body),
+		headers: {
+			'Content-Type': 'application/json',
+		},
+	})
+	const data = await resp.json()
+	return data
+}
 
-export async function postFormData(url: string, formData: FormData) {
-	const response = await fetch(url, {
+// POST requests for form data
+export async function postFormData(route: string, formData: FormData) {
+	const response = await fetch(getUrl(route), {
 		method: 'POST',
 		body: formData,
 		headers: {
