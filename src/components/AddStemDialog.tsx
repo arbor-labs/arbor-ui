@@ -262,7 +262,7 @@ export function AddStemDialog({ projectId, disabled, bolded = false, onSuccess }
 											{uploading ? (
 												<>
 													<p className="mb-2 text-sm text-gray-500">
-														Sit back and relaxwhile we make some magic happen.
+														Sit back and relax while we make some magic happen.
 													</p>
 													<p className="mb-2 text-sm text-gray-500">
 														Merging files together, uploading metadata and audio to IPFS, creating a project revision...
