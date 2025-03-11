@@ -76,7 +76,6 @@ export function AddStemDialog({ projectId, disabled, bolded = false, onSuccess }
 				setPreviewFile(new File([Buffer.from(res.outputData)], 'preview.wav'))
 				setStep('preview')
 			} else {
-				console.log(res)
 				setErrorMsg(getErrorMessage(res.message))
 			}
 		} catch (e) {
@@ -112,7 +111,6 @@ export function AddStemDialog({ projectId, disabled, bolded = false, onSuccess }
 			// POST
 			const res = await postFormData(`/project/${projectId}/add-stem`, formData)
 			if (res) {
-				console.log({ res })
 				setSuccessMsg('The new stem has been added to the project and pinned by Pinata on IPFS.')
 				onSuccess()
 				handleClose()
@@ -243,7 +241,7 @@ export function AddStemDialog({ projectId, disabled, bolded = false, onSuccess }
 											idx={1}
 											isPreview
 											previewFile={previewFile ?? undefined}
-											onInit={(_idx: number, _wavesurfer: WaveSurfer) => console.log('loaded')}
+											onInit={(_idx: number, _wavesurfer: WaveSurfer) => undefined}
 										/>
 									</div>
 								</>
@@ -258,21 +256,32 @@ export function AddStemDialog({ projectId, disabled, bolded = false, onSuccess }
 									</div>
 									<div className="mt-3 text-center sm:mt-5">
 										<DialogTitle as="h3" className="text-base font-semibold text-gray-900">
-											Add in some details
+											{uploading ? 'This may take a minute' : 'Add in some details'}
 										</DialogTitle>
 										<div className="mt-2">
-											<p className="mb-2 text-sm text-gray-500">
-												The file will be stored in a decentralized manner in IPFS. If you aren&apos;t familiar with
-												IPFS, you can{' '}
-												<a
-													className="underline hover:text-[--arbor-pink]"
-													href="https://docs.ipfs.tech/concepts/ipfs-solves/"
-													target="_blank"
-												>
-													read about the benefits
-												</a>{' '}
-												of why it&apos;s the best way to store files.
-											</p>
+											{uploading ? (
+												<>
+													<p className="mb-2 text-sm text-gray-500">
+														Sit back and relaxwhile we make some magic happen.
+													</p>
+													<p className="mb-2 text-sm text-gray-500">
+														Merging files together, uploading metadata and audio to IPFS, creating a project revision...
+													</p>
+												</>
+											) : (
+												<p className="mb-2 text-sm text-gray-500">
+													The file will be stored in a decentralized manner in IPFS. If you aren&apos;t familiar with
+													IPFS, you can{' '}
+													<a
+														className="underline hover:text-[--arbor-pink]"
+														href="https://docs.ipfs.tech/concepts/ipfs-solves/"
+														target="_blank"
+													>
+														read about the benefits
+													</a>{' '}
+													of why it&apos;s the best way to store files.
+												</p>
+											)}
 										</div>
 									</div>
 									<div className="py-4">
